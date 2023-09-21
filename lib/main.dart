@@ -33,7 +33,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             child: child!,
           ),
           theme: ThemeData(
-            fontFamily: 'Aeonik',
+            fontFamily: 'Manrope',
           ),
         );
       },
