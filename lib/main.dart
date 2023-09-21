@@ -23,7 +23,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp.router(
-          title: 'Recordam',
+          title: 'Recodam',
           routerConfig: routes,
           builder: (context, child) => KeyboardDismisser(
             gestures: const [
@@ -34,6 +34,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           ),
           theme: ThemeData(
             fontFamily: 'Manrope',
+            scaffoldBackgroundColor: AppColor.white,
           ),
         );
       },

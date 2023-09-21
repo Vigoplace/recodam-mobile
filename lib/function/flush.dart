@@ -18,7 +18,7 @@ class ShowFlushBar {
         error ?? 'Something went wrong',
         textAlign: TextAlign.center,
         style: const TextStyle(
-          color: AppColor.colorFFFFFF,
+          // color: AppColor.colorFFFFFF,
           fontWeight: FontWeight.w500,
           fontSize: 18,
         ),
@@ -50,7 +50,7 @@ class ShowFlushBar {
         message ?? 'Successful',
         textAlign: TextAlign.center,
         style: const TextStyle(
-          color: AppColor.colorFFFFFF,
+          // color: AppColor.colorFFFFFF,
           fontWeight: FontWeight.w500,
           fontSize: 18,
         ),

@@ -1,9 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  static const path = "/test";
-  static const name = "test";
+  static const path = "/onboarding";
+  static const name = "onboarding";
   const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
