@@ -27,7 +27,7 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                 titleText: 'Create pin*',
                 hintText: '123456',
                 suffixIcon: SvgButton(
-                  icon: state ? AppSvg.eye : AppSvg.checked,
+                  icon: state ? AppSvg.eye : AppSvg.eyeOpen,
                   onTap: () => controller.showPin.value = !state,
                 ),
               );

@@ -37,7 +37,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 titleText: 'Create pin*',
                 hintText: '123456',
                 suffixIcon: SvgButton(
-                  icon: state ? AppSvg.eye : AppSvg.checked,
+                  icon: state ? AppSvg.eye : AppSvg.eyeOpen,
                   onTap: () => controller.showPin.value = !state,
                 ),
               );
@@ -51,7 +51,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 titleText: 'Confirm pin*',
                 hintText: '123456',
                 suffixIcon: SvgButton(
-                  icon: state ? AppSvg.eye : AppSvg.checked,
+                  icon: state ? AppSvg.eye : AppSvg.eyeOpen,
                   onTap: () => controller.showConfirmPin.value = !state,
                 ),
               );
@@ -65,7 +65,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 valueListenable: controller.acceptedTerms,
                 builder: (context, state, _) {
                   return SvgButton(
-                    icon: state ? AppSvg.checked : AppSvg.checkmark,
+                    icon: state ? AppSvg.checked : AppSvg.eyeOpen,
                     onTap: () => controller.acceptedTerms.value = !state,
                   );
                 },
@@ -120,7 +120,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
               );
             },
           ),
-          41.verticalSpace,
+          40.verticalSpace,
         ],
       ),
     );

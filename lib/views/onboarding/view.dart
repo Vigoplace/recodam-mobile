@@ -29,6 +29,12 @@ class OnboardingView
                         AppColor.white,
                       ),
                     ),
+                    10.verticalSpace,
+                    Container(
+                      height: 2.h,
+                      width: 150.w,
+                      color: AppColor.red70,
+                    ),
                     32.verticalSpace,
                     Center(
                       child: Text(

@@ -1,0 +1,135 @@
+part of 'controller.dart';
+
+class CreateRecordView
+    extends StatelessView<CreateRecordScreen, CreateRecordController> {
+  const CreateRecordView(CreateRecordController state, {Key? key})
+      : super(state, key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const CustomAppbar(
+        title: 'Create a record',
+        centerTitle: false,
+      ),
+      body: ListView(
+        padding: [16, 32, 16, 0].pad,
+        children: [
+          const CustomTextInput(
+            titleText: 'Senders name*',
+          ),
+          32.verticalSpace,
+          const CustomTextInput(
+            titleText: 'Amount*',
+          ),
+          32.verticalSpace,
+          const CustomTextInput(
+            titleText: 'Bank name / cash',
+          ),
+          32.verticalSpace,
+          const CustomTextInput(
+            titleText: 'Account number (recipient)',
+          ),
+          32.verticalSpace,
+          const CustomTextInput(
+            titleText: 'Account name (recipient)',
+          ),
+          32.verticalSpace,
+          const CustomTextInput(
+            titleText: 'Detail / Purpose*',
+          ),
+          32.verticalSpace,
+          CustomTextInput(
+            titleText: 'Transation date',
+            suffixIcon: SvgButton(
+              icon: AppSvg.agenda,
+              onTap: () {},
+            ),
+          ),
+          32.verticalSpace,
+          Text(
+            'Evidence of payment (pdf or Jpeg file)',
+            style: CustomTextStyle.text700_14.withColor(
+              AppColor.grey100,
+            ),
+          ),
+          32.verticalSpace,
+          ValueListenableBuilder(
+            valueListenable: controller.file,
+            builder: (context, value, _) {
+              return Container(
+                height: 140.h,
+                decoration: BoxDecoration(
+                  color: AppColor.grey1,
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: value == null
+                      ? null
+                      : Border.all(
+                          color: AppColor.red60,
+                        ),
+                ),
+                alignment: Alignment.center,
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: value == null
+                          ? SvgButton(
+                              icon: AppSvg.upload,
+                              onTap: controller.pickImage,
+                            )
+                          : Image.file(value).animate().scale(),
+                    ),
+                    if (value != null)
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: RoundIconButton(
+                            backgroundColor: AppColor.red60,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            icon: AppSvg.checked,
+                            onTap: () => controller.file.value = null,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            },
+          ),
+          32.verticalSpace,
+          Text(
+            'Type of record',
+            style: CustomTextStyle.text700_14.withColor(
+              AppColor.grey100,
+            ),
+          ),
+          16.verticalSpace,
+          GroupedSelection<int>(
+            content: const ['Debit', 'Credit'],
+            type: const [0, 1],
+            onTap: <int>(position) {
+              debugPrint('$position');
+            },
+          ),
+          65.verticalSpace,
+          Center(
+            child: ValueListenableBuilder(
+              valueListenable: controller.isLoading,
+              builder: (context, state, _) {
+                return LoadingButton(
+                  isLoading: state,
+                  normal: AppButton(
+                    text: 'Save',
+                    onTap: controller.login,
+                  ),
+                );
+              },
+            ),
+          ),
+          40.verticalSpace,
+        ],
+      ),
+    );
+  }
+}

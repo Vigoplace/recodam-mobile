@@ -12,6 +12,11 @@ class CustomTextStyle {
     fontSize: 20.sp,
     color: Colors.black,
   );
+  static TextStyle text700_18 = TextStyle(
+    fontWeight: FontWeight.w700,
+    fontSize: 18.sp,
+    color: Colors.black,
+  );
   static TextStyle text700_16 = TextStyle(
     fontWeight: FontWeight.w700,
     fontSize: 16.sp,

@@ -4,3 +4,6 @@ export 'onboarding/controller.dart';
 export 'signup/controller.dart';
 export 'login/controller.dart';
 export 'home/controller.dart';
+export 'create_record/controller.dart';
+export 'create_book/controller.dart';
+export 'search/controller.dart';

@@ -1,0 +1,13 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 16">
+<rect width="48" height="48" rx="24" fill="#BABABA"/>
+<g id="upload">
+<mask id="mask0_184_3343" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="14" y="14" width="20" height="20">
+<rect id="Bounding box" x="14" y="14" width="20" height="20" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_184_3343)">
+<path id="upload_2" d="M23.1667 27.3333V20.5416L21 22.7083L19.8334 21.4999L24 17.3333L28.1667 21.4999L27 22.7083L24.8334 20.5416V27.3333H23.1667ZM19 30.6666C18.5417 30.6666 18.1493 30.5034 17.823 30.177C17.4966 29.8506 17.3334 29.4583 17.3334 28.9999V26.4999H19V28.9999H29V26.4999H30.6667V28.9999C30.6667 29.4583 30.5035 29.8506 30.1771 30.177C29.8507 30.5034 29.4584 30.6666 29 30.6666H19Z" fill="white"/>
+</g>
+</g>
+</g>
+</svg>

@@ -8,5 +8,6 @@ void main() {
     expect(File(AppImages.image).existsSync(), true);
     expect(File(AppImages.onboarding).existsSync(), true);
     expect(File(AppImages.splash).existsSync(), true);
+    expect(File(AppImages.test).existsSync(), true);
   });
 }

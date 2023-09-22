@@ -19,7 +19,7 @@ class FadeTransitionPage extends CustomTransitionPage {
 }
 
 final GoRouter routes = GoRouter(
-  initialLocation: OnboardingScreen.path,
+  initialLocation: HomeScreen.path,
   debugLogDiagnostics: true,
   redirect: (context, state) async {
     return null;
@@ -61,6 +61,36 @@ final GoRouter routes = GoRouter(
       pageBuilder: (context, state) {
         return FadeTransitionPage(
           child: const HomeScreen(),
+          key: state.pageKey,
+        );
+      },
+    ),
+    GoRoute(
+      path: CreateRecordScreen.path,
+      name: CreateRecordScreen.name,
+      pageBuilder: (context, state) {
+        return FadeTransitionPage(
+          child: const CreateRecordScreen(),
+          key: state.pageKey,
+        );
+      },
+    ),
+    GoRoute(
+      path: CreateBookScreen.path,
+      name: CreateBookScreen.name,
+      pageBuilder: (context, state) {
+        return FadeTransitionPage(
+          child: const CreateBookScreen(),
+          key: state.pageKey,
+        );
+      },
+    ),
+    GoRoute(
+      path: SearchScreen.path,
+      name: SearchScreen.name,
+      pageBuilder: (context, state) {
+        return FadeTransitionPage(
+          child: const SearchScreen(),
           key: state.pageKey,
         );
       },

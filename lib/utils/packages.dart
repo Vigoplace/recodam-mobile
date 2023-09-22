@@ -2,7 +2,7 @@
 ///this is to reduce the repetition of import statements in our code
 
 export 'package:flutter/material.dart'
-    hide RefreshIndicator, RefreshIndicatorState;
+    hide RefreshIndicator, RefreshIndicatorState, SearchController;
 export 'package:flutter/services.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';

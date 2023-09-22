@@ -16,12 +16,15 @@ class AppColor {
   /// Grey
   static Color grey30 = ColorConv('#979797');
   static Color grey40 = ColorConv('#757575');
+  static Color grey50 = ColorConv('#535353');
   static Color grey70 = ColorConv('#202020');
   static Color grey100 = ColorConv('#0A0A0A');
   static Color grey = ColorConv('#F5F5F5');
+  static Color grey1 = ColorConv('#F4F4F4');
 
   /// Light
   static Color light100 = ColorConv('#545453');
+  static Color light90 = ColorConv('#7E7E7D');
 
   /// Dark
   static Color dark10 = ColorConv('#EAE8E8');
@@ -30,6 +33,7 @@ class AppColor {
   /// Red
   static Color red30 = ColorConv('#E09090');
   static Color red60 = ColorConv('#C22121');
+  static Color red70 = ColorConv('#A21C1C');
 
   /// Miscellenous
   static Color white = ColorConv('#FFFFFF');
