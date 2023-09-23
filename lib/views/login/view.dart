@@ -26,6 +26,7 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
               return CustomTextInput(
                 titleText: 'Create pin*',
                 hintText: '123456',
+                obscureText: state,
                 suffixIcon: SvgButton(
                   icon: state ? AppSvg.eye : AppSvg.eyeOpen,
                   onTap: () => controller.showPin.value = !state,
@@ -75,7 +76,8 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                       AppColor.red60,
                     ),
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () => context.pushNamed(SignupScreen.name),
+                      ..onTap =
+                          () => context.pushReplacementNamed(SignupScreen.name),
                   ),
                 ],
               ),

@@ -19,7 +19,8 @@ class FadeTransitionPage extends CustomTransitionPage {
 }
 
 final GoRouter routes = GoRouter(
-  initialLocation: HomeScreen.path,
+  // initialLocation: HomeScreen.path,
+  initialLocation: OnboardingScreen.path,
   debugLogDiagnostics: true,
   redirect: (context, state) async {
     return null;

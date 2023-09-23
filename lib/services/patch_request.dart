@@ -11,7 +11,6 @@ class PatchRequest {
     var path = 'recordam/delete/$id';
     var _ = await network.patchRequestHandler(
       path,
-      ignoreUnauthorised: true,
       cancelToken: cancel,
     );
     return;

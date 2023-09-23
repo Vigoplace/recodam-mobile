@@ -18,23 +18,35 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
   ValueNotifier<File?> file = ValueNotifier(null);
   var access = ValueNotifier('public');
 
-  void login() async {
-    isLoading.value = true;
+  void createBook() async {
+    final testProvider = FutureProvider.autoDispose((ref) => GetRequest.test());
     ref.listenManual(
-      loginProvider,
-      fireImmediately: false,
+      testProvider,
+      fireImmediately: true,
       (previous, next) {
         next.when(
           data: (data) {
             debugPrint('LOADED');
             isLoading.value = false;
-            // context.goNamed(HomeScreen.name);
+            ShowFlushBar.showSuccess(
+              context: context,
+              message: 'Successfully created book',
+              perform: () {
+                ref.invalidate(homeBookProvider);
+                context.pop();
+              },
+            );
           },
           error: (error, trace) {
             isLoading.value = false;
             debugPrint(error.toString());
+            errorFuntions(
+              error,
+              trace,
+              context: context,
+            );
           },
-          loading: () => debugPrint('LOADING'),
+          loading: () => isLoading.value = true,
         );
       },
     );

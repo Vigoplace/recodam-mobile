@@ -5,8 +5,8 @@ class ShowFlushBar {
   static void showError(
     String? error, {
     required BuildContext context,
-    int duration = 3,
-    Function()? perform,
+    Duration? duration,
+    void Function()? perform,
   }) async {
     final flushBar = Flushbar(
       backgroundColor: Colors.red.withOpacity(0.8),
@@ -17,14 +17,14 @@ class ShowFlushBar {
       messageText: Text(
         error ?? 'Something went wrong',
         textAlign: TextAlign.center,
-        style: const TextStyle(
-          // color: AppColor.colorFFFFFF,
+        style: TextStyle(
+          color: AppColor.white,
           fontWeight: FontWeight.w500,
           fontSize: 18,
         ),
       ),
       positionOffset: kBottomNavigationBarHeight.h,
-      duration: Duration(seconds: duration),
+      duration: duration ?? const Duration(seconds: 3),
     );
     flushBar.show(context);
     await Future.delayed(const Duration(seconds: 1));
@@ -38,7 +38,7 @@ class ShowFlushBar {
     String? message,
     required BuildContext context,
     Duration? duration,
-    Function()? perform,
+    void Function()? perform,
   }) async {
     final flushBar = Flushbar(
       backgroundColor: Colors.green.withOpacity(0.8),
@@ -49,8 +49,8 @@ class ShowFlushBar {
       messageText: Text(
         message ?? 'Successful',
         textAlign: TextAlign.center,
-        style: const TextStyle(
-          // color: AppColor.colorFFFFFF,
+        style: TextStyle(
+          color: AppColor.white,
           fontWeight: FontWeight.w500,
           fontSize: 18,
         ),

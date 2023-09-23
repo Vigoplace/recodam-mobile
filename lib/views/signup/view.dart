@@ -36,6 +36,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
               return CustomTextInput(
                 titleText: 'Create pin*',
                 hintText: '123456',
+                obscureText: state,
                 suffixIcon: SvgButton(
                   icon: state ? AppSvg.eye : AppSvg.eyeOpen,
                   onTap: () => controller.showPin.value = !state,
@@ -50,6 +51,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
               return CustomTextInput(
                 titleText: 'Confirm pin*',
                 hintText: '123456',
+                obscureText: state,
                 suffixIcon: SvgButton(
                   icon: state ? AppSvg.eye : AppSvg.eyeOpen,
                   onTap: () => controller.showConfirmPin.value = !state,
@@ -65,7 +67,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 valueListenable: controller.acceptedTerms,
                 builder: (context, state, _) {
                   return SvgButton(
-                    icon: state ? AppSvg.checked : AppSvg.eyeOpen,
+                    icon: state ? AppSvg.checked : AppSvg.checkmark,
                     onTap: () => controller.acceptedTerms.value = !state,
                   );
                 },
@@ -119,6 +121,30 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 ),
               );
             },
+          ),
+          40.verticalSpace,
+          Center(
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Have an account ?',
+                    style: CustomTextStyle.text400_16.withColor(
+                      AppColor.grey100,
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' Sign in',
+                    style: CustomTextStyle.text700_16.withColor(
+                      AppColor.red60,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap =
+                          () => context.pushReplacementNamed(LoginScreen.name),
+                  ),
+                ],
+              ),
+            ),
           ),
           40.verticalSpace,
         ],

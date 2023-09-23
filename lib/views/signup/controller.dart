@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 

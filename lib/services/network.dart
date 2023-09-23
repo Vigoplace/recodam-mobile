@@ -5,7 +5,7 @@ import 'package:recordam/utils/utils.dart';
 class NetworkService {
   static final Dio _dio = Dio();
 
-  Future<Response?> getRequestHandler(
+  Future<Response> getRequestHandler(
     String path, {
     Options? options,
     Map<String, dynamic>? data,
@@ -26,7 +26,7 @@ class NetworkService {
     return a;
   }
 
-  Future<Response?> postRequestHandler(
+  Future<Response> postRequestHandler(
     String path, {
     Map<String, dynamic>? data,
     Options? options,
@@ -48,20 +48,23 @@ class NetworkService {
     return a;
   }
 
-  Future<Response?> patchRequestHandler(
+  Future<Response> patchRequestHandler(
     String path, {
     Map<String, dynamic>? data,
     Options? options,
+    bool useBaseUrl = true,
     CancelToken? cancelToken,
-    bool ignoreUnauthorised = false,
   }) async {
+    Uri uri = Uri.parse('${AppConstant.baseUrl}/$path');
+    if (!useBaseUrl) {
+      uri = Uri.parse(path);
+    }
     final a = await _dio.patchUri(
-        Uri.parse(
-          '${AppConstant.baseUrl}/$path',
-        ),
-        cancelToken: cancelToken,
-        data: data,
-        options: options);
+      uri,
+      cancelToken: cancelToken,
+      data: data,
+      options: options,
+    );
     log(a.data.toString());
     return a;
   }

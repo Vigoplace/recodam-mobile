@@ -17,23 +17,35 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
   var isLoading = ValueNotifier(false);
   ValueNotifier<File?> file = ValueNotifier(null);
 
-  void login() async {
-    isLoading.value = true;
+  void createRecord() async {
+    final testProvider = FutureProvider.autoDispose((ref) => GetRequest.test());
     ref.listenManual(
-      loginProvider,
-      fireImmediately: false,
+      testProvider,
+      fireImmediately: true,
       (previous, next) {
         next.when(
           data: (data) {
             debugPrint('LOADED');
             isLoading.value = false;
-            // context.goNamed(HomeScreen.name);
+            ShowFlushBar.showSuccess(
+              context: context,
+              message: 'Successfully created record',
+              perform: () {
+                ref.invalidate(homeRecordProvider);
+                context.pop();
+              },
+            );
           },
           error: (error, trace) {
             isLoading.value = false;
             debugPrint(error.toString());
+            errorFuntions(
+              error,
+              trace,
+              context: context,
+            );
           },
-          loading: () => debugPrint('LOADING'),
+          loading: () => isLoading.value = true,
         );
       },
     );

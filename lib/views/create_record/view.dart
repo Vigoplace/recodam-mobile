@@ -121,7 +121,7 @@ class CreateRecordView
                   isLoading: state,
                   normal: AppButton(
                     text: 'Save',
-                    onTap: controller.login,
+                    onTap: controller.createRecord,
                   ),
                 );
               },

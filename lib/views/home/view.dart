@@ -53,11 +53,31 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                   18.verticalSpace,
                   SizedBox(
                     height: 300.h,
-                    child: ListView.builder(
-                      itemCount: 10,
-                      padding: EdgeInsets.only(left: 16.w),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => const BookCard(),
+                    child: Consumer(
+                      builder: (context, ref, _) {
+                        var books = ref.watch(homeBookProvider);
+                        return books.when(
+                          data: (data) => ListView.builder(
+                            itemCount: 10,
+                            padding: EdgeInsets.only(left: 16.w),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) => const BookCard(),
+                          ),
+                          error: (error, trace) => ErrorScreen(
+                            error: error,
+                            reload: () => ref.invalidate(homeBookProvider),
+                          ),
+                          loading: () => SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                for (int i = 0; i <= 3; i++)
+                                  const HomeBookShimmer(),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                   34.verticalSpace,
@@ -82,7 +102,31 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                     ),
                   ),
                   18.verticalSpace,
-                  for (int i = 0; i <= 10; i++) const RecordCard(),
+                  Consumer(
+                    builder: (context, ref, _) {
+                      var record = ref.watch(homeRecordProvider);
+                      return record.when(
+                        data: (data) => Column(
+                          children: [
+                            for (int i = 0; i <= 10; i++) const RecordCard(),
+                          ],
+                        ),
+                        error: (error, trace) => ErrorScreen(
+                          error: error,
+                          reload: () => ref.invalidate(homeRecordProvider),
+                        ),
+                        loading: () => SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              for (int i = 0; i <= 3; i++)
+                                const HomeRecordShimmer(),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                   150.verticalSpace,
                 ],
               ),

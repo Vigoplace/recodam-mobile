@@ -4,4 +4,6 @@ export 'text_field.dart';
 export 'paints.dart';
 export 'nav_bar.dart';
 export 'book_card.dart';
+export 'shimmer.dart';
 export 'record_card.dart';
+export 'error.dart';
