@@ -44,7 +44,11 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
             38.verticalSpace,
             Text(
               'Create new',
-              style: CustomTextStyle.text700_18,
+              style: TextStyle(
+                color: AppColor.grey100,
+                fontWeight: FontWeight.w700,
+                fontSize: 18.sp,
+              ),
             ),
             30.verticalSpace,
             ListTile(
@@ -61,7 +65,11 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
               },
               title: Text(
                 'Record',
-                style: CustomTextStyle.text400_16,
+                style: TextStyle(
+                  color: AppColor.grey100,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16.sp,
+                ),
               ),
             ),
             32.verticalSpace,
@@ -79,7 +87,11 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
               },
               title: Text(
                 'Book',
-                style: CustomTextStyle.text400_16,
+                style: TextStyle(
+                  color: AppColor.grey100,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16.sp,
+                ),
               ),
             ),
             38.verticalSpace,
@@ -106,8 +118,9 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
           children: [
             Padding(
               padding: [16].pad,
-              child: const TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                cursorColor: AppColor.grey100,
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                 ),
               ),
@@ -126,10 +139,16 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                     children: [
                       TabBar(
                         isScrollable: true,
-                        labelStyle: CustomTextStyle.text700_16,
+                        labelStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16.sp,
+                        ),
                         indicatorSize: TabBarIndicatorSize.label,
                         indicatorColor: AppColor.red60,
-                        unselectedLabelStyle: CustomTextStyle.text400_16,
+                        unselectedLabelStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16.sp,
+                        ),
                         labelColor: AppColor.grey100,
                         unselectedLabelColor: AppColor.light90,
                         tabs: const [
@@ -155,9 +174,10 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         'Recently Visited',
-                                        style: CustomTextStyle.text700_14
-                                            .withColor(
-                                          AppColor.light100,
+                                        style: TextStyle(
+                                          color: AppColor.light100,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14.sp,
                                         ),
                                       ),
                                     ),
@@ -182,17 +202,19 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                                           16.horizontalSpace,
                                           Text(
                                             'Birthday',
-                                            style: CustomTextStyle.text700_16
-                                                .withColor(
-                                              AppColor.grey100,
+                                            style: TextStyle(
+                                              color: AppColor.grey100,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16.sp,
                                             ),
                                           ),
                                           const Spacer(),
                                           Text(
                                             '12',
-                                            style: CustomTextStyle.text400_14
-                                                .withColor(
-                                              AppColor.grey40,
+                                            style: TextStyle(
+                                              color: AppColor.grey40,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14.sp,
                                             ),
                                           )
                                         ],
@@ -211,9 +233,10 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         'Recently Visited',
-                                        style: CustomTextStyle.text700_14
-                                            .withColor(
-                                          AppColor.light100,
+                                        style: TextStyle(
+                                          color: AppColor.light100,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14.sp,
                                         ),
                                       ),
                                     ),
@@ -238,28 +261,28 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                                             children: [
                                               Text(
                                                 'Lux beauty store',
-                                                style: CustomTextStyle
-                                                    .text700_14
-                                                    .withColor(
-                                                  AppColor.grey100,
+                                                style: TextStyle(
+                                                  color: AppColor.grey100,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 14.sp,
                                                 ),
                                               ),
                                               10.verticalSpace,
                                               Text(
                                                 'Shopping bill',
-                                                style: CustomTextStyle
-                                                    .text400_14
-                                                    .withColor(
-                                                  AppColor.grey100,
+                                                style: TextStyle(
+                                                  color: AppColor.grey100,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 14.sp,
                                                 ),
                                               ),
                                               10.verticalSpace,
                                               Text(
                                                 'Yesterday 7:59pm',
-                                                style: CustomTextStyle
-                                                    .text700_11
-                                                    .withColor(
-                                                  AppColor.grey100,
+                                                style: TextStyle(
+                                                  color: AppColor.grey100,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 11.sp,
                                                 ),
                                               ),
                                             ],
@@ -367,6 +390,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                     controller.reverse();
                   }
                 },
+                borderRadius: BorderRadius.circular(100.r),
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: CircleAvatar(

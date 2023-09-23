@@ -12,7 +12,11 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
         children: [
           Text(
             'Log in',
-            style: CustomTextStyle.text700_20,
+            style: TextStyle(
+              color: AppColor.grey100,
+              fontWeight: FontWeight.w700,
+              fontSize: 20.sp,
+            ),
           ),
           32.verticalSpace,
           const CustomTextInput(
@@ -39,8 +43,10 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
             alignment: Alignment.centerRight,
             child: Text(
               'Forgot Pin ?',
-              style: CustomTextStyle.text600_14.withColor(
-                AppColor.grey30,
+              style: TextStyle(
+                color: AppColor.grey30,
+                fontWeight: FontWeight.w600,
+                fontSize: 14.sp,
               ),
             ),
           ),
@@ -66,14 +72,18 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                 children: [
                   TextSpan(
                     text: 'Haven\'t registered yet ?',
-                    style: CustomTextStyle.text400_16.withColor(
-                      AppColor.grey100,
+                    style: TextStyle(
+                      color: AppColor.grey100,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
                     ),
                   ),
                   TextSpan(
                     text: ' Create account',
-                    style: CustomTextStyle.text700_16.withColor(
-                      AppColor.red60,
+                    style: TextStyle(
+                      color: AppColor.red60,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16.sp,
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap =

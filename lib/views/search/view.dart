@@ -1,9 +1,7 @@
 part of 'controller.dart';
 
-class SearchView
-    extends StatelessView<SearchScreen, SearchController> {
-  const SearchView(SearchController state, {Key? key})
-      : super(state, key: key);
+class SearchView extends StatelessView<SearchScreen, SearchController> {
+  const SearchView(SearchController state, {Key? key}) : super(state, key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +27,10 @@ class SearchView
           32.verticalSpace,
           Text(
             'Type of record',
-            style: CustomTextStyle.text700_14.withColor(
-              AppColor.grey100,
+            style: TextStyle(
+              color: AppColor.grey100,
+              fontWeight: FontWeight.w700,
+              fontSize: 14.sp,
             ),
           ),
           16.verticalSpace,
@@ -44,8 +44,10 @@ class SearchView
           52.verticalSpace,
           Text(
             'Manage access',
-            style: CustomTextStyle.text700_14.withColor(
-              AppColor.grey100,
+            style: TextStyle(
+              color: AppColor.grey100,
+              fontWeight: FontWeight.w700,
+              fontSize: 14.sp,
             ),
           ),
           16.verticalSpace,
@@ -63,11 +65,19 @@ class SearchView
                       },
                       title: Text(
                         'Public',
-                        style: CustomTextStyle.text700_16,
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16.sp,
+                        ),
                       ),
                       subtitle: Text(
                         'Anyone can post into this book',
-                        style: CustomTextStyle.text400_14,
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                        ),
                       ),
                     ),
                     RadioListTile(
@@ -79,11 +89,19 @@ class SearchView
                       },
                       title: Text(
                         'Private',
-                        style: CustomTextStyle.text700_16,
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16.sp,
+                        ),
                       ),
                       subtitle: Text(
                         'Only the owner can post into this book',
-                        style: CustomTextStyle.text400_14,
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                        ),
                       ),
                     ),
                   ],

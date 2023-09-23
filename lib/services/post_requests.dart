@@ -3,10 +3,10 @@ import 'package:recordam/utils/utils.dart';
 class PostRequest {
   static NetworkService network = NetworkService();
 
-  static Future<void> login() async {
+  static Future<void> test() async {
     // var path = '';
     // var _ = await network.getRequestHandler(path);
-    Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return;
   }
 }

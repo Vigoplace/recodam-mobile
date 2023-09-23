@@ -73,7 +73,11 @@ class CustomTextInput extends StatelessWidget {
             children: [
               Text(
                 titleText!,
-                style: CustomTextStyle.text700_14,
+                style: TextStyle(
+                  color: AppColor.grey100,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14.sp,
+                ),
               ),
               8.verticalSpace,
             ],
@@ -101,9 +105,12 @@ class CustomTextInput extends StatelessWidget {
           onFieldSubmitted: onSubmitted,
           enabled: enabled,
           validator: validator,
-          style: CustomTextStyle.text400_16.withColor(
-            AppColor.grey100,
+          style: TextStyle(
+            color: AppColor.grey100,
+            fontWeight: FontWeight.w400,
+            fontSize: 16.sp,
           ),
+          cursorColor: AppColor.grey100,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
               vertical: 16.h,
@@ -114,8 +121,10 @@ class CustomTextInput extends StatelessWidget {
             prefixIcon: prefix,
             suffixIcon: suffixIcon,
             hintText: hintText,
-            hintStyle: CustomTextStyle.text400_16.withColor(
-              AppColor.grey40,
+            hintStyle: TextStyle(
+              color: AppColor.grey40,
+              fontWeight: FontWeight.w400,
+              fontSize: 16.sp,
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(100.r),

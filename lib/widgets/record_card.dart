@@ -20,14 +20,18 @@ class RecordCard extends StatelessWidget {
             children: [
               Text(
                 "Micheal Evans",
-                style: CustomTextStyle.text700_14.withColor(
-                  AppColor.grey100,
+                style: TextStyle(
+                  color: AppColor.grey100,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14.sp,
                 ),
               ),
               Text(
                 "N10,000",
-                style: CustomTextStyle.text700_14.withColor(
-                  AppColor.grey100,
+                style: TextStyle(
+                  color: AppColor.grey100,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14.sp,
                 ),
               ),
             ],
@@ -35,8 +39,10 @@ class RecordCard extends StatelessWidget {
           8.verticalSpace,
           Text(
             "First Bank of Nigeria",
-            style: CustomTextStyle.text700_11.withColor(
-              AppColor.grey100,
+            style: TextStyle(
+              color: AppColor.grey100,
+              fontWeight: FontWeight.w700,
+              fontSize: 11.sp,
             ),
           ),
           23.verticalSpace,
@@ -45,8 +51,10 @@ class RecordCard extends StatelessWidget {
             children: [
               Text(
                 "Maryland school donation for kids.",
-                style: CustomTextStyle.text400_14.withColor(
-                  AppColor.grey40,
+                style: TextStyle(
+                  color: AppColor.grey40,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14.sp,
                 ),
               ),
               RoundIconButton(

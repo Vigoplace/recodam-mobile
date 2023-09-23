@@ -12,7 +12,11 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
         children: [
           Text(
             'Create Account',
-            style: CustomTextStyle.text700_20,
+            style: TextStyle(
+              color: AppColor.grey100,
+              fontWeight: FontWeight.w700,
+              fontSize: 20.sp,
+            ),
           ),
           32.verticalSpace,
           const CustomTextInput(
@@ -79,27 +83,51 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                     children: [
                       TextSpan(
                         text: 'By tapping create an account and using',
-                        style: CustomTextStyle.text400_14,
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                        ),
                       ),
                       TextSpan(
                         text: ' Recodam ',
-                        style: CustomTextStyle.text500_14,
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.sp,
+                        ),
                       ),
                       TextSpan(
                         text: 'you agree to our',
-                        style: CustomTextStyle.text400_14,
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                        ),
                       ),
                       TextSpan(
                         text: ' Terms ',
-                        style: CustomTextStyle.text500_14,
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.sp,
+                        ),
                       ),
                       TextSpan(
                         text: 'and',
-                        style: CustomTextStyle.text400_14,
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                        ),
                       ),
                       TextSpan(
                         text: ' Privacy policy ',
-                        style: CustomTextStyle.text500_14,
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.sp,
+                        ),
                       ),
                     ],
                   ),
@@ -129,14 +157,18 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 children: [
                   TextSpan(
                     text: 'Have an account ?',
-                    style: CustomTextStyle.text400_16.withColor(
-                      AppColor.grey100,
+                    style: TextStyle(
+                      color: AppColor.grey100,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
                     ),
                   ),
                   TextSpan(
                     text: ' Sign in',
-                    style: CustomTextStyle.text700_16.withColor(
-                      AppColor.red60,
+                    style: TextStyle(
+                      color: AppColor.red60,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16.sp,
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap =

@@ -6,7 +6,7 @@ class GetRequest {
   static Future<String> test() async {
     // var path = '';
     // var _ = await network.getRequestHandler(path);
-    var _ = await Future.delayed(const Duration(seconds: 1), () => 'Hello');
+    var _ = await Future.delayed(const Duration(seconds: 3), () => 'Hello');
     return _;
   }
 }

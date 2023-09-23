@@ -18,8 +18,10 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                 snap: true,
                 title: Text(
                   'Welcome Jenny',
-                  style: CustomTextStyle.text700_16.withColor(
-                    AppColor.grey100,
+                  style: TextStyle(
+                    color: AppColor.grey100,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16.sp,
                   ),
                 ),
                 actions: [
@@ -37,14 +39,18 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                       children: [
                         Text(
                           'Books',
-                          style: CustomTextStyle.text700_14.withColor(
-                            AppColor.grey70,
+                          style: TextStyle(
+                            color: AppColor.grey70,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14.sp,
                           ),
                         ),
                         Text(
                           'See all',
-                          style: CustomTextStyle.text700_14.withColor(
-                            AppColor.red60,
+                          style: TextStyle(
+                            color: AppColor.red60,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14.sp,
                           ),
                         ),
                       ],
@@ -88,14 +94,18 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                       children: [
                         Text(
                           'Records',
-                          style: CustomTextStyle.text700_14.withColor(
-                            AppColor.grey70,
+                          style: TextStyle(
+                            color: AppColor.grey70,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14.sp,
                           ),
                         ),
                         Text(
                           'See all',
-                          style: CustomTextStyle.text700_14.withColor(
-                            AppColor.red60,
+                          style: TextStyle(
+                            color: AppColor.red60,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14.sp,
                           ),
                         ),
                       ],

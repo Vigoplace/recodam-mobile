@@ -49,8 +49,10 @@ class CreateRecordView
           32.verticalSpace,
           Text(
             'Evidence of payment (pdf or Jpeg file)',
-            style: CustomTextStyle.text700_14.withColor(
-              AppColor.grey100,
+            style: TextStyle(
+              color: AppColor.grey100,
+              fontWeight: FontWeight.w700,
+              fontSize: 14.sp,
             ),
           ),
           32.verticalSpace,
@@ -100,8 +102,10 @@ class CreateRecordView
           32.verticalSpace,
           Text(
             'Type of record',
-            style: CustomTextStyle.text700_14.withColor(
-              AppColor.grey100,
+            style: TextStyle(
+              color: AppColor.grey100,
+              fontWeight: FontWeight.w700,
+              fontSize: 14.sp,
             ),
           ),
           16.verticalSpace,

@@ -24,8 +24,10 @@ class BookCard extends StatelessWidget {
           children: [
             Text(
               "School Donations",
-              style: CustomTextStyle.text700_14.withColor(
-                AppColor.grey100,
+              style: TextStyle(
+                color: AppColor.grey100,
+                fontWeight: FontWeight.w700,
+                fontSize: 14.sp,
               ),
             ),
             21.verticalSpace,
@@ -37,8 +39,10 @@ class BookCard extends StatelessWidget {
                 16.horizontalSpace,
                 Text(
                   "N10,000",
-                  style: CustomTextStyle.text400_14.withColor(
-                    AppColor.grey100,
+                  style: TextStyle(
+                    color: AppColor.grey100,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.sp,
                   ),
                 )
               ],
@@ -52,8 +56,10 @@ class BookCard extends StatelessWidget {
                 16.horizontalSpace,
                 Text(
                   "2 days ago",
-                  style: CustomTextStyle.text400_14.withColor(
-                    AppColor.grey100,
+                  style: TextStyle(
+                    color: AppColor.grey100,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.sp,
                   ),
                 )
               ],
@@ -67,8 +73,10 @@ class BookCard extends StatelessWidget {
                 6.horizontalSpace,
                 Text(
                   "12",
-                  style: CustomTextStyle.text400_12.withColor(
-                    AppColor.grey100,
+                  style: TextStyle(
+                    color: AppColor.grey100,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12.sp,
                   ),
                 )
               ],

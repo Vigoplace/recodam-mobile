@@ -18,13 +18,18 @@ class LoadingButton extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(100.r),
               ),
-              textStyle: CustomTextStyle.text700_16,
+              textStyle: TextStyle(
+                color: AppColor.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 16.sp,
+              ),
               padding: [28, 12].pad,
               backgroundColor: AppColor.red60,
               minimumSize: Size(205.w, 48.h),
             ),
             child: CircularProgressIndicator.adaptive(
               backgroundColor: AppColor.white,
+              valueColor: AlwaysStoppedAnimation(AppColor.red30),
             ),
           )
         : normal;
@@ -48,7 +53,11 @@ class AppButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100.r),
         ),
-        textStyle: CustomTextStyle.text700_16,
+        textStyle: TextStyle(
+          color: AppColor.white,
+          fontWeight: FontWeight.w700,
+          fontSize: 16.sp,
+        ),
         padding: [28, 12].pad,
         backgroundColor: AppColor.red60,
         minimumSize: Size(205.w, 48.h),
@@ -178,8 +187,10 @@ class _GroupedSelectionState extends State<GroupedSelection> {
                     child: Center(
                       child: Text(
                         e,
-                        style: CustomTextStyle.text400_16.withColor(
-                          AppColor.grey100,
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ),

@@ -8,7 +8,9 @@ class OnboardingView
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white),
+      value: const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.light,
+      ),
       child: Scaffold(
         body: Stack(
           children: [
@@ -27,8 +29,10 @@ class OnboardingView
                       31.verticalSpace,
                       Text(
                         'Recodam',
-                        style: CustomTextStyle.text700_32.withColor(
-                          AppColor.white,
+                        style: TextStyle(
+                          color: AppColor.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 32.sp,
                         ),
                       ),
                       10.verticalSpace,
@@ -42,8 +46,10 @@ class OnboardingView
                         child: Text(
                           "Keep track of your spending and keep your records straight.",
                           textAlign: TextAlign.center,
-                          style: CustomTextStyle.text700_20.withColor(
-                            AppColor.white,
+                          style: TextStyle(
+                            color: AppColor.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20.sp,
                           ),
                         ),
                       ),
@@ -58,14 +64,18 @@ class OnboardingView
                           children: [
                             TextSpan(
                               text: 'Already have an account ?',
-                              style: CustomTextStyle.text700_16.withColor(
-                                AppColor.white,
+                              style: TextStyle(
+                                color: AppColor.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 17.sp,
                               ),
                             ),
                             TextSpan(
                               text: ' Log in',
-                              style: CustomTextStyle.text400_16.withColor(
-                                AppColor.red30,
+                              style: TextStyle(
+                                color: AppColor.red30,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16.sp,
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap =
