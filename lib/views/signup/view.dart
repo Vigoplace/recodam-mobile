@@ -19,17 +19,20 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
             ),
           ),
           32.verticalSpace,
-          const CustomTextInput(
+          CustomTextInput(
+            controller: controller.name,
             titleText: 'Full Name*',
             hintText: 'Individual or organization',
           ),
           32.verticalSpace,
-          const CustomTextInput(
+          CustomTextInput(
+            controller: controller.email,
             titleText: 'Email',
             hintText: 'example@gmail.com',
           ),
           32.verticalSpace,
-          const CustomTextInput(
+          CustomTextInput(
+            controller: controller.phone,
             titleText: 'Phone number*',
             hintText: '000-000-000',
           ),
@@ -38,6 +41,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
             valueListenable: controller.showPin,
             builder: (context, state, _) {
               return CustomTextInput(
+                controller: controller.pin,
                 titleText: 'Create pin*',
                 hintText: '123456',
                 obscureText: state,
@@ -53,6 +57,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
             valueListenable: controller.showConfirmPin,
             builder: (context, state, _) {
               return CustomTextInput(
+                controller: controller.confirm,
                 titleText: 'Confirm pin*',
                 hintText: '123456',
                 obscureText: state,

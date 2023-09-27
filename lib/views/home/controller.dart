@@ -1,4 +1,3 @@
-
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
@@ -14,6 +13,13 @@ class HomeScreen extends StatefulWidget {
 class HomeController extends State<HomeScreen> {
   var acceptedTerms = ValueNotifier(false);
   var showPin = ValueNotifier(false);
+  late String name;
+
+  @override
+  void initState() {
+    super.initState();
+    name = LocalStorage.instance.getName();
+  }
 
   @override
   Widget build(BuildContext context) {

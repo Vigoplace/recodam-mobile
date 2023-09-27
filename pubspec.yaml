@@ -46,6 +46,7 @@ dependencies:
   another_flushbar: ^1.12.30
   image_picker: ^1.0.4
   shimmer: ^3.0.0
+  text_scroll: ^0.2.0
 
 dev_dependencies:
   flutter_test:

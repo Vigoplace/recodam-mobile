@@ -19,7 +19,8 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
             ),
           ),
           32.verticalSpace,
-          const CustomTextInput(
+          CustomTextInput(
+            controller: controller.phone,
             titleText: 'Phone number*',
             hintText: '000-000-000',
           ),
@@ -28,6 +29,7 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
             valueListenable: controller.showPin,
             builder: (context, state, _) {
               return CustomTextInput(
+                controller: controller.pin,
                 titleText: 'Create pin*',
                 hintText: '123456',
                 obscureText: state,

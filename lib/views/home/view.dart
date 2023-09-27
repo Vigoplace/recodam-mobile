@@ -16,8 +16,9 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                 centerTitle: false,
                 floating: true,
                 snap: true,
-                title: Text(
-                  'Welcome Jenny',
+                title: TextScroll(
+                  'Welcome ${controller.name}',
+                  velocity: const Velocity(pixelsPerSecond: Offset(30, 0)),
                   style: TextStyle(
                     color: AppColor.grey100,
                     fontWeight: FontWeight.w700,
