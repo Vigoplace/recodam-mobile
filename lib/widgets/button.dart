@@ -194,9 +194,7 @@ class _GroupedSelectionState extends State<GroupedSelection> {
                         ),
                       ),
                     ),
-                  )
-                      .animate()
-                      .scale(duration: const Duration(milliseconds: 800)),
+                  ).animate().scale(),
                 ))
             .toList());
   }

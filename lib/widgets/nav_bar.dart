@@ -122,6 +122,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                 cursorColor: AppColor.grey100,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
+                  hintText: 'Search here',
                 ),
               ),
             ),
