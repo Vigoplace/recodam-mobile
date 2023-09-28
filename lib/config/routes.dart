@@ -67,6 +67,16 @@ final GoRouter routes = GoRouter(
       },
     ),
     GoRoute(
+      path: ProfileScreen.path,
+      name: ProfileScreen.name,
+      pageBuilder: (context, state) {
+        return FadeTransitionPage(
+          child: const ProfileScreen(),
+          key: state.pageKey,
+        );
+      },
+    ),
+    GoRoute(
       path: CreateRecordScreen.path,
       name: CreateRecordScreen.name,
       pageBuilder: (context, state) {
