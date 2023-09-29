@@ -1,7 +1,7 @@
 part of 'controller.dart';
 
-class ProfileView extends StatelessView<ProfileScreen, SampleController> {
-  const ProfileView(SampleController state, {Key? key})
+class ProfileView extends StatelessView<ProfileScreen, ProfileController> {
+  const ProfileView(ProfileController state, {Key? key})
       : super(state, key: key);
 
   @override

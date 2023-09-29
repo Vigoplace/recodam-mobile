@@ -22,9 +22,18 @@ final GoRouter routes = GoRouter(
   // initialLocation: HomeScreen.path,
   initialLocation: OnboardingScreen.path,
   debugLogDiagnostics: true,
-  redirect: (context, state) async {
-    return null;
-  },
+  // redirect: (context, state) async {
+  //   if (state.matchedLocation == OnboardingScreen.path) {
+  //     if (LocalStorage.instance.getLoggedIn()) {
+  //       return HomeScreen.path;
+  //     } else if (LocalStorage.instance.getFirstTime()) {
+  //       return OnboardingScreen.path;
+  //     } else {
+  //       return LoginScreen.path;
+  //     }
+  //   }
+  //   return null;
+  // },
   routes: [
     GoRoute(
       path: OnboardingScreen.path,

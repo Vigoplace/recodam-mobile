@@ -15,27 +15,58 @@ class LoginController extends ConsumerState<LoginScreen> {
   var acceptedTerms = ValueNotifier(false);
   var showPin = ValueNotifier(false);
   var isLoading = ValueNotifier(false);
+  late TextEditingController phone;
+  late TextEditingController pin;
 
   void login() async {
     isLoading.value = true;
+    final loginAccountProvider = FutureProvider.autoDispose(
+      (ref) => PostRequest.loginToAccount(
+        loginModel: LoginModel(
+          password: pin.text,
+          phone: phone.text,
+        ),
+      ),
+    );
     ref.listenManual(
-      loginProvider,
+      loginAccountProvider,
       fireImmediately: false,
       (previous, next) {
         next.when(
           data: (data) {
-            debugPrint('LOADED');
             isLoading.value = false;
-            context.goNamed(HomeScreen.name);
+            ShowFlushBar.showSuccess(
+              context: context,
+              message: data.message,
+              perform: () async {
+                LocalStorage.instance
+                    .saveUserInfo(data.data)
+                    .whenComplete(() => context.goNamed(HomeScreen.name));
+              },
+            );
           },
           error: (error, trace) {
             isLoading.value = false;
-            debugPrint(error.toString());
+            listenError(context: context, error: error);
           },
           loading: () => debugPrint('LOADING'),
         );
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    phone = TextEditingController();
+    pin = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    phone.dispose();
+    pin.dispose();
+    super.dispose();
   }
 
   @override

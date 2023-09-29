@@ -9,4 +9,26 @@ class PostRequest {
     await Future.delayed(const Duration(seconds: 2));
     return;
   }
+
+  static Future<UserModel> createAccount({
+    required CreateAccountModel createAccountModel,
+  }) async {
+    var path = 'auth/create';
+    var user = await network.postRequestHandler(
+      path,
+      data: createAccountModel.toJson(),
+    );
+    return UserModel.fromJson(user.data);
+  }
+
+  static Future<UserModel> loginToAccount({
+    required LoginModel loginModel,
+  }) async {
+    var path = 'auth/login';
+    var user = await network.postRequestHandler(
+      path,
+      data: loginModel.toJson(),
+    );
+    return UserModel.fromJson(user.data);
+  }
 }

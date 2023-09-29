@@ -13,6 +13,12 @@ class OnboardingScreen extends StatefulWidget {
 
 class OnboardingController extends State<OnboardingScreen> {
   @override
+  void initState() {
+    super.initState();
+    LocalStorage.instance.setFirstTime();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return OnboardingView(this);
   }

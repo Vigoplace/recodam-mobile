@@ -4,16 +4,16 @@ part 'view.dart';
 class ProfileScreen extends StatefulWidget {
   static const path = "/profile";
   static const name = "profile";
-  const ProfileScreen({super.key});
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<ProfileScreen> createState() => ProfileController();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class ProfileController extends State<ProfileScreen> {
+  
   @override
   Widget build(BuildContext context) {
-    // return const Placeholder();
-    return const Scaffold();
+    return ProfileView(this);
   }
 }
