@@ -7,18 +7,38 @@ class ProfileView extends StatelessView<ProfileScreen, ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "My Profile",
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: false,
-        elevation: 0.0,
-        
+      appBar: const CustomAppbar(
+        title: "Profile",
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
-          children: <Widget>[Text("hello")],
+          children: <Widget>[
+            Stack(
+              children: [
+                const CircleAvatar(
+                  backgroundColor: Colors.amber,
+                  backgroundImage: AssetImage("assets/image.png"),
+                  radius: 75,
+                ),
+                Positioned(
+                  top: 60,
+                  left: 80,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: const CircleAvatar(
+                      radius: 15.0,
+                      backgroundColor: Color.fromARGB(255, 45, 161, 49),
+                      child: Icon(
+                        Icons.camera_alt_sharp,
+                        color: Color.fromARGB(255, 247, 245, 245),
+                        size: 18.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
