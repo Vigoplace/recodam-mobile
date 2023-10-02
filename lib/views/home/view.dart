@@ -26,8 +26,20 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                   ),
                 ),
                 actions: [
-                  Image.asset(AppImages.image),
+                  InkWell(
+                    child: Image.asset(
+                      AppImages.image,
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileScreen(),
+                          ));
+                    },
+                  ),
                   10.horizontalSpace,
+                
                 ],
               ),
               SliverList.list(
