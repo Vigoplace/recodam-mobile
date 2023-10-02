@@ -43,7 +43,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
           children: [
             38.verticalSpace,
             Text(
-              'Create new',
+              'New',
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
@@ -64,7 +64,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                 context.pushNamed(CreateRecordScreen.name);
               },
               title: Text(
-                'Record',
+                'Add A Record',
                 style: TextStyle(
                   color: AppColor.grey100,
                   fontWeight: FontWeight.w400,
@@ -86,7 +86,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                 context.pushNamed(CreateBookScreen.name);
               },
               title: Text(
-                'Book',
+                'Create A Book',
                 style: TextStyle(
                   color: AppColor.grey100,
                   fontWeight: FontWeight.w400,
