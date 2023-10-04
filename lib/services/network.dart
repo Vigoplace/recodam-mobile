@@ -12,7 +12,7 @@ class NetworkService {
     bool useBaseUrl = true,
     CancelToken? cancelToken,
   }) async {
-    Uri uri = Uri.parse('${AppConstant.baseUrl}/$path');
+    Uri uri = Uri.parse('${AppConstant.baseUrl}/api/$path');
     if (!useBaseUrl) {
       uri = Uri.parse(path);
     }
@@ -34,7 +34,7 @@ class NetworkService {
     bool useBaseUrl = true,
     CancelToken? cancelToken,
   }) async {
-    Uri uri = Uri.parse('${AppConstant.baseUrl}/$path');
+    Uri uri = Uri.parse('${AppConstant.baseUrl}/api/$path');
     if (!useBaseUrl) {
       uri = Uri.parse(path);
     }
@@ -55,7 +55,7 @@ class NetworkService {
     bool useBaseUrl = true,
     CancelToken? cancelToken,
   }) async {
-    Uri uri = Uri.parse('${AppConstant.baseUrl}/$path');
+    Uri uri = Uri.parse('${AppConstant.baseUrl}/api/$path');
     if (!useBaseUrl) {
       uri = Uri.parse(path);
     }

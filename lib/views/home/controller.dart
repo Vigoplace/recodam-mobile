@@ -1,16 +1,16 @@
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   static const path = "/home";
   static const name = "home";
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => HomeController();
+  ConsumerState<HomeScreen> createState() => HomeController();
 }
 
-class HomeController extends State<HomeScreen> {
+class HomeController extends ConsumerState<HomeScreen> {
   var acceptedTerms = ValueNotifier(false);
   var showPin = ValueNotifier(false);
   late String name;
@@ -19,6 +19,7 @@ class HomeController extends State<HomeScreen> {
   void initState() {
     super.initState();
     name = LocalStorage.instance.getName();
+    SocketServices.instance.connectAndListen(ref);
   }
 
   @override

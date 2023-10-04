@@ -17,33 +17,40 @@ class CreateRecordView
         children: [
           const CustomTextInput(
             titleText: 'Senders name*',
+            textInputAction: TextInputAction.next,
           ),
           32.verticalSpace,
           const CustomTextInput(
             titleText: 'Amount*',
+            textInputAction: TextInputAction.next,
           ),
           32.verticalSpace,
           const CustomTextInput(
             titleText: 'Bank name / cash',
+            textInputAction: TextInputAction.next,
           ),
           32.verticalSpace,
           const CustomTextInput(
             titleText: 'Account number (recipient)',
+            textInputAction: TextInputAction.next,
           ),
           32.verticalSpace,
           const CustomTextInput(
             titleText: 'Account name (recipient)',
+            textInputAction: TextInputAction.next,
           ),
           32.verticalSpace,
           const CustomTextInput(
             titleText: 'Detail / Purpose*',
+            textInputAction: TextInputAction.next,
           ),
           32.verticalSpace,
           CustomTextInput(
             titleText: 'Transation date',
-            suffixIcon: SvgButton(
+            onTap: () {},
+            readOnly: true,
+            suffixIcon: const SvgButton(
               icon: AppSvg.agenda,
-              onTap: () {},
             ),
           ),
           32.verticalSpace,

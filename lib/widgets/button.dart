@@ -111,11 +111,11 @@ class RoundIconButton extends StatelessWidget {
 
 class SvgButton extends StatelessWidget {
   final String icon;
-  final Function() onTap;
+  final Function()? onTap;
   const SvgButton({
     super.key,
     required this.icon,
-    required this.onTap,
+    this.onTap,
   });
 
   @override

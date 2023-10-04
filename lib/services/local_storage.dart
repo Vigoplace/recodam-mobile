@@ -49,6 +49,13 @@ class LocalStorage {
   }
 
   bool getLoggedIn() {
-    return prefs.getBool(_loggedIn)!;
+    return prefs.getBool(_loggedIn) ?? false;
+  }
+
+  int getId() {
+    return prefs.getInt(_id)!;
+  }
+  String getToken() {
+    return prefs.getString(_token)!;
   }
 }
