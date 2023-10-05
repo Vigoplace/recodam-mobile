@@ -46,22 +46,13 @@ class RecordCard extends StatelessWidget {
             ),
           ),
           23.verticalSpace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Maryland school donation for kids.",
-                style: TextStyle(
-                  color: AppColor.grey40,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14.sp,
-                ),
-              ),
-              RoundIconButton(
-                icon: AppSvg.moreHoriz,
-                onTap: () {},
-              )
-            ],
+          Text(
+            "Maryland school donation for kids.",
+            style: TextStyle(
+              color: AppColor.grey40,
+              fontWeight: FontWeight.w400,
+              fontSize: 14.sp,
+            ),
           ),
         ],
       ),

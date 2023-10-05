@@ -1,17 +1,7 @@
 import 'package:recordam/utils/utils.dart';
 
-extension WidgetExtensionss on num {
-  Widget get sbH => SizedBox(
-        height: h,
-      );
-
-  Widget get sbW => SizedBox(
-        width: w,
-      );
-}
-
 extension WidgetExtensions on List<num> {
-  EdgeInsetsGeometry get pad {
+  EdgeInsets get pad {
     assert(length <= 4, 'Length cannot be more than 4');
     assert(length != 3, 'Length cannot be 3');
     if (length == 1) {

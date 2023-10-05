@@ -3,10 +3,12 @@ import 'package:recordam/utils/utils.dart';
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final bool? centerTitle;
+  final List<Widget> action;
   const CustomAppbar({
     super.key,
     this.title,
     this.centerTitle,
+    this.action = const [],
   });
 
   @override
@@ -20,6 +22,10 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: centerTitle,
       leadingWidth: 80.w,
       elevation: 0,
+      actions: [
+        ...action,
+        16.horizontalSpace,
+      ],
       backgroundColor: AppColor.white,
       title: title != null
           ? Text(

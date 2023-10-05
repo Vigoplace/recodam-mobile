@@ -49,13 +49,19 @@ class AllBooksView extends StatelessView<AllBooksScreen, AllBooksController> {
                 controller.refreshController.refreshFailed();
               }
             },
-            child: ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                var book = data[index];
-                return HorizBookCard(book: book);
-              },
-            ),
+            child: data.isEmpty
+                ? const EmptyWidget(
+                    text: 'Nothing to see here',
+                  )
+                : ListView.separated(
+                    padding: [0, 30, 0, 0].pad,
+                    itemCount: data.length,
+                    separatorBuilder: (context, index) => 15.verticalSpace,
+                    itemBuilder: (context, index) {
+                      var book = data[index];
+                      return HorizBookCard(book: book);
+                    },
+                  ),
           );
         },
         error: (error, trace) {

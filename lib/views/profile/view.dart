@@ -11,15 +11,11 @@ class ProfileView extends StatelessView<ProfileScreen, ProfileController> {
         title: "Profile",
         centerTitle: false,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          top: 51.h,
-          left: 16.w,
-          right: 16.w,
-        ),
-        child: Column(
-          children: <Widget>[
-            SizedBox(
+      body: ListView(
+        padding: [16, 51, 16, 0].pad,
+        children: <Widget>[
+          Center(
+            child: SizedBox(
               height: 160.w,
               width: 160.w,
               child: Stack(
@@ -35,130 +31,50 @@ class ProfileView extends StatelessView<ProfileScreen, ProfileController> {
                     alignment: Alignment.bottomRight,
                     child: GestureDetector(
                       onTap: () {},
-                      child: CircleAvatar(
-                        radius: 20.r,
-                        backgroundColor: AppColor.red60,
-                        child: SvgPicture.asset(AppSvg.camera),
+                      child: GestureDetector(
+                        onTap: controller.changePhoto,
+                        child: CircleAvatar(
+                          radius: 20.r,
+                          backgroundColor: AppColor.red60,
+                          child: SvgPicture.asset(AppSvg.camera),
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            62.verticalSpace,
-            Padding(
-              padding: [8, 16, 14, 16].pad,
-              child: Row(
-                children: [
-                  SvgPicture.asset(
-                    AppSvg.user,
-                  ),
-                ],
+          ),
+          62.verticalSpace,
+          Builder(builder: (context) {
+            var name = LocalStorage.instance.getName();
+            return ProfileDetail(
+              name: 'Name',
+              value: name,
+              prefixIcon: SvgPicture.asset(AppSvg.user),
+              suffixIcon: InkWell(
+                onTap: controller.changeName,
+                child: SvgPicture.asset(AppSvg.edit),
               ),
+            );
+          }),
+          Builder(builder: (context) {
+            var email = LocalStorage.instance.getEmail();
+            return ProfileDetail(
+              name: 'Email',
+              value: email,
+              prefixIcon: SvgPicture.asset(AppSvg.drafts),
+            );
+          }),
+          InkWell(
+            onTap: controller.logOut,
+            child: ProfileDetail(
+              name: 'Logout',
+              value: 'Sign out of the app',
+              prefixIcon: SvgPicture.asset(AppSvg.logout),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 20.0, left: 20.0),
-              child: Row(
-                children: [
-                  Icon(Icons.person, color: Colors.grey),
-                  SizedBox(
-                    width: 20.0,
-                  ),
-                  Text(
-                    "Name",
-                    style: TextStyle(
-                      fontFamily: "Manrope",
-                    ),
-                  ),
-                  // 32.horizontalSpace,
-                  SizedBox(
-                    width: 195,
-                  ),
-                  Icon(
-                    Icons.edit,
-                    color: Color.fromARGB(255, 161, 45, 45),
-                  ),
-                ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(right: 130, top: 10, bottom: 10),
-              child: Text("Eurocode Adam",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Manrope',
-                      fontSize: 16)),
-            ),
-            // 32.verticalSpace,
-            Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8),
-              child: Divider(
-                color: AppColor.dark10,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 10, left: 20.0),
-              child: Row(
-                children: [
-                  Icon(Icons.email, color: Colors.grey),
-                  SizedBox(
-                    width: 20.0,
-                  ),
-                  Text(
-                    "Email",
-                    style: TextStyle(
-                      fontFamily: "Manrope",
-                    ),
-                  ),
-                  // 32.horizontalSpace,
-                ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(right: 120, top: 10, bottom: 10),
-              child: Text("eurocode@gmail.com",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8),
-              child: Divider(
-                color: AppColor.dark10,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 10, left: 20.0),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.logout_sharp,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(
-                    width: 20.0,
-                  ),
-                  Text(
-                    "Logout",
-                    style: TextStyle(
-                      fontFamily: "Manrope",
-                    ),
-                  ),
-                  // 32.horizontalSpace,
-                ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(right: 125, top: 10, bottom: 10),
-              child: Text("Sign out of the app",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8),
-              child: Divider(
-                color: AppColor.dark10,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

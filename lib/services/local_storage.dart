@@ -40,6 +40,10 @@ class LocalStorage {
     return prefs.getString(_name)!;
   }
 
+  String getEmail() {
+    return prefs.getString(_email)!;
+  }
+
   bool getFirstTime() {
     return prefs.getBool(_firstTime) ?? true;
   }
@@ -55,6 +59,7 @@ class LocalStorage {
   int getId() {
     return prefs.getInt(_id)!;
   }
+
   String getToken() {
     return prefs.getString(_token)!;
   }

@@ -11,3 +11,4 @@ export 'package:go_router/go_router.dart';
 export 'package:flutter_animate/flutter_animate.dart';
 export 'package:text_scroll/text_scroll.dart';
 export 'package:dio/dio.dart';
+export 'package:image_picker/image_picker.dart';

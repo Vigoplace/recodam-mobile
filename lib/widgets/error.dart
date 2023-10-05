@@ -23,15 +23,16 @@ class _ErrorScreenState extends State<ErrorScreen> {
           Text(
             widget.error.response == null
                 ? "Check your internet connection"
-                : widget.error.response!.data['message'] ??
-                    'Something went wrong',
+                : widget.error.response!.data is Map
+                    ? widget.error.response!.data['message']
+                    : 'Something went wrong',
           ),
-          10.sbH,
+          10.verticalSpace,
           AppButton(
             text: 'Retry',
             onTap: widget.reload,
           ),
-          40.sbH,
+          40.verticalSpace,
         ],
       ),
     ).animate().scale();

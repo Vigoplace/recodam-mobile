@@ -39,10 +39,14 @@ class LoadingButton extends StatelessWidget {
 class AppButton extends StatelessWidget {
   final String text;
   final Function() onTap;
+  final double? width;
+  final Widget? icon;
   const AppButton({
     super.key,
     required this.text,
     required this.onTap,
+    this.width,
+    this.icon,
   });
 
   @override
@@ -60,9 +64,18 @@ class AppButton extends StatelessWidget {
         ),
         padding: [28, 12].pad,
         backgroundColor: AppColor.red60,
-        minimumSize: Size(205.w, 48.h),
+        minimumSize: Size(width ?? 205.w, 48.h),
       ),
-      child: Text(text),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null) ...[
+            icon!,
+            8.horizontalSpace,
+          ],
+          Text(text),
+        ],
+      ),
     ).animate().scale();
   }
 }

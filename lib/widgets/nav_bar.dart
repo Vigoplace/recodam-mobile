@@ -1,3 +1,5 @@
+import 'package:grouped_list/grouped_list.dart';
+
 import '../utils/utils.dart';
 
 class CustomBottomNavbar extends StatefulWidget {
@@ -199,7 +201,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                                         children: [
                                           SvgPicture.asset(
                                             AppSvg.card,
-                                          ),
+                                          ).animate().scale(),
                                           16.horizontalSpace,
                                           Text(
                                             'Birthday',
@@ -220,7 +222,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                                           )
                                         ],
                                       ),
-                                    ).animate().scale(),
+                                    ),
                                 ],
                               ),
                             ),
@@ -244,57 +246,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                                   ),
                                   18.verticalSpace,
                                   for (int i = 0; i <= 10; i++)
-                                    Container(
-                                      padding: [16, 16].pad,
-                                      margin: [16, 0, 16, 16].pad,
-                                      decoration: ShapeDecoration(
-                                        color: AppColor.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.r),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Lux beauty store',
-                                                style: TextStyle(
-                                                  color: AppColor.grey100,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 14.sp,
-                                                ),
-                                              ),
-                                              10.verticalSpace,
-                                              Text(
-                                                'Shopping bill',
-                                                style: TextStyle(
-                                                  color: AppColor.grey100,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 14.sp,
-                                                ),
-                                              ),
-                                              10.verticalSpace,
-                                              Text(
-                                                'Yesterday 7:59pm',
-                                                style: TextStyle(
-                                                  color: AppColor.grey100,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 11.sp,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const Spacer(),
-                                          SvgPicture.asset(
-                                            AppSvg.card,
-                                          ),
-                                        ],
-                                      ),
-                                    ).animate().scale(),
+                                    const RecordCard(),
                                 ],
                               ),
                             ),
@@ -309,7 +261,373 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
             40.verticalSpace,
           ],
         ),
-      ).animate().scale(),
+      ).animate().shakeY(),
+    );
+  }
+
+  void deleteAccount() {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        insetPadding: [20, 0, 20, 0].pad,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Padding(
+          padding: [16, 21].pad,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Delete account",
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              25.verticalSpace,
+              Text(
+                "This will delete your account permanently. You cannot undo this action.",
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: AppColor.light100,
+                ),
+              ),
+              40.verticalSpace,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () => context.pop(),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.grey20,
+                      ),
+                    ),
+                  ),
+                  40.horizontalSpace,
+                  Text(
+                    "Delete",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColor.red60,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showMenuModal() {
+    showModalBottomSheet(
+      showDragHandle: true,
+      isScrollControlled: true,
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.r),
+          topRight: Radius.circular(30.r),
+        ),
+      ),
+      builder: (context) => SizedBox(
+        height: MediaQuery.sizeOf(context).height * 0.5,
+        child: Column(
+          children: [
+            Padding(
+              padding: [16].pad,
+              child: Row(
+                children: [
+                  Image.asset(
+                    AppImages.image,
+                  ),
+                  8.horizontalSpace,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        LocalStorage.instance.getName(),
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColor.grey100,
+                        ),
+                      ),
+                      Text(
+                        LocalStorage.instance.getEmail(),
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.grey40,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Divider(
+              color: AppColor.dark20,
+              thickness: 1,
+            ),
+            10.verticalSpace,
+            Padding(
+              padding: [16, 0].pad,
+              child: Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true).pop();
+                      context.pushNamed(UnConfirmedRecordsScreen.name);
+                    },
+                    child: SizedBox(
+                      height: 52.h,
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            AppSvg.unconfirmed,
+                          ),
+                          16.horizontalSpace,
+                          Expanded(
+                            child: Text(
+                              "Unconfirmed records",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: AppColor.grey100,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            "10",
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColor.grey100,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  8.verticalSpace,
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true).pop();
+                      context.pushNamed(PostedRecordsScreen.name);
+                    },
+                    child: SizedBox(
+                      height: 52.h,
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            AppSvg.posted,
+                          ),
+                          16.horizontalSpace,
+                          Expanded(
+                            child: Text(
+                              "Posted records",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: AppColor.grey100,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            "10",
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColor.grey100,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  8.verticalSpace,
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true).pop();
+                      context.pushNamed(ChangePinScreen.name);
+                    },
+                    child: SizedBox(
+                      height: 52.h,
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            AppSvg.pin,
+                          ),
+                          16.horizontalSpace,
+                          Expanded(
+                            child: Text(
+                              "Change pin",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: AppColor.grey100,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  8.verticalSpace,
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true).pop();
+                      deleteAccount();
+                    },
+                    child: SizedBox(
+                      height: 52.h,
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            AppSvg.delete,
+                          ),
+                          16.horizontalSpace,
+                          Expanded(
+                            child: Text(
+                              "Delete account",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: AppColor.grey100,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            40.verticalSpace,
+          ],
+        ),
+      ).animate().shakeY(),
+    );
+  }
+
+  void showNotificationModal() {
+    showModalBottomSheet(
+      showDragHandle: true,
+      isScrollControlled: true,
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.r),
+          topRight: Radius.circular(30.r),
+        ),
+      ),
+      builder: (context) => SizedBox(
+        height: MediaQuery.sizeOf(context).height * 0.8,
+        child: Column(
+          children: [
+            Padding(
+              padding: [16].pad,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Notifications",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColor.grey100,
+                    ),
+                  ),
+                  Text(
+                    "Mark all as read",
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColor.red60,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Divider(
+              color: AppColor.dark20,
+              thickness: 1,
+            ),
+            Expanded(
+              child: GroupedListView<int, DateTime>(
+                padding: [16, 10, 16, 0].pad,
+                elements: List.generate(20, (index) => index += 1),
+                groupHeaderBuilder: (element) => Padding(
+                  padding: [0, 0, 0, 16].pad,
+                  child: Text(
+                    "New",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.grey100,
+                    ),
+                  ),
+                ),
+                itemBuilder: (context, element) => SizedBox(
+                  height: 80.h,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(AppImages.image).animate().scale(),
+                      10.horizontalSpace,
+                      Expanded(
+                        child: Text(
+                          "Rachel added a new record to shopping list.",
+                          maxLines: 2,
+                          softWrap: false,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.grey100,
+                          ),
+                        ),
+                      ),
+                      30.horizontalSpace,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Just now",
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w700,
+                              color: AppColor.red100,
+                            ),
+                          ),
+                          8.verticalSpace,
+                          CircleAvatar(
+                            radius: 4.r,
+                            backgroundColor: AppColor.red60,
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                groupBy: (groupBy) => DateTime.now(),
+              ),
+            ),
+            40.verticalSpace,
+          ],
+        ),
+      ).animate().shakeY(),
     );
   }
 
@@ -346,7 +664,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                               children: [
                                 SvgButton(
                                   icon: AppSvg.menu,
-                                  onTap: () {},
+                                  onTap: showMenuModal,
                                 ),
                               ],
                             ),
@@ -369,7 +687,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                                 37.horizontalSpace,
                                 SvgButton(
                                   icon: AppSvg.bell,
-                                  onTap: () {},
+                                  onTap: showNotificationModal,
                                 ),
                               ],
                             ),

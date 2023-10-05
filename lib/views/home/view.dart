@@ -82,16 +82,20 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                         builder: (context, ref, _) {
                           var books = ref.watch(homeBookProvider);
                           return books.when(
-                            data: (data) => ListView.builder(
-                              itemCount: data.length,
-                              shrinkWrap: true,
-                              padding: EdgeInsets.only(left: 16.w),
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                var book = data[index];
-                                return BookCard(book: book);
-                              },
-                            ),
+                            data: (data) => data.isEmpty
+                                ? const EmptyWidget(
+                                    text: 'Nothing to see here',
+                                  )
+                                : ListView.builder(
+                                    itemCount: data.length,
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.only(left: 16.w),
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      var book = data[index];
+                                      return BookCard(book: book);
+                                    },
+                                  ),
                             error: (error, trace) {
                               error as DioException;
                               return ErrorScreen(

@@ -126,6 +126,47 @@ final GoRouter routes = GoRouter(
             );
           },
         ),
+        GoRoute(
+          path: UnConfirmedRecordsScreen.path,
+          name: UnConfirmedRecordsScreen.name,
+          pageBuilder: (context, state) {
+            return FadeTransitionPage(
+              child: const UnConfirmedRecordsScreen(),
+              key: state.pageKey,
+            );
+          },
+        ),
+        GoRoute(
+          path: PostedRecordsScreen.path,
+          name: PostedRecordsScreen.name,
+          pageBuilder: (context, state) {
+            return FadeTransitionPage(
+              child: const PostedRecordsScreen(),
+              key: state.pageKey,
+            );
+          },
+        ),
+        GoRoute(
+          path: ViewBookScreen.path,
+          name: ViewBookScreen.name,
+          pageBuilder: (context, state) {
+            var book = state.extra! as Book;
+            return FadeTransitionPage(
+              child: ViewBookScreen(book: book),
+              key: state.pageKey,
+            );
+          },
+        ),
+        GoRoute(
+          path: ChangePinScreen.path,
+          name: ChangePinScreen.name,
+          pageBuilder: (context, state) {
+            return FadeTransitionPage(
+              child: const ChangePinScreen(),
+              key: state.pageKey,
+            );
+          },
+        ),
       ],
     ),
   ],

@@ -28,6 +28,7 @@ class CustomTextInput extends StatelessWidget {
   final AutovalidateMode? autovalidateMode;
   final TextStyle? hintStyle;
   final TextStyle? style;
+  final Color? fillColor;
   final List<TextInputFormatter>? inputFormatters;
 
   const CustomTextInput({
@@ -46,6 +47,7 @@ class CustomTextInput extends StatelessWidget {
     this.expands = false,
     this.enabled,
     this.onChanged,
+    this.fillColor,
     this.controller,
     this.onEditingComplete,
     this.hintStyle,
@@ -116,7 +118,7 @@ class CustomTextInput extends StatelessWidget {
               vertical: 16.h,
               horizontal: 15.w,
             ),
-            fillColor: AppColor.white,
+            fillColor: fillColor ?? AppColor.white,
             filled: true,
             prefixIcon: prefix,
             suffixIcon: suffixIcon,

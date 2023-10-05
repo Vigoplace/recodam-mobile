@@ -35,89 +35,92 @@ class _BookCardState extends State<BookCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: [0, 0, 0, 1.5].pad,
-      decoration: BoxDecoration(
-        color: AppColor.red60,
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      width: 220.w,
-      margin: [0, 0, 16, 0].pad,
+    return GestureDetector(
+      onTap: () => context.pushNamed(ViewBookScreen.name, extra: widget.book),
       child: Container(
-        padding: [16, 23].pad,
+        padding: [0, 0, 0, 1.5].pad,
         decoration: BoxDecoration(
-          color: AppColor.white,
+          color: AppColor.red60,
           borderRadius: BorderRadius.circular(8.r),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.book.name,
-              style: TextStyle(
-                color: AppColor.grey100,
-                fontWeight: FontWeight.w700,
-                fontSize: 14.sp,
+        width: 220.w,
+        margin: [0, 0, 16, 0].pad,
+        child: Container(
+          padding: [16, 23].pad,
+          decoration: BoxDecoration(
+            color: AppColor.white,
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.book.name,
+                style: TextStyle(
+                  color: AppColor.grey100,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14.sp,
+                ),
               ),
-            ),
-            21.verticalSpace,
-            Row(
-              children: [
-                SvgPicture.asset(
-                  AppSvg.rect,
-                ),
-                16.horizontalSpace,
-                Text(
-                  'N${widget.book.openingBalance}',
-                  style: TextStyle(
-                    color: AppColor.grey100,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.sp,
+              21.verticalSpace,
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    AppSvg.rect,
                   ),
-                )
-              ],
-            ),
-            16.verticalSpace,
-            Row(
-              children: [
-                SvgPicture.asset(
-                  AppSvg.clock,
-                ),
-                16.horizontalSpace,
-                ValueListenableBuilder(
-                    valueListenable: time,
-                    builder: (context, state, _) {
-                      return Text(
-                        GetTimeAgo.parse(widget.book.createdAt),
-                        style: TextStyle(
-                          color: AppColor.grey100,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.sp,
-                        ),
-                      );
-                    }),
-              ],
-            ),
-            const Spacer(),
-            Row(
-              children: [
-                SvgPicture.asset(
-                  AppSvg.card,
-                ),
-                6.horizontalSpace,
-                Text(
-                  "12",
-                  style: TextStyle(
-                    color: AppColor.grey100,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12.sp,
+                  16.horizontalSpace,
+                  Text(
+                    'N${widget.book.openingBalance}',
+                    style: TextStyle(
+                      color: AppColor.grey100,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14.sp,
+                    ),
+                  )
+                ],
+              ),
+              16.verticalSpace,
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    AppSvg.clock,
                   ),
-                )
-              ],
-            )
-          ],
+                  16.horizontalSpace,
+                  ValueListenableBuilder(
+                      valueListenable: time,
+                      builder: (context, state, _) {
+                        return Text(
+                          GetTimeAgo.parse(widget.book.createdAt),
+                          style: TextStyle(
+                            color: AppColor.grey100,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14.sp,
+                          ),
+                        );
+                      }),
+                ],
+              ),
+              const Spacer(),
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    AppSvg.card,
+                  ).animate().scale(),
+                  6.horizontalSpace,
+                  Text(
+                    "12",
+                    style: TextStyle(
+                      color: AppColor.grey100,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
-      ),
+      ).animate().moveX(),
     );
   }
 }
@@ -156,87 +159,89 @@ class _HorizBookCardState extends State<HorizBookCard> {
   Widget build(BuildContext context) {
     return Container(
       height: 200.h,
-      padding: [0, 0, 0, 1.5].pad,
+      margin: [16, 0, 16, 0].pad,
       decoration: BoxDecoration(
-        color: AppColor.red60,
+        color: AppColor.white,
         borderRadius: BorderRadius.circular(8.r),
       ),
-      margin: [16, 0, 16, 0].pad,
-      child: Container(
-        padding: [16, 23].pad,
-        decoration: BoxDecoration(
-          color: AppColor.white,
-          borderRadius: BorderRadius.circular(8.r),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.book.name,
-              style: TextStyle(
-                color: AppColor.grey100,
-                fontWeight: FontWeight.w700,
-                fontSize: 14.sp,
-              ),
-            ),
-            21.verticalSpace,
-            Row(
+      child: GestureDetector(
+        onTap: () => context.pushNamed(ViewBookScreen.name, extra: widget.book),
+        child: Card(
+          margin: EdgeInsets.zero,
+          child: Padding(
+            padding: [16, 23].pad,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SvgPicture.asset(
-                  AppSvg.rect,
-                ),
-                16.horizontalSpace,
                 Text(
-                  'N${widget.book.openingBalance}',
+                  widget.book.name,
                   style: TextStyle(
                     color: AppColor.grey100,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w700,
                     fontSize: 14.sp,
                   ),
+                ),
+                21.verticalSpace,
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      AppSvg.rect,
+                    ),
+                    16.horizontalSpace,
+                    Text(
+                      'N${widget.book.openingBalance}',
+                      style: TextStyle(
+                        color: AppColor.grey100,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14.sp,
+                      ),
+                    )
+                  ],
+                ),
+                16.verticalSpace,
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      AppSvg.clock,
+                    ),
+                    16.horizontalSpace,
+                    ValueListenableBuilder(
+                      valueListenable: time,
+                      builder: (context, state, _) {
+                        return Text(
+                          GetTimeAgo.parse(widget.book.createdAt),
+                          style: TextStyle(
+                            color: AppColor.grey100,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14.sp,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      AppSvg.card,
+                    ).animate().scale(),
+                    6.horizontalSpace,
+                    Text(
+                      '${widget.book.id}',
+                      style: TextStyle(
+                        color: AppColor.grey100,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12.sp,
+                      ),
+                    )
+                  ],
                 )
               ],
             ),
-            16.verticalSpace,
-            Row(
-              children: [
-                SvgPicture.asset(
-                  AppSvg.clock,
-                ),
-                16.horizontalSpace,
-                ValueListenableBuilder(
-                    valueListenable: time,
-                    builder: (context, state, _) {
-                      return Text(
-                        GetTimeAgo.parse(widget.book.createdAt),
-                        style: TextStyle(
-                          color: AppColor.grey100,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.sp,
-                        ),
-                      );
-                    }),
-              ],
-            ),
-            const Spacer(),
-            Row(
-              children: [
-                SvgPicture.asset(
-                  AppSvg.card,
-                ),
-                6.horizontalSpace,
-                Text(
-                  '${widget.book.id}',
-                  style: TextStyle(
-                    color: AppColor.grey100,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12.sp,
-                  ),
-                )
-              ],
-            )
-          ],
+          ),
         ),
       ),
-    );
+    ).animate().moveY();
   }
 }

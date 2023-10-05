@@ -11,6 +11,13 @@ class GetRequest {
     return _;
   }
 
+  static Future<List<int>> testPagination({Pagination? pagination}) async {
+    // var path = '';
+    // var _ = await network.getRequestHandler(path);
+    var _ = await Future.delayed(const Duration(seconds: 3), () => 'Hello');
+    return List.generate(10, (index) => index += 1);
+  }
+
   static Future<List<Book>> getAllBooks({Pagination? pagination}) async {
     var path = 'book';
     var token = LocalStorage.instance.getToken();
