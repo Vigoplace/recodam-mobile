@@ -5,7 +5,7 @@ import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
 class CreateRecordScreen extends ConsumerStatefulWidget {
-  static const path = "/create_record";
+  static const path = "create_record";
   static const name = "create_record";
   const CreateRecordScreen({Key? key}) : super(key: key);
 

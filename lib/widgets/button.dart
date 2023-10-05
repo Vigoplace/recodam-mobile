@@ -134,28 +134,29 @@ class SvgButton extends StatelessWidget {
 class GroupedSelection<T> extends StatefulWidget {
   final List<String> content;
   final List<T> type;
-  final void Function<T>(T) onTap;
-  final int initialIndex;
+  final void Function(dynamic) onTap;
+  final T initialIndex;
 
   const GroupedSelection({
     super.key,
     required this.content,
     required this.onTap,
     required this.type,
-    this.initialIndex = 0,
+    required this.initialIndex,
   });
 
   @override
   State<GroupedSelection> createState() => _GroupedSelectionState();
 }
 
-class _GroupedSelectionState extends State<GroupedSelection> {
-  late int index;
+class _GroupedSelectionState<T> extends State<GroupedSelection> {
+  late T currentChoice;
 
   @override
   void initState() {
     super.initState();
-    index = widget.initialIndex;
+    currentChoice = widget.initialIndex;
+    setState(() {});
   }
 
   @override
@@ -167,8 +168,9 @@ class _GroupedSelectionState extends State<GroupedSelection> {
             .map((e) => InkWell(
                   borderRadius: BorderRadius.circular(100.r),
                   onTap: () {
-                    index = widget.content.indexOf(e);
-                    widget.onTap(widget.type[index]);
+                    currentChoice =
+                        widget.type.elementAt(widget.content.indexOf(e));
+                    widget.onTap(currentChoice);
                     setState(() {});
                   },
                   child: Container(
@@ -177,12 +179,14 @@ class _GroupedSelectionState extends State<GroupedSelection> {
                     decoration: BoxDecoration(
                       color: AppColor.grey1,
                       borderRadius: BorderRadius.circular(100.r),
-                      border: widget.content.indexOf(e) == index
-                          ? Border.all(
-                              width: 1,
-                              color: AppColor.red60,
-                            )
-                          : null,
+                      border:
+                          widget.type.elementAt(widget.content.indexOf(e)) ==
+                                  currentChoice
+                              ? Border.all(
+                                  width: 1,
+                                  color: AppColor.red60,
+                                )
+                              : null,
                     ),
                     child: Center(
                       child: Text(

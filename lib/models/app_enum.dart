@@ -17,3 +17,7 @@ enum LoadingState { normal, loading }
 enum SelectionOrder { random, manual, none }
 
 enum PinMode { set, reset }
+
+enum RecordType { debit, credit, both, list }
+
+enum ManageAcess { public, private }

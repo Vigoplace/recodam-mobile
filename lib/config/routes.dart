@@ -1,4 +1,5 @@
 import 'package:recordam/utils/utils.dart';
+import 'package:recordam/views/all_books/controller.dart';
 
 class FadeTransitionPage extends CustomTransitionPage {
   const FadeTransitionPage({
@@ -74,46 +75,58 @@ final GoRouter routes = GoRouter(
           key: state.pageKey,
         );
       },
-    ),
-    GoRoute(
-      path: ProfileScreen.path,
-      name: ProfileScreen.name,
-      pageBuilder: (context, state) {
-        return FadeTransitionPage(
-          child: const ProfileScreen(),
-          key: state.pageKey,
-        );
-      },
-    ),
-    GoRoute(
-      path: CreateRecordScreen.path,
-      name: CreateRecordScreen.name,
-      pageBuilder: (context, state) {
-        return FadeTransitionPage(
-          child: const CreateRecordScreen(),
-          key: state.pageKey,
-        );
-      },
-    ),
-    GoRoute(
-      path: CreateBookScreen.path,
-      name: CreateBookScreen.name,
-      pageBuilder: (context, state) {
-        return FadeTransitionPage(
-          child: const CreateBookScreen(),
-          key: state.pageKey,
-        );
-      },
-    ),
-    GoRoute(
-      path: SearchScreen.path,
-      name: SearchScreen.name,
-      pageBuilder: (context, state) {
-        return FadeTransitionPage(
-          child: const SearchScreen(),
-          key: state.pageKey,
-        );
-      },
+      routes: [
+        GoRoute(
+          path: ProfileScreen.path,
+          name: ProfileScreen.name,
+          pageBuilder: (context, state) {
+            return FadeTransitionPage(
+              child: const ProfileScreen(),
+              key: state.pageKey,
+            );
+          },
+        ),
+        GoRoute(
+          path: AllBooksScreen.path,
+          name: AllBooksScreen.name,
+          pageBuilder: (context, state) {
+            return FadeTransitionPage(
+              child: const AllBooksScreen(),
+              key: state.pageKey,
+            );
+          },
+        ),
+        GoRoute(
+          path: CreateRecordScreen.path,
+          name: CreateRecordScreen.name,
+          pageBuilder: (context, state) {
+            return FadeTransitionPage(
+              child: const CreateRecordScreen(),
+              key: state.pageKey,
+            );
+          },
+        ),
+        GoRoute(
+          path: CreateBookScreen.path,
+          name: CreateBookScreen.name,
+          pageBuilder: (context, state) {
+            return FadeTransitionPage(
+              child: const CreateBookScreen(),
+              key: state.pageKey,
+            );
+          },
+        ),
+        GoRoute(
+          path: SearchScreen.path,
+          name: SearchScreen.name,
+          pageBuilder: (context, state) {
+            return FadeTransitionPage(
+              child: const SearchScreen(),
+              key: state.pageKey,
+            );
+          },
+        ),
+      ],
     ),
   ],
 );

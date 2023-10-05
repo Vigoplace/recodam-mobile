@@ -51,12 +51,18 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                             fontSize: 14.sp,
                           ),
                         ),
-                        Text(
-                          'See all',
-                          style: TextStyle(
-                            color: AppColor.red60,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14.sp,
+                        InkWell(
+                          overlayColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.transparent,
+                          ),
+                          onTap: () => context.pushNamed(AllBooksScreen.name),
+                          child: Text(
+                            'See all',
+                            style: TextStyle(
+                              color: AppColor.red60,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14.sp,
+                            ),
                           ),
                         ),
                       ],
@@ -65,31 +71,46 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                   18.verticalSpace,
                   SizedBox(
                     height: 300.h,
-                    child: Consumer(
-                      builder: (context, ref, _) {
-                        var books = ref.watch(homeBookProvider);
-                        return books.when(
-                          data: (data) => ListView.builder(
-                            itemCount: 10,
-                            padding: EdgeInsets.only(left: 16.w),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) => const BookCard(),
-                          ),
-                          error: (error, trace) => ErrorScreen(
-                            error: error,
-                            reload: () => ref.invalidate(homeBookProvider),
-                          ),
-                          loading: () => SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                for (int i = 0; i <= 3; i++)
-                                  const HomeBookShimmer(),
-                              ],
-                            ),
-                          ),
-                        );
+                    child: SmartRefresher(
+                      controller: controller.refreshController,
+                      scrollDirection: Axis.horizontal,
+                      onRefresh: () {
+                        controller.ref.invalidate(homeBookProvider);
+                        controller.refreshController.refreshCompleted();
                       },
+                      child: Consumer(
+                        builder: (context, ref, _) {
+                          var books = ref.watch(homeBookProvider);
+                          return books.when(
+                            data: (data) => ListView.builder(
+                              itemCount: data.length,
+                              shrinkWrap: true,
+                              padding: EdgeInsets.only(left: 16.w),
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                var book = data[index];
+                                return BookCard(book: book);
+                              },
+                            ),
+                            error: (error, trace) {
+                              error as DioException;
+                              return ErrorScreen(
+                                error: error,
+                                reload: () => ref.invalidate(homeBookProvider),
+                              );
+                            },
+                            loading: () => SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  for (int i = 0; i <= 3; i++)
+                                    const HomeBookShimmer(),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                   34.verticalSpace,
@@ -127,10 +148,13 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                             for (int i = 0; i <= 10; i++) const RecordCard(),
                           ],
                         ),
-                        error: (error, trace) => ErrorScreen(
-                          error: error,
-                          reload: () => ref.invalidate(homeRecordProvider),
-                        ),
+                        error: (error, trace) {
+                          error as DioException;
+                          return ErrorScreen(
+                            error: error,
+                            reload: () => ref.invalidate(homeRecordProvider),
+                          );
+                        },
                         loading: () => SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(

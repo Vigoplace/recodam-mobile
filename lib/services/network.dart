@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:recordam/utils/utils.dart';
 
 class NetworkService {
@@ -9,16 +8,18 @@ class NetworkService {
     String path, {
     Options? options,
     Map<String, dynamic>? data,
+    Map<String, dynamic>? queryPatameters,
     bool useBaseUrl = true,
     CancelToken? cancelToken,
   }) async {
-    Uri uri = Uri.parse('${AppConstant.baseUrl}/api/$path');
+    String uri = '${AppConstant.baseUrl}/api/$path';
     if (!useBaseUrl) {
-      uri = Uri.parse(path);
+      uri = path;
     }
-    final a = await _dio.getUri(
+    final a = await _dio.get(
       uri,
       options: options,
+      queryParameters: queryPatameters,
       data: data,
       cancelToken: cancelToken,
     );

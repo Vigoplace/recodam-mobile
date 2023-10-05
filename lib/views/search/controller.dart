@@ -5,7 +5,7 @@ import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
-  static const path = "/search";
+  static const path = "search";
   static const name = "search";
   const SearchScreen({Key? key}) : super(key: key);
 

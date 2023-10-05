@@ -2,7 +2,7 @@ import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
 class ProfileScreen extends StatefulWidget {
-  static const path = "/profile";
+  static const path = "profile";
   static const name = "profile";
   const ProfileScreen({Key? key}) : super(key: key);
 

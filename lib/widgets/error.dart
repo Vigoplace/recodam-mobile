@@ -1,10 +1,7 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:recordam/utils/utils.dart';
 
 class ErrorScreen extends StatefulWidget {
-  final Object error;
+  final DioException error;
   final void Function() reload;
   const ErrorScreen({
     super.key,
@@ -23,14 +20,12 @@ class _ErrorScreenState extends State<ErrorScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (widget.error is SocketException)
-            Image.asset(
-              AppImages.network,
-            )
-          else if (widget.error is DioException)
-            const Text(
-              'Something went wrong',
-            ),
+          Text(
+            widget.error.response == null
+                ? "Check your internet connection"
+                : widget.error.response!.data['message'] ??
+                    'Something went wrong',
+          ),
           10.sbH,
           AppButton(
             text: 'Retry',

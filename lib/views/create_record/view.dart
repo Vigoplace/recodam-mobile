@@ -117,6 +117,7 @@ class CreateRecordView
           ),
           16.verticalSpace,
           GroupedSelection<int>(
+            initialIndex: 1,
             content: const ['Debit', 'Credit'],
             type: const [0, 1],
             onTap: <int>(position) {

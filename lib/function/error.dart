@@ -2,7 +2,6 @@
 
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:recordam/utils/utils.dart';
 
 void errorFuntions(

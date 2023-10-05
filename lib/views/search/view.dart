@@ -35,6 +35,7 @@ class SearchView extends StatelessView<SearchScreen, SearchController> {
           ),
           16.verticalSpace,
           GroupedSelection<int>(
+            initialIndex: 0,
             content: const ['Debit', 'Credit', 'Both', 'List'],
             type: const [0, 1, 2, 3],
             onTap: <int>(position) {

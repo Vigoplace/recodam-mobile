@@ -22,46 +22,59 @@ class SignupController extends ConsumerState<SignupScreen> {
   late TextEditingController pin;
   late TextEditingController confirm;
 
+  bool submitted = false;
+  var key = GlobalKey<FormState>();
+
   void create() async {
-    isLoading.value = true;
-
-    final createAccountProvider = FutureProvider.autoDispose(
-      (ref) => PostRequest.createAccount(
-        createAccountModel: CreateAccountModel(
-          email: email.text,
-          name: name.text,
-          password: pin.text,
-          phone: phone.text,
+    if (!acceptedTerms.value) {
+      ShowFlushBar.showError(
+        'You need to accept our policy',
+        context: context,
+      );
+      return;
+    }
+    submitted = true;
+    setState(() {});
+    if (key.currentState!.validate()) {
+      isLoading.value = true;
+      final createAccountProvider = FutureProvider.autoDispose(
+        (ref) => PostRequest.createAccount(
+          createAccountModel: CreateAccountModel(
+            email: email.text,
+            name: name.text,
+            password: pin.text,
+            phone: phone.text,
+          ),
         ),
-      ),
-    );
+      );
 
-    ref.listenManual(
-      createAccountProvider,
-      fireImmediately: false,
-      (previous, next) {
-        next.when(
-          data: (data) {
-            debugPrint('LOADED');
-            isLoading.value = false;
-            ShowFlushBar.showSuccess(
-              context: context,
-              message: data.message,
-              perform: () async {
-                LocalStorage.instance
-                    .saveUserInfo(data.data)
-                    .whenComplete(() => context.goNamed(HomeScreen.name));
-              },
-            );
-          },
-          error: (error, trace) {
-            isLoading.value = false;
-            listenError(context: context, error: error);
-          },
-          loading: () => debugPrint('LOADING'),
-        );
-      },
-    );
+      ref.listenManual(
+        createAccountProvider,
+        fireImmediately: false,
+        (previous, next) {
+          next.when(
+            data: (data) {
+              debugPrint('LOADED');
+              isLoading.value = false;
+              ShowFlushBar.showSuccess(
+                context: context,
+                message: data.message,
+                perform: () async {
+                  LocalStorage.instance
+                      .saveUserInfo(data.data)
+                      .whenComplete(() => context.goNamed(HomeScreen.name));
+                },
+              );
+            },
+            error: (error, trace) {
+              isLoading.value = false;
+              listenError(context: context, error: error);
+            },
+            loading: () => debugPrint('LOADING'),
+          );
+        },
+      );
+    }
   }
 
   @override

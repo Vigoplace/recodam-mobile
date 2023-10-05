@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:recordam/utils/utils.dart';
 
 class PostRequest {
@@ -30,5 +32,20 @@ class PostRequest {
       data: loginModel.toJson(),
     );
     return UserModel.fromJson(user.data);
+  }
+
+  static Future<String> createBook({
+    required CreateBook book,
+  }) async {
+    var path = 'book/create';
+    var token = LocalStorage.instance.getToken();
+    var user = await network.postRequestHandler(
+      path,
+      data: book.toJson(),
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+      ),
+    );
+    return user.data['message'];
   }
 }

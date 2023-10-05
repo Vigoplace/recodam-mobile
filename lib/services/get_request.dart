@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:recordam/utils/utils.dart';
 
 class GetRequest {
@@ -8,5 +9,22 @@ class GetRequest {
     // var _ = await network.getRequestHandler(path);
     var _ = await Future.delayed(const Duration(seconds: 3), () => 'Hello');
     return _;
+  }
+
+  static Future<List<Book>> getAllBooks({Pagination? pagination}) async {
+    var path = 'book';
+    var token = LocalStorage.instance.getToken();
+    var books = await network.getRequestHandler(
+      path,
+      queryPatameters: {'page': pagination?.page, 'size': pagination?.size},
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+      ),
+    );
+    debugPrint(books.data.toString());
+    var bookInfo = BookInfo.fromJson(books.data['data']);
+    pagination?.total = bookInfo.total;
+    pagination?.page += 1;
+    return bookInfo.book;
   }
 }

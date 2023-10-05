@@ -1,7 +1,37 @@
+import 'dart:async';
+
+import 'package:get_time_ago/get_time_ago.dart';
 import 'package:recordam/utils/utils.dart';
 
-class BookCard extends StatelessWidget {
-  const BookCard({super.key});
+class BookCard extends StatefulWidget {
+  final Book book;
+  const BookCard({
+    super.key,
+    required this.book,
+  });
+
+  @override
+  State<BookCard> createState() => _BookCardState();
+}
+
+class _BookCardState extends State<BookCard> {
+  late Timer timer;
+  var time = ValueNotifier(0);
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(
+      const Duration(seconds: 30),
+      (timer) => time.value = timer.tick,
+    );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +53,7 @@ class BookCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "School Donations",
+              widget.book.name,
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
@@ -38,7 +68,7 @@ class BookCard extends StatelessWidget {
                 ),
                 16.horizontalSpace,
                 Text(
-                  "N10,000",
+                  'N${widget.book.openingBalance}',
                   style: TextStyle(
                     color: AppColor.grey100,
                     fontWeight: FontWeight.w400,
@@ -54,14 +84,18 @@ class BookCard extends StatelessWidget {
                   AppSvg.clock,
                 ),
                 16.horizontalSpace,
-                Text(
-                  "2 days ago",
-                  style: TextStyle(
-                    color: AppColor.grey100,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.sp,
-                  ),
-                )
+                ValueListenableBuilder(
+                    valueListenable: time,
+                    builder: (context, state, _) {
+                      return Text(
+                        GetTimeAgo.parse(widget.book.createdAt),
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                        ),
+                      );
+                    }),
               ],
             ),
             const Spacer(),
@@ -73,6 +107,125 @@ class BookCard extends StatelessWidget {
                 6.horizontalSpace,
                 Text(
                   "12",
+                  style: TextStyle(
+                    color: AppColor.grey100,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12.sp,
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class HorizBookCard extends StatefulWidget {
+  final Book book;
+  const HorizBookCard({
+    super.key,
+    required this.book,
+  });
+
+  @override
+  State<HorizBookCard> createState() => _HorizBookCardState();
+}
+
+class _HorizBookCardState extends State<HorizBookCard> {
+  late Timer timer;
+  var time = ValueNotifier(0);
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(
+      const Duration(seconds: 30),
+      (timer) => time.value = timer.tick,
+    );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200.h,
+      padding: [0, 0, 0, 1.5].pad,
+      decoration: BoxDecoration(
+        color: AppColor.red60,
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      margin: [16, 0, 16, 0].pad,
+      child: Container(
+        padding: [16, 23].pad,
+        decoration: BoxDecoration(
+          color: AppColor.white,
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.book.name,
+              style: TextStyle(
+                color: AppColor.grey100,
+                fontWeight: FontWeight.w700,
+                fontSize: 14.sp,
+              ),
+            ),
+            21.verticalSpace,
+            Row(
+              children: [
+                SvgPicture.asset(
+                  AppSvg.rect,
+                ),
+                16.horizontalSpace,
+                Text(
+                  'N${widget.book.openingBalance}',
+                  style: TextStyle(
+                    color: AppColor.grey100,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.sp,
+                  ),
+                )
+              ],
+            ),
+            16.verticalSpace,
+            Row(
+              children: [
+                SvgPicture.asset(
+                  AppSvg.clock,
+                ),
+                16.horizontalSpace,
+                ValueListenableBuilder(
+                    valueListenable: time,
+                    builder: (context, state, _) {
+                      return Text(
+                        GetTimeAgo.parse(widget.book.createdAt),
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                        ),
+                      );
+                    }),
+              ],
+            ),
+            const Spacer(),
+            Row(
+              children: [
+                SvgPicture.asset(
+                  AppSvg.card,
+                ),
+                6.horizontalSpace,
+                Text(
+                  '${widget.book.id}',
                   style: TextStyle(
                     color: AppColor.grey100,
                     fontWeight: FontWeight.w400,
