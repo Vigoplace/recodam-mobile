@@ -12,6 +12,16 @@ class PostRequest {
     return;
   }
 
+  static Future<void> testSending(WidgetRef ref) async {
+    // var path = '';
+    // var _ = await network.getRequestHandler(path);
+    ref.read(sendingProvider.notifier).state = true;
+    await Future.delayed(const Duration(seconds: 2));
+    ref.read(sendingProvider.notifier).state = false;
+    await LocalStorage.instance.prefs.clear();
+    return;
+  }
+
   static Future<UserModel> createAccount({
     required CreateAccountModel createAccountModel,
   }) async {

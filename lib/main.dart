@@ -25,7 +25,24 @@ class MyApp extends StatelessWidget {
               GestureType.onTap,
               GestureType.onVerticalDragDown,
             ],
-            child: child!,
+            child: Column(
+              children: [
+                Consumer(builder: (context, ref, _) {
+                  final sending = ref.watch(sendingProvider);
+                  return Visibility(
+                    visible: sending,
+                    child: LinearProgressIndicator(
+                      minHeight: 50.h,
+                      color: AppColor.red30,
+                      backgroundColor: AppColor.red60,
+                    ),
+                  );
+                }),
+                Expanded(
+                  child: child!,
+                ),
+              ],
+            ),
           ),
           theme: ThemeData(
             fontFamily: 'Manrope',

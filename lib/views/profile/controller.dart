@@ -2,16 +2,16 @@ import 'package:recordam/utils/utils.dart';
 import 'package:recordam/views/profile/widget.dart';
 part 'view.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   static const path = "profile";
   static const name = "profile";
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => ProfileController();
+  ConsumerState<ProfileScreen> createState() => ProfileController();
 }
 
-class ProfileController extends State<ProfileScreen> {
+class ProfileController extends ConsumerState<ProfileScreen> {
   void changePhoto() {
     showModalBottomSheet(
       showDragHandle: true,
@@ -149,8 +149,8 @@ class ProfileController extends State<ProfileScreen> {
     );
   }
 
-  void logOut() {
-    showDialog(
+  void logOut() async {
+    var decision = await showDialog<bool?>(
       context: context,
       builder: (context) => Dialog(
         insetPadding: [20, 0, 20, 0].pad,
@@ -184,7 +184,7 @@ class ProfileController extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   GestureDetector(
-                    onTap: () => context.pop(),
+                    onTap: () => context.pop(false),
                     child: Text(
                       "Cancel",
                       style: TextStyle(
@@ -195,12 +195,17 @@ class ProfileController extends State<ProfileScreen> {
                     ),
                   ),
                   40.horizontalSpace,
-                  Text(
-                    "Logout",
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
-                      color: AppColor.red60,
+                  GestureDetector(
+                    onTap: () async {
+                      context.pop(true);
+                    },
+                    child: Text(
+                      "Logout",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.red60,
+                      ),
                     ),
                   ),
                 ],
@@ -210,6 +215,11 @@ class ProfileController extends State<ProfileScreen> {
         ),
       ),
     );
+    if (decision == true) {
+      PostRequest.testSending(ref).whenComplete(() async {
+        context.goNamed(LoginScreen.name);
+      });
+    }
   }
 
   @override
