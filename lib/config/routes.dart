@@ -106,12 +106,23 @@ final GoRouter routes = GoRouter(
             );
           },
         ),
+        
         GoRoute(
           path: CreateBookScreen.path,
           name: CreateBookScreen.name,
           pageBuilder: (context, state) {
             return FadeTransitionPage(
               child: const CreateBookScreen(),
+              key: state.pageKey,
+            );
+          },
+        ),
+        GoRoute(
+          path: RecordScreen.path,
+          name: RecordScreen.name,
+          pageBuilder: (context, state) {
+            return FadeTransitionPage(
+              child: const RecordScreen(),
               key: state.pageKey,
             );
           },
@@ -157,6 +168,7 @@ final GoRouter routes = GoRouter(
             );
           },
         ),
+        
         GoRoute(
           path: ChangePinScreen.path,
           name: ChangePinScreen.name,
