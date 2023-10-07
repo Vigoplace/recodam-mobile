@@ -29,7 +29,7 @@ class NetworkService {
 
   Future<Response> postRequestHandler(
     String path, {
-    Map<String, dynamic>? data,
+    Object? data,
     Options? options,
     bool? deviceToken,
     bool useBaseUrl = true,

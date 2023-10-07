@@ -20,10 +20,24 @@ class ProfileView extends StatelessView<ProfileScreen, ProfileController> {
               width: 160.w,
               child: Stack(
                 children: [
-                  const Positioned.fill(
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage(
-                        AppImages.image,
+                  Positioned.fill(
+                    child: Hero(
+                      tag: 'profile',
+                      child: Consumer(
+                        builder: (context, ref, _) {
+                          var photo = ref.watch(profilePhotoProvider);
+                          return photo == null
+                              ? const CircleAvatar(
+                                  backgroundImage: AssetImage(
+                                    AppImages.image,
+                                  ),
+                                )
+                              : ImageLoader(
+                                  image: photo,
+                                  boxShape: BoxShape.circle,
+                                  boxFit: BoxFit.cover,
+                                );
+                        },
                       ),
                     ),
                   ),
@@ -46,18 +60,15 @@ class ProfileView extends StatelessView<ProfileScreen, ProfileController> {
             ),
           ),
           62.verticalSpace,
-          Builder(builder: (context) {
-            var name = LocalStorage.instance.getName();
-            return ProfileDetail(
-              name: 'Name',
-              value: name,
-              prefixIcon: SvgPicture.asset(AppSvg.user),
-              suffixIcon: InkWell(
-                onTap: controller.changeName,
-                child: SvgPicture.asset(AppSvg.edit),
-              ),
-            );
-          }),
+          ProfileDetail(
+            name: 'Name',
+            value: controller.ref.watch(nameProvider),
+            prefixIcon: SvgPicture.asset(AppSvg.user),
+            suffixIcon: InkWell(
+              onTap: controller.changeName,
+              child: SvgPicture.asset(AppSvg.edit),
+            ),
+          ),
           Builder(builder: (context) {
             var email = LocalStorage.instance.getEmail();
             return ProfileDetail(

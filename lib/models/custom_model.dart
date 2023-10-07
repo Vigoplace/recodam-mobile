@@ -104,10 +104,10 @@ class BookInfo {
     required this.total,
   });
 
-  factory BookInfo.fromJson(Map<String, dynamic> json) {
+  factory BookInfo.fromJson(Map<String, dynamic> data) {
     return BookInfo(
-      book: (json['books'] as List).map((e) => Book.fromJson(e)).toList(),
-      total: json['total'],
+      book: (data['books'] as List).map((e) => Book.fromJson(e)).toList(),
+      total: data['total'],
     );
   }
 }
@@ -135,17 +135,71 @@ class Book {
     required this.updatedAt,
   });
 
-  factory Book.fromJson(Map<String, dynamic> json) {
+  factory Book.fromJson(Map<String, dynamic> data) {
     return Book(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      openingBalance: json['opening_balance'],
-      type: json['type'],
-      access: json['access'],
-      userId: json['user_id'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      id: data['id'],
+      name: data['name'],
+      description: data['description'],
+      openingBalance: data['opening_balance'],
+      type: data['type'],
+      access: data['access'],
+      userId: data['user_id'],
+      createdAt: DateTime.parse(data['created_at']),
+      updatedAt: DateTime.parse(data['updated_at']),
     );
+  }
+}
+
+class CountryModel {
+  String flag;
+  String country;
+  String code;
+
+  CountryModel({
+    required this.flag,
+    required this.country,
+    required this.code,
+  });
+
+  factory CountryModel.fromJson(Map<String, dynamic> data) {
+    return CountryModel(
+      flag: data['flag'],
+      country: data['country'],
+      code: data['code'] ?? '',
+    );
+  }
+}
+class NewRecord {
+  final double amount;
+  final String bankName;
+  final String accountNumber;
+  final String accountName;
+  final String details;
+  final DateTime date;
+  final String file;
+  final String recordType;
+
+  NewRecord({
+    required this.amount,
+    required this.bankName,
+    required this.accountNumber,
+    required this.accountName,
+    required this.details,
+    required this.date,
+    required this.file,
+    required this.recordType,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'amount': amount,
+      'bank_name': bankName,
+      'account_number': accountNumber,
+      'account_name': accountName,
+      'details': details,
+      'date': date.toIso8601String(),
+      'file': file,
+      'record_type': recordType,
+    };
   }
 }

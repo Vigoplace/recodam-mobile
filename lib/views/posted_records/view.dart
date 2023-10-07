@@ -1,7 +1,7 @@
 part of 'controller.dart';
 
-class PostedRecordsView extends StatelessView<PostedRecordsScreen,
-    PostedRecordsController> {
+class PostedRecordsView
+    extends StatelessView<PostedRecordsScreen, PostedRecordsController> {
   const PostedRecordsView(PostedRecordsController state, {Key? key})
       : super(state, key: key);
 
@@ -72,9 +72,7 @@ class PostedRecordsView extends StatelessView<PostedRecordsScreen,
             reload: () => controller.ref.invalidate(controller.booksProvider),
           );
         },
-        loading: () => const Center(
-          child: CircularProgressIndicator.adaptive(),
-        ),
+        loading: () => const CustomLoader(),
       ),
     );
   }

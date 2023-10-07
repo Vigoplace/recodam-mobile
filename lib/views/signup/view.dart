@@ -62,6 +62,35 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
               hintText: '000-000-000',
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
+              suffixIcon: InkWell(
+                overlayColor: MaterialStateColor.resolveWith(
+                  (states) => Colors.transparent,
+                ),
+                onTap: controller.showCountryList,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(AppSvg.chevronDown),
+                    ValueListenableBuilder(
+                      valueListenable: controller.country,
+                      builder: (context, country, _) {
+                        return country == null
+                            ? const SizedBox.shrink()
+                            : Padding(
+                                padding: const [0, 0, 15, 0].pad,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100.r),
+                                  child: SvgPicture.network(
+                                    country.flag,
+                                    fit: BoxFit.scaleDown,
+                                  ),
+                                ),
+                              );
+                      },
+                    ),
+                  ],
+                ),
+              ),
               autovalidateMode: controller.submitted
                   ? AutovalidateMode.onUserInteraction
                   : AutovalidateMode.disabled,

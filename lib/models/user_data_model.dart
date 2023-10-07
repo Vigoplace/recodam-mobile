@@ -51,11 +51,11 @@ class UserModel {
     required this.data,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
+  factory UserModel.fromJson(Map<String, dynamic> data) {
     return UserModel(
-      status: json['status'],
-      message: json['message'],
-      data: UserData.fromJson(json['data']),
+      status: data['status'],
+      message: data['message'],
+      data: UserData.fromJson(data['data']),
     );
   }
 }
@@ -68,6 +68,7 @@ class UserData {
   final String updatedAt;
   final String phone;
   final String token;
+  final String? profilePhoto;
 
   UserData({
     required this.id,
@@ -77,17 +78,19 @@ class UserData {
     required this.updatedAt,
     required this.phone,
     required this.token,
+    required this.profilePhoto,
   });
 
-  factory UserData.fromJson(Map<String, dynamic> json) {
+  factory UserData.fromJson(Map<String, dynamic> data) {
     return UserData(
-      id: json['id'],
-      email: json['email'],
-      name: json['name'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      phone: json['phone'],
-      token: json['token'],
+      id: data['id'],
+      email: data['email'],
+      name: data['name'],
+      createdAt: data['created_at'],
+      updatedAt: data['updated_at'],
+      phone: data['phone'],
+      token: data['token'],
+      profilePhoto: data['profile_photo'],
     );
   }
 }
@@ -101,10 +104,10 @@ class CustomError {
     required this.message,
   });
 
-  factory CustomError.fromJson(Map<String, dynamic> json) {
+  factory CustomError.fromJson(Map<String, dynamic> data) {
     return CustomError(
-      status: json['status'],
-      message: json['message'],
+      status: data['status'],
+      message: data['message'],
     );
   }
 }

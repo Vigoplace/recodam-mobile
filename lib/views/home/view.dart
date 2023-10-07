@@ -17,7 +17,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                 floating: true,
                 snap: true,
                 title: TextScroll(
-                  'Welcome ${controller.name}',
+                  'Welcome ${controller.ref.watch(nameProvider)}',
                   velocity: const Velocity(pixelsPerSecond: Offset(30, 0)),
                   style: TextStyle(
                     color: AppColor.grey100,
@@ -27,8 +27,26 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                 ),
                 actions: [
                   InkWell(
-                    child: Image.asset(
-                      AppImages.image,
+                    child: Center(
+                      child: Hero(
+                        tag: 'profile',
+                        child: Consumer(
+                          builder: (context, ref, _) {
+                            var photo = ref.watch(profilePhotoProvider);
+                            return photo == null
+                                ? Image.asset(
+                                    AppImages.image,
+                                  )
+                                : ImageLoader(
+                                    width: 40,
+                                    height: 40,
+                                    image: photo,
+                                    boxShape: BoxShape.circle,
+                                    boxFit: BoxFit.cover,
+                                  );
+                          },
+                        ),
+                      ),
                     ),
                     onTap: () => context.pushNamed(ProfileScreen.name),
                   ),

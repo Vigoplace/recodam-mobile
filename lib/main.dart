@@ -39,17 +39,29 @@ class MyApp extends StatelessWidget {
                   );
                 }),
                 Expanded(
-                  child: child!,
+                  child: ScrollConfiguration(
+                    behavior: MyBehavior(),
+                    child: child!,
+                  ),
                 ),
               ],
             ),
           ),
           theme: ThemeData(
             fontFamily: 'Manrope',
+            colorSchemeSeed: AppColor.red60,
             scaffoldBackgroundColor: AppColor.white,
           ),
         );
       },
     );
+  }
+}
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
   }
 }

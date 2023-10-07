@@ -104,9 +104,7 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
                       controller.ref.invalidate(controller.booksProvider),
                 );
               },
-              loading: () => const Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
+              loading: () => const CustomLoader(),
             ),
           ),
         ],

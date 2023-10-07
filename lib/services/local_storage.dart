@@ -23,6 +23,7 @@ class LocalStorage {
   final String _createdAt = 'createdAt';
   final String _loggedIn = 'loggedIn';
   final String _firstTime = 'firstTime';
+  final String _profilePhoto = 'profile_photo';
 
   Future<void> saveUserInfo(UserData userData) async {
     await prefs.setString(_token, userData.token);
@@ -33,11 +34,28 @@ class LocalStorage {
     await prefs.setString(_createdAt, userData.createdAt);
     await prefs.setInt(_id, userData.id);
     await prefs.setBool(_loggedIn, true);
+    if (userData.profilePhoto != null) {
+      await prefs.setString(_profilePhoto, userData.profilePhoto!);
+    }
     return;
   }
 
   String getName() {
     return prefs.getString(_name)!;
+  }
+
+  String? getProfilePhoto() {
+    return prefs.getString(_profilePhoto);
+  }
+
+  Future<String> setName(String value) async {
+    await prefs.setString(_name, value);
+    return value;
+  }
+
+  Future<String> setProfilePhoto(String value) async {
+    await prefs.setString(_profilePhoto, value);
+    return value;
   }
 
   String getEmail() {

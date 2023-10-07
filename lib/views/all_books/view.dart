@@ -71,9 +71,7 @@ class AllBooksView extends StatelessView<AllBooksScreen, AllBooksController> {
             reload: () => controller.ref.invalidate(controller.booksProvider),
           );
         },
-        loading: () => const Center(
-          child: CircularProgressIndicator.adaptive(),
-        ),
+        loading: () => const CustomLoader(),
       ),
     );
   }

@@ -339,40 +339,46 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
           topRight: Radius.circular(30.r),
         ),
       ),
-      builder: (context) => SizedBox(
+      builder: (contex) => SizedBox(
         height: MediaQuery.sizeOf(context).height * 0.5,
         child: Column(
           children: [
             Padding(
               padding: [16].pad,
-              child: Row(
-                children: [
-                  Image.asset(
-                    AppImages.image,
-                  ),
-                  8.horizontalSpace,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        LocalStorage.instance.getName(),
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w700,
-                          color: AppColor.grey100,
+              child: InkWell(
+                onTap: () {
+                  contex.pop();
+                  context.pushNamed(ProfileScreen.name);
+                },
+                child: Row(
+                  children: [
+                    Image.asset(
+                      AppImages.image,
+                    ),
+                    8.horizontalSpace,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          LocalStorage.instance.getName(),
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700,
+                            color: AppColor.grey100,
+                          ),
                         ),
-                      ),
-                      Text(
-                        LocalStorage.instance.getEmail(),
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.grey40,
+                        Text(
+                          LocalStorage.instance.getEmail(),
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.grey40,
+                          ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             Divider(
@@ -386,7 +392,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.of(context, rootNavigator: true).pop();
+                      contex.pop();
                       context.pushNamed(UnConfirmedRecordsScreen.name);
                     },
                     child: SizedBox(
@@ -422,7 +428,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                   8.verticalSpace,
                   InkWell(
                     onTap: () {
-                      Navigator.of(context, rootNavigator: true).pop();
+                      contex.pop();
                       context.pushNamed(PostedRecordsScreen.name);
                     },
                     child: SizedBox(
@@ -458,7 +464,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                   8.verticalSpace,
                   InkWell(
                     onTap: () {
-                      Navigator.of(context, rootNavigator: true).pop();
+                      contex.pop();
                       context.pushNamed(ChangePinScreen.name);
                     },
                     child: SizedBox(
@@ -486,7 +492,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                   8.verticalSpace,
                   InkWell(
                     onTap: () {
-                      Navigator.of(context, rootNavigator: true).pop();
+                      contex.pop();
                       deleteAccount();
                     },
                     child: SizedBox(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:recordam/utils/utils.dart';
 import 'package:recordam/views/profile/widget.dart';
 part 'view.dart';
@@ -12,11 +14,18 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class ProfileController extends ConsumerState<ProfileScreen> {
+  late TextEditingController nameController;
+
   void changePhoto() {
     showModalBottomSheet(
       showDragHandle: true,
       context: context,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.r)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.r),
+          topRight: Radius.circular(30.r),
+        ),
+      ),
       builder: (context) => Padding(
         padding: [16, 0, 0, 0].pad,
         child: Column(
@@ -86,11 +95,28 @@ class ProfileController extends ConsumerState<ProfileScreen> {
     Navigator.of(context, rootNavigator: true).pop();
     final ImagePicker picker = ImagePicker();
     var xFile = await picker.pickImage(source: source);
-    if (xFile != null) {}
+    if (xFile != null) {
+      PostRequest.uploadPhoto(ref: ref, file: File(xFile.path)).then(
+        (file) {
+          LocalStorage.instance.setProfilePhoto(file).then(
+              (value) => ref.read(profilePhotoProvider.notifier).state = value);
+          ShowFlushBar.showSuccess(
+            context: context,
+            message: 'Successfully uploaded',
+          );
+        },
+      ).catchError(
+        (onError) {
+          nameController.clear();
+          ref.read(sendingProvider.notifier).state = false;
+          listenError(context: context, error: onError);
+        },
+      );
+    }
   }
 
-  void changeName() {
-    showDialog(
+  void changeName() async {
+    var decision = await showDialog(
       context: context,
       builder: (context) => Dialog(
         insetPadding: [20, 0, 20, 0].pad,
@@ -112,7 +138,8 @@ class ProfileController extends ConsumerState<ProfileScreen> {
                 ),
               ),
               10.verticalSpace,
-              const CustomTextInput(
+              CustomTextInput(
+                controller: nameController,
                 hintText: 'Alicia Williams',
                 maxLength: 16,
               ),
@@ -132,12 +159,15 @@ class ProfileController extends ConsumerState<ProfileScreen> {
                     ),
                   ),
                   40.horizontalSpace,
-                  Text(
-                    "Save",
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
-                      color: AppColor.light100,
+                  GestureDetector(
+                    onTap: () => context.pop(true),
+                    child: Text(
+                      "Save",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.light100,
+                      ),
                     ),
                   ),
                 ],
@@ -145,8 +175,33 @@ class ProfileController extends ConsumerState<ProfileScreen> {
             ],
           ),
         ),
-      ),
+      ).animate().moveY(),
     );
+    if (decision == true) {
+      if (nameController.text.isNotEmpty) {
+        PostRequest.updateProfile(
+          ref: ref,
+          name: nameController.text,
+        ).then(
+          (message) {
+            LocalStorage.instance
+                .setName(nameController.text)
+                .then((value) => ref.read(nameProvider.notifier).state = value);
+            nameController.clear();
+            ShowFlushBar.showSuccess(
+              context: context,
+              message: message,
+            );
+          },
+        ).catchError(
+          (onError) {
+            nameController.clear();
+            ref.read(sendingProvider.notifier).state = false;
+            listenError(context: context, error: onError);
+          },
+        );
+      }
+    }
   }
 
   void logOut() async {
@@ -213,13 +268,37 @@ class ProfileController extends ConsumerState<ProfileScreen> {
             ],
           ),
         ),
-      ),
+      ).animate().moveY(),
     );
     if (decision == true) {
-      PostRequest.testSending(ref).whenComplete(() async {
-        context.goNamed(LoginScreen.name);
-      });
+      GetRequest.logout(ref: ref).then(
+        (message) {
+          ShowFlushBar.showSuccess(
+            context: context,
+            message: message,
+            perform: () => context.goNamed(LoginScreen.name),
+          );
+        },
+      ).catchError(
+        (onError) {
+          nameController.clear();
+          ref.read(sendingProvider.notifier).state = false;
+          listenError(context: context, error: onError);
+        },
+      );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
   }
 
   @override

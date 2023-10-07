@@ -20,6 +20,7 @@ class CreateBookView
             CustomTextInput(
               titleText: 'Book name*',
               controller: controller.bookName,
+              textInputAction: TextInputAction.next,
               autovalidateMode: controller.submitted
                   ? AutovalidateMode.onUserInteraction
                   : AutovalidateMode.disabled,
@@ -34,6 +35,7 @@ class CreateBookView
             CustomTextInput(
               titleText: 'Description',
               controller: controller.description,
+              textInputAction: TextInputAction.next,
               autovalidateMode: controller.submitted
                   ? AutovalidateMode.onUserInteraction
                   : AutovalidateMode.disabled,
@@ -47,6 +49,7 @@ class CreateBookView
             32.verticalSpace,
             CustomTextInput(
               titleText: 'Opening balance',
+              textInputAction: TextInputAction.next,
               controller: controller.balance,
               keyboardType: TextInputType.number,
               autovalidateMode: controller.submitted

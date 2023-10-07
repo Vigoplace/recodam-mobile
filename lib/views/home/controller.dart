@@ -15,15 +15,19 @@ class HomeScreen extends ConsumerStatefulWidget {
 class HomeController extends ConsumerState<HomeScreen> {
   var acceptedTerms = ValueNotifier(false);
   var showPin = ValueNotifier(false);
-  late String name;
   late RefreshController refreshController;
 
   @override
   void initState() {
     super.initState();
-    name = LocalStorage.instance.getName();
     refreshController = RefreshController();
     SocketServices.instance.connectAndListen(ref);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(nameProvider.notifier).state = LocalStorage.instance.getName();
+      ref.read(profilePhotoProvider.notifier).state =
+          LocalStorage.instance.getProfilePhoto();
+    });
+    // FileSharing.initialise(context);
   }
 
   @override

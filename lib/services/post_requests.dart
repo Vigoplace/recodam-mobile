@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:http_parser/http_parser.dart';
+import 'package:mime_type/mime_type.dart';
 import 'package:recordam/utils/utils.dart';
 
 class PostRequest {
@@ -57,5 +59,58 @@ class PostRequest {
       ),
     );
     return user.data['message'];
+  }
+
+  static Future<String> updateProfile({
+    required WidgetRef ref,
+    String? name,
+  }) async {
+    var path = 'auth/update';
+    var token = LocalStorage.instance.getToken();
+    ref.read(sendingProvider.notifier).state = true;
+    var user = await network.postRequestHandler(
+      path,
+      data: {'name': name},
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+      ),
+    );
+    ref.read(sendingProvider.notifier).state = false;
+    return user.data['message'];
+  }
+
+  static Future<String> uploadPhoto({
+    required WidgetRef ref,
+    required File file,
+  }) async {
+    var path = 'misc/upload';
+    var token = LocalStorage.instance.getToken();
+    ref.read(sendingProvider.notifier).state = true;
+    FormData data = FormData();
+    String mimeType = mime(file.path) ?? '';
+    String type = mimeType.split('/')[0];
+    String subtype = mimeType.split('/')[1];
+    data.files.add(
+      MapEntry(
+        'file',
+        MultipartFile.fromFileSync(
+          file.path,
+          filename: file.path.split(Platform.pathSeparator).last,
+          contentType: MediaType(type, subtype),
+        ),
+      ),
+    );
+    var user = await network.postRequestHandler(
+      path,
+      data: data,
+      options: Options(
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+          HttpHeaders.contentTypeHeader: "multipart/form-data",
+        },
+      ),
+    );
+    ref.read(sendingProvider.notifier).state = false;
+    return user.data['data']['url'];
   }
 }
