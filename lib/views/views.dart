@@ -12,3 +12,4 @@ export 'unconfirmed_records/controller.dart';
 export 'posted_records/controller.dart';
 export 'view_book/controller.dart';
 export 'change_pin/controller.dart';
+export 'record/controller.dart';
