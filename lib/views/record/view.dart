@@ -63,14 +63,7 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
               ),
             ),
             32.horizontalSpace,
-            GroupedSelection<int>(
-              initialIndex: 1,
-              content: const ['Save', 'Delete'],
-              type: const [0, 1],
-              onTap: <int>(position) {
-                debugPrint('$position');
-              },
-            ),
+            AppButton(text: "Save", onTap: () {})
           ],
         ),
         32.verticalSpace,
