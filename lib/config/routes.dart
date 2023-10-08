@@ -1,5 +1,4 @@
 import 'package:recordam/utils/utils.dart';
-import 'package:recordam/views/all_books/controller.dart';
 
 class FadeTransitionPage extends CustomTransitionPage {
   const FadeTransitionPage({
@@ -97,16 +96,28 @@ final GoRouter routes = GoRouter(
           },
         ),
         GoRoute(
-          path: CreateRecordScreen.path,
-          name: CreateRecordScreen.name,
+          path: AllRecordsScreen.path,
+          name: AllRecordsScreen.name,
           pageBuilder: (context, state) {
             return FadeTransitionPage(
-              child: const CreateRecordScreen(),
+              child: const AllRecordsScreen(),
               key: state.pageKey,
             );
           },
         ),
-        
+        GoRoute(
+          path: CreateRecordScreen.path,
+          name: CreateRecordScreen.name,
+          pageBuilder: (context, state) {
+            CreateRecordModel? bookId = state.extra as CreateRecordModel?;
+            return FadeTransitionPage(
+              child: CreateRecordScreen(
+                bookId: bookId,
+              ),
+              key: state.pageKey,
+            );
+          },
+        ),
         GoRoute(
           path: CreateBookScreen.path,
           name: CreateBookScreen.name,
@@ -121,8 +132,9 @@ final GoRouter routes = GoRouter(
           path: RecordScreen.path,
           name: RecordScreen.name,
           pageBuilder: (context, state) {
+            final Record record = state.extra! as Record;
             return FadeTransitionPage(
-              child: const RecordScreen(),
+              child: RecordScreen(record: record),
               key: state.pageKey,
             );
           },
@@ -168,7 +180,6 @@ final GoRouter routes = GoRouter(
             );
           },
         ),
-        
         GoRoute(
           path: ChangePinScreen.path,
           name: ChangePinScreen.name,

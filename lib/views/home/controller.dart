@@ -1,6 +1,5 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:recordam/utils/utils.dart';
-import 'package:recordam/views/all_books/controller.dart';
 part 'view.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -21,7 +20,7 @@ class HomeController extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     refreshController = RefreshController();
-    SocketServices.instance.connectAndListen(ref);
+    SocketServices.instance.connectAndListen();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(nameProvider.notifier).state = LocalStorage.instance.getName();
       ref.read(profilePhotoProvider.notifier).state =

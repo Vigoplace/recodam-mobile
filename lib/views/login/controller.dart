@@ -39,7 +39,7 @@ class LoginController extends ConsumerState<LoginScreen> {
         fireImmediately: false,
         (previous, next) {
           next.when(
-            data: (data) {
+            data: (UserModel data) {
               isLoading.value = false;
               ShowFlushBar.showSuccess(
                 context: context,

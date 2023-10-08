@@ -21,7 +21,13 @@ class SignupController extends ConsumerState<SignupScreen> {
   late TextEditingController phone;
   late TextEditingController pin;
   late TextEditingController confirm;
-  ValueNotifier<CountryModel?> country = ValueNotifier(null);
+  ValueNotifier<CountryModel> country = ValueNotifier(
+    CountryModel(
+      flag: 'https://twemoji.maxcdn.com/2/svg/1f1f3-1f1ec.svg',
+      country: 'Nigeria',
+      code: 'ng',
+    ),
+  );
 
   bool submitted = false;
   var key = GlobalKey<FormState>();
@@ -30,13 +36,6 @@ class SignupController extends ConsumerState<SignupScreen> {
     if (!acceptedTerms.value) {
       ShowFlushBar.showError(
         'You need to accept our policy',
-        context: context,
-      );
-      return;
-    }
-    if (country.value == null) {
-      ShowFlushBar.showError(
-        'Select your country',
         context: context,
       );
       return;
@@ -87,11 +86,16 @@ class SignupController extends ConsumerState<SignupScreen> {
 
   Future showCountryList() async {
     ValueNotifier<List<CountryModel>> countries = ValueNotifier([]);
+    bool loaded = false;
+
     var choice = await showModalBottomSheet<CountryModel?>(
       context: context,
       showDragHandle: true,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.r),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.r),
+          topRight: Radius.circular(30.r),
+        ),
       ),
       isScrollControlled: true,
       builder: (context) {
@@ -100,7 +104,10 @@ class SignupController extends ConsumerState<SignupScreen> {
             var country = ref.watch(countryProvider);
             return country.when(
               data: (data) {
-                countries.value = data.toList();
+                if (!loaded) {
+                  countries.value = data.toList();
+                }
+                loaded = true;
                 return SizedBox(
                   height: MediaQuery.sizeOf(context).height * 0.8,
                   child: Column(

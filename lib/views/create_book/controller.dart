@@ -23,9 +23,14 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
   bool submitted = false;
   var key = GlobalKey<FormState>();
 
+  var currency = ValueNotifier(CurrencyModel(
+    symbol: '₦',
+    short: 'NGN',
+    name: 'Naira',
+  ));
+
   void createBook() async {
-    submitted = true;
-    setState(() {});
+    setState(() => submitted = true);
     if (key.currentState!.validate()) {
       CreateBook book = CreateBook(
         name: bookName.text,
@@ -33,6 +38,7 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
         openingBalance: int.parse(balance.text),
         type: recordType.name,
         access: access.value.name,
+        symbol: currency.value.symbol,
       );
       final testProvider = FutureProvider.autoDispose(
           (ref) => PostRequest.createBook(book: book));
@@ -57,15 +63,19 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
             error: (error, trace) {
               isLoading.value = false;
               debugPrint(error.toString());
-              errorFuntions(
-                error,
-                trace,
+              listenError(
+                error: error,
                 context: context,
               );
             },
             loading: () => isLoading.value = true,
           );
         },
+      );
+    } else {
+      ShowFlushBar.showError(
+        'One or more required field is missing',
+        context: context,
       );
     }
   }
@@ -75,6 +85,81 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
     var xFile = await picker.pickImage(source: ImageSource.gallery);
     if (xFile != null) {
       file.value = File(xFile.path);
+    }
+  }
+
+  Future showCurrencyList() async {
+    var choice = await showModalBottomSheet<CurrencyModel?>(
+      context: context,
+      showDragHandle: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.r),
+          topRight: Radius.circular(30.r),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (context) {
+        return Consumer(
+          builder: (context, ref, _) {
+            var country = ref.watch(currencyProvider);
+            return country.when(
+              data: (data) {
+                return SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.4,
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: [0, 0, 20, 0].pad,
+                          child: SvgButton(
+                            icon: AppSvg.remove,
+                            onTap: () => context.pop(),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: data.isNotEmpty
+                            ? ListView.builder(
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  var country = data[index];
+                                  return ListTile(
+                                    onTap: () => context.pop(country),
+                                    title: Text(country.name),
+                                  ).animate().scale();
+                                },
+                              )
+                            : const EmptyWidget(
+                                text: 'No such currency',
+                              ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              error: (error, trace) {
+                error as DioException;
+                return SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.5,
+                  child: ErrorScreen(
+                    error: error,
+                    reload: () => ref.invalidate(currencyProvider),
+                  ),
+                );
+              },
+              loading: () => SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.5,
+                child: const CustomLoader(),
+              ),
+            );
+          },
+        );
+      },
+    );
+    if (choice != null) {
+      currency.value = choice;
     }
   }
 

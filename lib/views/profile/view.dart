@@ -21,24 +21,21 @@ class ProfileView extends StatelessView<ProfileScreen, ProfileController> {
               child: Stack(
                 children: [
                   Positioned.fill(
-                    child: Hero(
-                      tag: 'profile',
-                      child: Consumer(
-                        builder: (context, ref, _) {
-                          var photo = ref.watch(profilePhotoProvider);
-                          return photo == null
-                              ? const CircleAvatar(
-                                  backgroundImage: AssetImage(
-                                    AppImages.image,
-                                  ),
-                                )
-                              : ImageLoader(
-                                  image: photo,
-                                  boxShape: BoxShape.circle,
-                                  boxFit: BoxFit.cover,
-                                );
-                        },
-                      ),
+                    child: Consumer(
+                      builder: (context, ref, _) {
+                        var photo = ref.watch(profilePhotoProvider);
+                        return photo == null
+                            ? const CircleAvatar(
+                                backgroundImage: AssetImage(
+                                  AppImages.image,
+                                ),
+                              )
+                            : ImageLoader(
+                                image: photo,
+                                boxShape: BoxShape.circle,
+                                boxFit: BoxFit.cover,
+                              );
+                      },
                     ),
                   ),
                   Align(

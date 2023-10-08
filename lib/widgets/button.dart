@@ -3,33 +3,45 @@ import '../utils/utils.dart';
 class LoadingButton extends StatelessWidget {
   final AppButton normal;
   final bool isLoading;
+  final double? width;
+
   const LoadingButton({
     super.key,
     required this.normal,
+    this.width,
     required this.isLoading,
   });
 
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100.r),
+        ? SizedBox(
+            height: 50.h,
+            width: width ?? 205.w,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100.r),
+                ),
+                textStyle: TextStyle(
+                  color: AppColor.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16.sp,
+                ),
+                padding: [28, 12].pad,
+                backgroundColor: AppColor.red60,
+                minimumSize: Size(width ?? 205.w, 20.h),
               ),
-              textStyle: TextStyle(
-                color: AppColor.white,
-                fontWeight: FontWeight.w700,
-                fontSize: 16.sp,
+              child: Center(
+                child: SizedBox(
+                  width: 25.h,
+                  child: CircularProgressIndicator.adaptive(
+                    backgroundColor: AppColor.white,
+                    valueColor: AlwaysStoppedAnimation(AppColor.red30),
+                  ),
+                ),
               ),
-              padding: [28, 12].pad,
-              backgroundColor: AppColor.red60,
-              minimumSize: Size(205.w, 48.h),
-            ),
-            child: CircularProgressIndicator.adaptive(
-              backgroundColor: AppColor.white,
-              valueColor: AlwaysStoppedAnimation(AppColor.red30),
             ),
           )
         : normal;

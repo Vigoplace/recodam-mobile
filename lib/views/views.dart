@@ -12,4 +12,6 @@ export 'unconfirmed_records/controller.dart';
 export 'posted_records/controller.dart';
 export 'view_book/controller.dart';
 export 'change_pin/controller.dart';
-export 'record/controller.dart';
+export 'view_record/controller.dart';
+export 'all_books/controller.dart';
+export 'all_records/controller.dart';

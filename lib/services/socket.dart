@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:socket_io_client/socket_io_client.dart';
 import '/utils/utils.dart';
 
@@ -18,14 +17,33 @@ class SocketServices {
     return _socket!;
   }
 
-  void connectAndListen(WidgetRef ref) async {
+  void connectAndListen() {
+    if (!socket.active) {
+      socket
+        ..disconnect()
+        ..connect();
+    }
     int userId = LocalStorage.instance.getId();
-
     socket.auth = {'userId': userId};
     socket.onConnect((data) {
-      debugPrint(socket.id);
+      socket.emit(
+        'user',
+        {'id': LocalStorage.instance.getId(), 'socketId': socket.id},
+      );
+      debugPrint('Success => Socket Connected');
     });
     socket.onError((data) => debugPrint('Error => $data'));
     socket.onDisconnect((data) => debugPrint('Disconnected'));
+    socket.on('user', (data) => performUserAction(data));
+  }
+
+  void performUserAction(Map data) {
+    switch (data['action']) {
+      case 'deactivate':
+        LocalStorage.instance.setLoggedIn(false);
+        AppConstant.key.currentContext!.goNamed(LoginScreen.name);
+        break;
+      default:
+    }
   }
 }

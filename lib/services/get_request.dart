@@ -35,12 +35,49 @@ class GetRequest {
     return bookInfo.book;
   }
 
+  static Future<List<Record>> getRecords({Pagination? pagination}) async {
+    var path = 'record';
+    if (pagination?.book != null) {
+      path = 'book/${pagination!.book}';
+    }
+    var token = LocalStorage.instance.getToken();
+    var books = await network.getRequestHandler(
+      path,
+      queryPatameters: {'page': pagination?.page, 'size': pagination?.size},
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+      ),
+    );
+    debugPrint(books.data.toString());
+    var bookInfo = RecordInfo.fromJson(books.data['data']);
+    pagination?.total = bookInfo.total;
+    pagination?.page += 1;
+    return bookInfo.book;
+  }
+
   static Future<List<CountryModel>> getAllCountries(
       {Pagination? pagination}) async {
     var path = 'misc/countries';
     var countries = await network.getRequestHandler(path);
     return (countries.data['data'] as List)
         .map((e) => CountryModel.fromJson(e))
+        .toList();
+  }
+
+  static Future<List<CurrencyModel>> getAllCurrencies(
+      {Pagination? pagination}) async {
+    var path = 'misc/currencies';
+    var countries = await network.getRequestHandler(path);
+    return (countries.data['data'] as List)
+        .map((e) => CurrencyModel.fromJson(e))
+        .toList();
+  }
+  static Future<List<BankModel>> getAllBanks(
+      {Pagination? pagination}) async {
+    var path = 'misc/banks';
+    var countries = await network.getRequestHandler(path);
+    return (countries.data['data'] as List)
+        .map((e) => BankModel.fromJson(e))
         .toList();
   }
 

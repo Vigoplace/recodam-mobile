@@ -8,22 +8,21 @@ class PostedRecordsScreen extends ConsumerStatefulWidget {
   const PostedRecordsScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<PostedRecordsScreen> createState() =>
-      PostedRecordsController();
+  ConsumerState<PostedRecordsScreen> createState() => PostedRecordsController();
 }
 
 class PostedRecordsController extends ConsumerState<PostedRecordsScreen> {
   var pagination = Pagination();
   late RefreshController refreshController;
 
-  late FutureProviderFamily<List<int>, Pagination> booksProvider;
+  late FutureProviderFamily<List<Record>, Pagination> booksProvider;
 
   @override
   void initState() {
     super.initState();
     booksProvider = FutureProvider.family(
       (ref, Pagination pagination) =>
-          GetRequest.testPagination(pagination: pagination),
+          GetRequest.getRecords(pagination: pagination),
     );
     refreshController = RefreshController();
   }

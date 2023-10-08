@@ -74,6 +74,10 @@ class LocalStorage {
     return prefs.getBool(_loggedIn) ?? false;
   }
 
+  Future<bool> setLoggedIn(bool value) async {
+    return await prefs.setBool(_loggedIn, value);
+  }
+
   int getId() {
     return prefs.getInt(_id)!;
   }

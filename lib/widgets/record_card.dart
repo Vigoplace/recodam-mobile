@@ -1,12 +1,19 @@
 import 'package:recordam/utils/utils.dart';
 
 class RecordCard extends StatelessWidget {
-  const RecordCard({super.key});
+  final Record record;
+  const RecordCard({
+    super.key,
+    required this.record,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.pushNamed(RecordScreen.name),
+      onTap: () => context.pushNamed(
+        RecordScreen.name,
+        extra: record,
+      ),
       child: Container(
         padding: [20, 22].pad,
         margin: [16, 0, 16, 16].pad,
@@ -21,7 +28,7 @@ class RecordCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Micheal Evans",
+                  record.senderName,
                   style: TextStyle(
                     color: AppColor.grey100,
                     fontWeight: FontWeight.w700,
@@ -29,8 +36,9 @@ class RecordCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "N10,000",
+                  '${record.symbol}${record.amount}',
                   style: TextStyle(
+                    fontFamily: 'Roboto',
                     color: AppColor.grey100,
                     fontWeight: FontWeight.w700,
                     fontSize: 14.sp,
@@ -40,7 +48,9 @@ class RecordCard extends StatelessWidget {
             ),
             8.verticalSpace,
             Text(
-              "First Bank of Nigeria",
+              (record.bankName == null || record.bankName!.isEmpty)
+                  ? 'No bank name'
+                  : record.bankName!,
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
@@ -49,7 +59,7 @@ class RecordCard extends StatelessWidget {
             ),
             23.verticalSpace,
             Text(
-              "Maryland school donation for kids.",
+              record.details,
               style: TextStyle(
                 color: AppColor.grey40,
                 fontWeight: FontWeight.w400,
@@ -58,7 +68,7 @@ class RecordCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ).animate().moveX(),
     );
   }
 }

@@ -55,6 +55,35 @@ class CreateBookView
               autovalidateMode: controller.submitted
                   ? AutovalidateMode.onUserInteraction
                   : AutovalidateMode.disabled,
+              prefix: InkWell(
+                onTap: controller.showCurrencyList,
+                overlayColor: MaterialStateColor.resolveWith(
+                  (states) => Colors.transparent,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    10.horizontalSpace,
+                    ValueListenableBuilder(
+                      valueListenable: controller.currency,
+                      builder: (context, value, _) {
+                        return Text(
+                          value.symbol,
+                          style: const TextStyle(
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 23,
+                          ),
+                        );
+                      },
+                    ),
+                    3.horizontalSpace,
+                    const SvgButton(
+                      icon: AppSvg.chevronDown,
+                    ),
+                  ],
+                ),
+              ),
               validator: (p0) {
                 if (p0 == null || p0.isEmpty || double.tryParse(p0) == null) {
                   return 'Please, enter a valid opening balance';

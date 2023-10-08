@@ -51,7 +51,7 @@ flutter_native_splash:
     # 640 pixels in diameter.
     # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
     # 768 pixels in diameter.
-    # image: assets/images/Ajo.png
+    # image: "assets/images/splash.png"
 
     # Splash screen background color.
     #color: "#42a5f5"
@@ -89,7 +89,7 @@ flutter_native_splash:
   #image_dark_ios: assets/splash-invert-ios.png
   #image_web: assets/splash-web.png
   #image_dark_web: assets/splash-invert-web.png
-  #background_image_android: "assets/background-android.png"
+  background_image_android: "assets/images/splash.png"
   #background_image_dark_android: "assets/dark-background-android.png"
   #background_image_ios: "assets/background-ios.png"
   #background_image_dark_ios: "assets/dark-background-ios.png"

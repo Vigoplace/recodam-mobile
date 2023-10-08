@@ -66,7 +66,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                 context.pushNamed(CreateRecordScreen.name);
               },
               title: Text(
-                'Add A Record',
+                'Add a Record',
                 style: TextStyle(
                   color: AppColor.grey100,
                   fontWeight: FontWeight.w400,
@@ -88,7 +88,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                 context.pushNamed(CreateBookScreen.name);
               },
               title: Text(
-                'Create A Book',
+                'Create a Book',
                 style: TextStyle(
                   color: AppColor.grey100,
                   fontWeight: FontWeight.w400,
@@ -246,7 +246,8 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                                   ),
                                   18.verticalSpace,
                                   for (int i = 0; i <= 10; i++)
-                                    const RecordCard(),
+                                    // const RecordCard(),
+                                    const Text('Record')
                                 ],
                               ),
                             ),

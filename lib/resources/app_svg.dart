@@ -17,6 +17,7 @@ class AppSvg {
   static const String directionRight = 'assets/svg/direction right.svg';
   static const String drafts = 'assets/svg/drafts.svg';
   static const String edit = 'assets/svg/edit.svg';
+  static const String expand = 'assets/svg/expand.svg';
   static const String eyeOpen = 'assets/svg/eye-open.svg';
   static const String eye = 'assets/svg/eye.svg';
   static const String gallery = 'assets/svg/gallery.svg';

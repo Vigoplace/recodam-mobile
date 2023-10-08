@@ -6,6 +6,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: AppConstant.key,
       backgroundColor: AppColor.grey,
       body: Stack(
         children: [
@@ -28,24 +29,21 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                 actions: [
                   InkWell(
                     child: Center(
-                      child: Hero(
-                        tag: 'profile',
-                        child: Consumer(
-                          builder: (context, ref, _) {
-                            var photo = ref.watch(profilePhotoProvider);
-                            return photo == null
-                                ? Image.asset(
-                                    AppImages.image,
-                                  )
-                                : ImageLoader(
-                                    width: 40,
-                                    height: 40,
-                                    image: photo,
-                                    boxShape: BoxShape.circle,
-                                    boxFit: BoxFit.cover,
-                                  );
-                          },
-                        ),
+                      child: Consumer(
+                        builder: (context, ref, _) {
+                          var photo = ref.watch(profilePhotoProvider);
+                          return (photo == null || photo.isEmpty)
+                              ? Image.asset(
+                                  AppImages.image,
+                                )
+                              : ImageLoader(
+                                  width: 40,
+                                  height: 40,
+                                  image: photo,
+                                  boxShape: BoxShape.circle,
+                                  boxFit: BoxFit.cover,
+                                );
+                        },
                       ),
                     ),
                     onTap: () => context.pushNamed(ProfileScreen.name),
@@ -149,12 +147,18 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                             fontSize: 14.sp,
                           ),
                         ),
-                        Text(
-                          'See all',
-                          style: TextStyle(
-                            color: AppColor.red60,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14.sp,
+                        InkWell(
+                          overlayColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.transparent,
+                          ),
+                          onTap: () => context.pushNamed(AllRecordsScreen.name),
+                          child: Text(
+                            'See all',
+                            style: TextStyle(
+                              color: AppColor.red60,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14.sp,
+                            ),
                           ),
                         ),
                       ],
@@ -165,11 +169,20 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                     builder: (context, ref, _) {
                       var record = ref.watch(homeRecordProvider);
                       return record.when(
-                        data: (data) => Column(
-                          children: [
-                            for (int i = 0; i <= 10; i++) const RecordCard(),
-                          ],
-                        ),
+                        data: (data) => data.isEmpty
+                            ? Column(
+                                children: [
+                                  30.verticalSpace,
+                                  const EmptyWidget(
+                                    text: 'Nothing to see here',
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                children: data
+                                    .map((e) => RecordCard(record: e))
+                                    .toList(),
+                              ),
                         error: (error, trace) {
                           error as DioException;
                           return ErrorScreen(

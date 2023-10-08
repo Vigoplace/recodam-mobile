@@ -19,6 +19,7 @@ void main() {
     expect(File(AppSvg.directionRight).existsSync(), true);
     expect(File(AppSvg.drafts).existsSync(), true);
     expect(File(AppSvg.edit).existsSync(), true);
+    expect(File(AppSvg.expand).existsSync(), true);
     expect(File(AppSvg.eyeOpen).existsSync(), true);
     expect(File(AppSvg.eye).existsSync(), true);
     expect(File(AppSvg.gallery).existsSync(), true);

@@ -1,0 +1,13 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 1000014757">
+<rect y="40" width="40" height="40" rx="20" transform="rotate(-90 0 40)" fill="#F4F4F4"/>
+<g id="pan_zoom">
+<mask id="mask0_255_3825" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="5" y="5" width="30" height="30">
+<rect id="Bounding box" x="5" y="5" width="30" height="30" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_255_3825)">
+<path id="pan_zoom_2" d="M8.75 31.25V23.75H11.25V27L15.125 23.125L16.875 24.875L13 28.75H16.25V31.25H8.75ZM24.875 16.875L23.125 15.125L27 11.25H23.75V8.75H31.25V16.25H28.75V13L24.875 16.875Z" fill="#C22121"/>
+</g>
+</g>
+</g>
+</svg>

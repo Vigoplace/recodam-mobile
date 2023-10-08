@@ -70,8 +70,9 @@ class _BookCardState extends State<BookCard> {
                   ),
                   16.horizontalSpace,
                   Text(
-                    'N${widget.book.openingBalance}',
+                    '${widget.book.symbol}${widget.book.openingBalance}',
                     style: TextStyle(
+                      fontFamily: 'Roboto',
                       color: AppColor.grey100,
                       fontWeight: FontWeight.w400,
                       fontSize: 14.sp,
@@ -108,7 +109,7 @@ class _BookCardState extends State<BookCard> {
                   ).animate().scale(),
                   6.horizontalSpace,
                   Text(
-                    "12",
+                    '${widget.book.totalRecords}',
                     style: TextStyle(
                       color: AppColor.grey100,
                       fontWeight: FontWeight.w400,
@@ -127,9 +128,11 @@ class _BookCardState extends State<BookCard> {
 
 class HorizBookCard extends StatefulWidget {
   final Book book;
+  final void Function(Book)? onTap;
   const HorizBookCard({
     super.key,
     required this.book,
+    this.onTap,
   });
 
   @override
@@ -165,8 +168,18 @@ class _HorizBookCardState extends State<HorizBookCard> {
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: GestureDetector(
-        onTap: () => context.pushNamed(ViewBookScreen.name, extra: widget.book),
+        onTap: () {
+          if (widget.onTap == null) {
+            context.pushNamed(ViewBookScreen.name, extra: widget.book);
+          } else {
+            widget.onTap!(widget.book);
+          }
+        },
         child: Card(
+          color: AppColor.grey,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.r),
+          ),
           margin: EdgeInsets.zero,
           child: Padding(
             padding: [16, 23].pad,
@@ -189,8 +202,9 @@ class _HorizBookCardState extends State<HorizBookCard> {
                     ),
                     16.horizontalSpace,
                     Text(
-                      'N${widget.book.openingBalance}',
+                      '${widget.book.symbol}${widget.book.openingBalance}',
                       style: TextStyle(
+                        fontFamily: 'Roboto',
                         color: AppColor.grey100,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.sp,
@@ -228,7 +242,7 @@ class _HorizBookCardState extends State<HorizBookCard> {
                     ).animate().scale(),
                     6.horizontalSpace,
                     Text(
-                      '${widget.book.id}',
+                      '${widget.book.totalRecords}',
                       style: TextStyle(
                         color: AppColor.grey100,
                         fontWeight: FontWeight.w400,

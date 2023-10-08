@@ -123,11 +123,12 @@ class CustomTextInput extends StatelessWidget {
             prefixIcon: prefix,
             suffixIcon: suffixIcon,
             hintText: hintText,
-            hintStyle: TextStyle(
-              color: AppColor.grey40,
-              fontWeight: FontWeight.w400,
-              fontSize: 16.sp,
-            ),
+            hintStyle: hintStyle ??
+                TextStyle(
+                  color: AppColor.grey40,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16.sp,
+                ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(100.r),
               borderSide: BorderSide(

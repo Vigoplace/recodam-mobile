@@ -10,3 +10,6 @@ export 'error.dart';
 export 'loading.dart';
 export 'empty.dart';
 export 'image_loader.dart';
+export 'books.dart';
+export 'records.dart';
+export 'view_image.dart';

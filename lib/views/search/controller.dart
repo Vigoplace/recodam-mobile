@@ -19,7 +19,7 @@ class SearchController extends ConsumerState<SearchScreen> {
   void login() async {
     isLoading.value = true;
     ref.listenManual(
-      loginProvider,
+      testProvider,
       fireImmediately: false,
       (previous, next) {
         next.when(

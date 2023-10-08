@@ -24,7 +24,7 @@ class PostedRecordsView
             onLoading: () async {
               if (data.length != controller.pagination.total) {
                 try {
-                  var a = await GetRequest.testPagination(
+                  var a = await GetRequest.getRecords(
                     pagination: controller.pagination,
                   );
                   data.addAll(a);
@@ -42,7 +42,7 @@ class PostedRecordsView
               data.clear();
               controller.pagination.page = 1;
               try {
-                var a = await GetRequest.testPagination(
+                var a = await GetRequest.getRecords(
                     pagination: controller.pagination);
                 data.addAll(a);
                 controller.reload();
@@ -60,7 +60,8 @@ class PostedRecordsView
                     padding: [0, 30, 0, 0].pad,
                     itemCount: data.length,
                     itemBuilder: (context, index) {
-                      return const RecordCard();
+                      var record = data[index];
+                      return RecordCard(record: record);
                     },
                   ),
           );

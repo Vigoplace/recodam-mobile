@@ -12,18 +12,19 @@ class UnConfirmedRecordsScreen extends ConsumerStatefulWidget {
       UnConfirmedRecordsController();
 }
 
-class UnConfirmedRecordsController extends ConsumerState<UnConfirmedRecordsScreen> {
+class UnConfirmedRecordsController
+    extends ConsumerState<UnConfirmedRecordsScreen> {
   var pagination = Pagination();
   late RefreshController refreshController;
 
-  late FutureProviderFamily<List<int>, Pagination> booksProvider;
+  late FutureProviderFamily<List<Record>, Pagination> booksProvider;
 
   @override
   void initState() {
     super.initState();
     booksProvider = FutureProvider.family(
       (ref, Pagination pagination) =>
-          GetRequest.testPagination(pagination: pagination),
+          GetRequest.getRecords(pagination: pagination),
     );
     refreshController = RefreshController();
   }

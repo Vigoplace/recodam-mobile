@@ -3,7 +3,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../utils/utils.dart';
 
-class ImageLoader extends StatefulWidget {
+class ImageLoader extends StatelessWidget {
   final String image;
   final double? width;
   final double? height;
@@ -19,20 +19,13 @@ class ImageLoader extends StatefulWidget {
     this.boxShape,
     this.radius,
   }) : super(key: key);
-
-  @override
-  State<ImageLoader> createState() => _ImageLoaderState();
-}
-
-class _ImageLoaderState extends State<ImageLoader> {
   @override
   Widget build(BuildContext context) {
     return ExtendedImage.network(
-      widget.image,
+      image,
       fit: BoxFit.fill,
-      width: widget.width,
-      height: widget.height,
-      cache: true,
+      width: width,
+      height: height,
       borderRadius: BorderRadius.circular(8),
       loadStateChanged: (ExtendedImageState state) {
         switch (state.extendedImageLoadState) {
@@ -47,12 +40,12 @@ class _ImageLoaderState extends State<ImageLoader> {
             );
           case LoadState.completed:
             return ClipRRect(
-              borderRadius: widget.boxShape == BoxShape.circle
+              borderRadius: boxShape == BoxShape.circle
                   ? BorderRadius.circular(100.r)
                   : BorderRadius.zero,
               child: ExtendedRawImage(
                 image: state.extendedImageInfo?.image,
-                fit: widget.boxFit,
+                fit: boxFit,
               ),
             );
           case LoadState.failed:

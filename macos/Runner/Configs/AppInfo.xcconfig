@@ -8,7 +8,7 @@
 PRODUCT_NAME = recordam
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.recordam
+PRODUCT_BUNDLE_IDENTIFIER = org.recodam.mobile
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2023 com.example. All rights reserved.

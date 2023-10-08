@@ -11,6 +11,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
         key: controller.key,
         child: ListView(
           padding: [16, 16, 16, 0].pad,
+          cacheExtent: 500,
           children: [
             Text(
               'Create Account',
@@ -74,18 +75,16 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                     ValueListenableBuilder(
                       valueListenable: controller.country,
                       builder: (context, country, _) {
-                        return country == null
-                            ? const SizedBox.shrink()
-                            : Padding(
-                                padding: const [0, 0, 15, 0].pad,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100.r),
-                                  child: SvgPicture.network(
-                                    country.flag,
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                              );
+                        return Padding(
+                          padding: const [0, 0, 15, 0].pad,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.r),
+                            child: SvgPicture.network(
+                              country.flag,
+                              fit: BoxFit.scaleDown,
+                            ),
+                          ),
+                        );
                       },
                     ),
                   ],
@@ -106,6 +105,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
               valueListenable: controller.showPin,
               builder: (context, state, _) {
                 return CustomTextInput(
+                  keyboardType: TextInputType.number,
                   controller: controller.pin,
                   titleText: 'Create pin*',
                   hintText: '123456',
@@ -137,6 +137,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                   controller: controller.confirm,
                   titleText: 'Confirm pin*',
                   hintText: '123456',
+                  keyboardType: TextInputType.number,
                   obscureText: state,
                   suffixIcon: SvgButton(
                     icon: state ? AppSvg.eye : AppSvg.eyeOpen,

@@ -61,6 +61,71 @@ class PostRequest {
     return user.data['message'];
   }
 
+  static Future<String> createRecord({
+    required CreateRecord record,
+  }) async {
+    var path = 'record/create';
+    var token = LocalStorage.instance.getToken();
+    FormData data = FormData();
+    String mimeType = mime(record.file)!;
+    String type = mimeType.split('/')[0];
+    String subtype = mimeType.split('/')[1];
+    // late String file;
+
+    data.fields.addAll([
+      MapEntry('sender_name', record.senderName),
+      MapEntry('amount', record.amount.toString()),
+      MapEntry('bank_name', record.bankName ?? ''),
+      MapEntry('account_number', record.accountName ?? ''),
+      MapEntry('account_name', record.accountName ?? ''),
+      MapEntry('details', record.details),
+      MapEntry('date', record.date.toIso8601String()),
+      MapEntry('record_type', record.recordType),
+      MapEntry('symbol', record.symbol),
+    ]);
+    if (record.newBookId != null) {
+      data.fields.add(MapEntry('book_id', '${record.newBookId}'));
+    }
+    data.files.add(
+      MapEntry(
+        'file',
+        MultipartFile.fromFileSync(
+          record.file,
+          filename: record.file.split(Platform.pathSeparator).last,
+          contentType: MediaType(type, subtype),
+        ),
+      ),
+    );
+    var user = await network.postRequestHandler(
+      path,
+      data: data,
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+      ),
+    );
+    return user.data['message'];
+  }
+
+  static Future<String> updateRecord({
+    required CreateRecord record,
+  }) async {
+    var path = 'record/update';
+    var token = LocalStorage.instance.getToken();
+    var data = {
+      'id': record.id,
+      'book_id': record.newBookId,
+      'details': record.details,
+    };
+    var user = await network.postRequestHandler(
+      path,
+      data: data,
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+      ),
+    );
+    return user.data['message'];
+  }
+
   static Future<String> updateProfile({
     required WidgetRef ref,
     String? name,

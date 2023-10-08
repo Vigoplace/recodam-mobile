@@ -13,9 +13,10 @@ class CreateRecordView
         centerTitle: false,
       ),
       body: Form(
-        key: controller.key,
+        key: controller.formKey,
         child: ListView(
           padding: [16, 32, 16, 0].pad,
+          cacheExtent: 500,
           children: [
             CustomTextInput(
               controller: controller.senderName,
@@ -35,6 +36,35 @@ class CreateRecordView
             CustomTextInput(
               controller: controller.amount,
               titleText: 'Amount*',
+              prefix: InkWell(
+                overlayColor: MaterialStateColor.resolveWith(
+                  (states) => Colors.transparent,
+                ),
+                onTap: controller.showCurrencyList,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    10.horizontalSpace,
+                    ValueListenableBuilder(
+                      valueListenable: controller.currency,
+                      builder: (context, value, _) {
+                        return Text(
+                          value.symbol,
+                          style: const TextStyle(
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 23,
+                          ),
+                        );
+                      },
+                    ),
+                    3.horizontalSpace,
+                    const SvgButton(
+                      icon: AppSvg.chevronDown,
+                    ),
+                  ],
+                ),
+              ),
               keyboardType: TextInputType.number,
               autovalidateMode: controller.submitted
                   ? AutovalidateMode.onUserInteraction
@@ -52,29 +82,31 @@ class CreateRecordView
             32.verticalSpace,
             CustomTextInput(
               controller: controller.bankName,
-              titleText: 'Bank name / cash',
+              titleText: 'Bank name',
+              readOnly: true,
+              prefix: const SvgButton(
+                icon: AppSvg.chevronDown,
+              ),
+              onTap: controller.showBankList,
               textInputAction: TextInputAction.next,
               autovalidateMode: controller.submitted
                   ? AutovalidateMode.onUserInteraction
                   : AutovalidateMode.disabled,
-              validator: (p0) {
-                if (p0 == null || p0.isEmpty) {
-                  return 'Please, enter bank name';
-                }
-                return null;
-              },
             ),
             32.verticalSpace,
             CustomTextInput(
               controller: controller.accountNumber,
               titleText: 'Account number (recipient)',
+              keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               autovalidateMode: controller.submitted
                   ? AutovalidateMode.onUserInteraction
                   : AutovalidateMode.disabled,
               validator: (p0) {
-                if (p0 == null || p0.isEmpty) {
-                  return 'Please, enter an account number';
+                if (p0!.isNotEmpty) {
+                  if (double.tryParse(p0) == null) {
+                    return 'Please, enter a valid amount';
+                  }
                 }
                 return null;
               },
@@ -87,12 +119,6 @@ class CreateRecordView
               autovalidateMode: controller.submitted
                   ? AutovalidateMode.onUserInteraction
                   : AutovalidateMode.disabled,
-              validator: (p0) {
-                if (p0 == null || p0.isEmpty) {
-                  return 'Please, enter an account name';
-                }
-                return null;
-              },
             ),
             32.verticalSpace,
             CustomTextInput(
@@ -104,7 +130,7 @@ class CreateRecordView
                   : AutovalidateMode.disabled,
               validator: (p0) {
                 if (p0 == null || p0.isEmpty) {
-                  return 'Please, enter details of record';
+                  return 'Please, enter details';
                 }
                 return null;
               },
@@ -112,7 +138,7 @@ class CreateRecordView
             32.verticalSpace,
             CustomTextInput(
               controller: controller.date,
-              titleText: 'Transaction date',
+              titleText: 'Transaction date*',
               onTap: controller.selectDate,
               readOnly: true,
               suffixIcon: const SvgButton(
@@ -131,7 +157,7 @@ class CreateRecordView
             ),
             32.verticalSpace,
             Text(
-              'Evidence of payment (pdf or Jpeg file)',
+              'Evidence of payment (pdf or Jpeg file)*',
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
@@ -162,7 +188,9 @@ class CreateRecordView
                                 icon: AppSvg.upload,
                                 onTap: controller.pickImage,
                               )
-                            : Image.file(value).animate().scale(),
+                            : Image.file(
+                                value,
+                              ).animate().scale(),
                       ),
                       if (value != null)
                         Align(
@@ -184,7 +212,7 @@ class CreateRecordView
             ),
             32.verticalSpace,
             Text(
-              'Type of record',
+              'Type of record*',
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
@@ -192,27 +220,19 @@ class CreateRecordView
               ),
             ),
             16.verticalSpace,
-            GroupedSelection<int>(
-              initialIndex: 1,
+            GroupedSelection<RecordType>(
+              initialIndex: RecordType.debit,
               content: const ['Debit', 'Credit'],
-              type: const [0, 1],
-              onTap: <int>(position) {
+              type: const [RecordType.debit, RecordType.credit],
+              onTap: <RecordType>(position) {
                 debugPrint('$position');
               },
             ),
             65.verticalSpace,
             Center(
-              child: ValueListenableBuilder(
-                valueListenable: controller.isLoading,
-                builder: (context, state, _) {
-                  return LoadingButton(
-                    isLoading: state,
-                    normal: AppButton(
-                      text: 'Save',
-                      onTap: controller.createRecord,
-                    ),
-                  );
-                },
+              child: AppButton(
+                text: 'Save',
+                onTap: controller.createRecord,
               ),
             ),
             40.verticalSpace,
