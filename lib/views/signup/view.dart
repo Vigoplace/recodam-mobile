@@ -122,7 +122,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a pin';
                     } else if (value.length != 6) {
-                      return 'Password length must be 6 characters';
+                      return 'Pin length must be 6 characters';
                     }
                     return null;
                   },
@@ -148,11 +148,11 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                       : AutovalidateMode.disabled,
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
+                      return 'Please confirm your pin';
                     } else if (value.length != 6) {
-                      return 'Password length must be 6 characters';
+                      return 'Pin length must be 6 characters';
                     } else if (controller.pin.text != controller.confirm.text) {
-                      return 'Password mismatch';
+                      return 'Pin mismatch';
                     }
                     return null;
                   },

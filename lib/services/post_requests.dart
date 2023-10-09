@@ -46,6 +46,35 @@ class PostRequest {
     return UserModel.fromJson(user.data);
   }
 
+  static Future<String> forgotPassword({
+    required String email,
+  }) async {
+    var path = 'auth/forgot-password';
+    var user = await network.postRequestHandler(
+      path,
+      data: {'email': email},
+    );
+    return user.data['message'];
+  }
+
+  static Future<String> resetPassword({
+    required String otp,
+    required String pin,
+  }) async {
+    var path = 'auth/reset-password';
+    var email = LocalStorage.instance.getEmail();
+    var user = await network.postRequestHandler(
+      path,
+      data: {
+        'email': email,
+        'otp': otp,
+        'new_password': pin,
+        'confirm_password': pin,
+      },
+    );
+    return user.data['message'];
+  }
+
   static Future<String> createBook({
     required CreateBook book,
   }) async {

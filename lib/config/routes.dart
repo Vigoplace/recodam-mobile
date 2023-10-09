@@ -64,6 +64,28 @@ final GoRouter routes = GoRouter(
           key: state.pageKey,
         );
       },
+      routes: [
+        GoRoute(
+          path: ForgotPasswordScreen.path,
+          name: ForgotPasswordScreen.name,
+          pageBuilder: (context, state) {
+            return FadeTransitionPage(
+              child: const ForgotPasswordScreen(),
+              key: state.pageKey,
+            );
+          },
+        ),
+        GoRoute(
+          path: ResetPasswordScreen.path,
+          name: ResetPasswordScreen.name,
+          pageBuilder: (context, state) {
+            return FadeTransitionPage(
+              child: const ResetPasswordScreen(),
+              key: state.pageKey,
+            );
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: HomeScreen.path,

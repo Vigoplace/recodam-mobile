@@ -66,12 +66,18 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
             23.verticalSpace,
             Align(
               alignment: Alignment.centerRight,
-              child: Text(
-                'Forgot Pin ?',
-                style: TextStyle(
-                  color: AppColor.grey30,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14.sp,
+              child: InkWell(
+                overlayColor: MaterialStateColor.resolveWith(
+                  (states) => Colors.transparent,
+                ),
+                onTap: () => context.pushNamed(ForgotPasswordScreen.name),
+                child: Text(
+                  'Forgot Pin ?',
+                  style: TextStyle(
+                    color: AppColor.grey30,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14.sp,
+                  ),
                 ),
               ),
             ),

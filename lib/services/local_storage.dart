@@ -52,6 +52,10 @@ class LocalStorage {
     await prefs.setString(_name, value);
     return value;
   }
+  Future<String> setEmail(String value) async {
+    await prefs.setString(_email, value);
+    return value;
+  }
 
   Future<String> setProfilePhoto(String value) async {
     await prefs.setString(_profilePhoto, value);

@@ -15,3 +15,5 @@ export 'change_pin/controller.dart';
 export 'view_record/controller.dart';
 export 'all_books/controller.dart';
 export 'all_records/controller.dart';
+export 'forgot_password/controller.dart';
+export 'reset_password/controller.dart';
