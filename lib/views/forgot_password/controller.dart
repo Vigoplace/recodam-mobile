@@ -23,35 +23,22 @@ class ForgotPasswordController extends ConsumerState<ForgotPasswordScreen> {
     setState(() {});
     if (key.currentState!.validate()) {
       isLoading.value = true;
-      final loginAccountProvider = FutureProvider.autoDispose(
-        (ref) => PostRequest.forgotPassword(
-          email: email.text,
-        ),
-      );
-      ref.listenManual(
-        loginAccountProvider,
-        fireImmediately: false,
-        (previous, next) {
-          next.when(
-            data: (data) {
-              isLoading.value = false;
-              ShowFlushBar.showSuccess(
-                context: context,
-                message: data,
-                perform: () async {
-                  LocalStorage.instance.setEmail(email.text).whenComplete(
-                      () => context.replaceNamed(ResetPasswordScreen.name));
-                },
-              );
-            },
-            error: (error, trace) {
-              isLoading.value = false;
-              listenError(context: context, error: error);
-            },
-            loading: () => debugPrint('LOADING'),
-          );
-        },
-      );
+      PostRequest.forgotPassword(
+        email: email.text,
+      ).then((value) {
+        isLoading.value = false;
+        ShowFlushBar.showSuccess(
+          context: context,
+          message: value,
+          perform: () async {
+            LocalStorage.instance.setEmail(email.text).whenComplete(
+                () => context.replaceNamed(ResetPasswordScreen.name));
+          },
+        );
+      }).catchError((error) {
+        isLoading.value = false;
+        listenError(context: context, error: error);
+      });
     }
   }
 

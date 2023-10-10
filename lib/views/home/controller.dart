@@ -26,7 +26,7 @@ class HomeController extends ConsumerState<HomeScreen> {
       ref.read(profilePhotoProvider.notifier).state =
           LocalStorage.instance.getProfilePhoto();
     });
-    // FileSharing.initialise(context);
+    FileSharing.initialise(ref);
   }
 
   @override

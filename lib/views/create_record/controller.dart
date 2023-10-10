@@ -6,10 +6,11 @@ part 'view.dart';
 class CreateRecordScreen extends ConsumerStatefulWidget {
   static const path = "create_record";
   static const name = "create_record";
-  final CreateRecordModel? bookId;
+
+  final Create create;
   const CreateRecordScreen({
     Key? key,
-    this.bookId,
+    required this.create,
   }) : super(key: key);
 
   @override
@@ -62,10 +63,10 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
               file: file.value!.path,
               ownerId: 0,
               isDatabase: false,
-              book: widget.bookId != null
+              book: widget.create.bookId != null
                   ? RecordBook(
-                      bookId: widget.bookId!.id!,
-                      bookName: widget.bookId!.name,
+                      bookId: widget.create.bookId!.id!,
+                      bookName: widget.create.bookId!.name,
                     )
                   : null,
             ),
@@ -286,6 +287,12 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
     accountName = TextEditingController();
     details = TextEditingController();
     date = TextEditingController();
+    if (widget.create.media.isNotEmpty) {
+      file.value = File(widget.create.media.first.path);
+    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(shareIntentProvider.notifier).state.clear();
+    });
   }
 
   @override

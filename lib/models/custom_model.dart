@@ -1,3 +1,5 @@
+import 'package:recordam/utils/utils.dart';
+
 class ActivityModel {
   final bool isLogout;
   final String message;
@@ -12,11 +14,13 @@ class Pagination {
   int total;
   int size;
   int? book;
+  String search;
   Pagination({
     this.page = 1,
     this.total = 100,
     this.size = 20,
     this.book,
+    this.search = '',
   });
 }
 
@@ -73,6 +77,15 @@ class WebViewModel {
   WebViewModel({
     required this.appBarText,
     required this.url,
+  });
+}
+
+class Create {
+  final CreateRecordModel? bookId;
+  final List<SharedMediaFile> media;
+  Create({
+    this.bookId,
+    this.media = const [],
   });
 }
 
@@ -368,15 +381,15 @@ class Record {
     return Record(
       id: data['id'] as int,
       date: DateTime.parse(data['date']),
-      senderName: data['sender_name'] as String,
-      amount: data['amount'] as String,
-      bankName: data['bank_name'] as String,
-      accountNumber: data['account_number'] as String,
-      accountName: data['account_name'] as String,
-      details: data['details'] as String,
-      recordType: data['record_type'] as String,
-      file: data['file'] as String,
-      ownerId: data['owner_id'] as int,
+      senderName: data['sender_name'],
+      amount: data['amount'],
+      bankName: data['bank_name'],
+      accountNumber: data['account_number'],
+      accountName: data['account_name'],
+      details: data['details'],
+      recordType: data['record_type'],
+      file: data['file'],
+      ownerId: data['owner_id'],
       symbol: data['symbol'],
       book: data['book_id'] != null ? RecordBook.fromJson(data) : null,
     );

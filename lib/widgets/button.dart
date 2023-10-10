@@ -94,14 +94,14 @@ class AppButton extends StatelessWidget {
 
 class RoundIconButton extends StatelessWidget {
   final String icon;
-  final Function() onTap;
+  final Function()? onTap;
   final double paddingLeft;
   final Color? backgroundColor;
   final MainAxisAlignment mainAxisAlignment;
   const RoundIconButton({
     super.key,
     required this.icon,
-    required this.onTap,
+    this.onTap,
     this.paddingLeft = 0,
     this.backgroundColor,
     this.mainAxisAlignment = MainAxisAlignment.start,

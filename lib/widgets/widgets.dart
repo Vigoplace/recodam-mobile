@@ -13,3 +13,4 @@ export 'image_loader.dart';
 export 'books.dart';
 export 'records.dart';
 export 'view_image.dart';
+export 'modal_content.dart';

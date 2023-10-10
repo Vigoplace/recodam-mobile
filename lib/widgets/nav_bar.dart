@@ -2,16 +2,16 @@ import 'package:grouped_list/grouped_list.dart';
 
 import '../utils/utils.dart';
 
-class CustomBottomNavbar extends StatefulWidget {
+class CustomBottomNavbar extends ConsumerStatefulWidget {
   const CustomBottomNavbar({
     super.key,
   });
 
   @override
-  State<CustomBottomNavbar> createState() => _CustomBottomNavbarState();
+  ConsumerState<CustomBottomNavbar> createState() => _CustomBottomNavbarState();
 }
 
-class _CustomBottomNavbarState extends State<CustomBottomNavbar>
+class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
 
@@ -104,6 +104,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
   }
 
   void showSearchModal() {
+    TextEditingController search = TextEditingController();
     showModalBottomSheet(
       showDragHandle: true,
       isScrollControlled: true,
@@ -121,10 +122,14 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
             Padding(
               padding: [16].pad,
               child: TextField(
+                controller: search,
                 cursorColor: AppColor.grey100,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Search here',
+                  suffixIcon: SvgButton(
+                    icon: AppSvg.searchBlack,
+                  ),
                 ),
               ),
             ),
@@ -135,127 +140,8 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
             Expanded(
               child: Container(
                 color: AppColor.grey1,
-                child: DefaultTabController(
-                  length: 2,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TabBar(
-                        isScrollable: true,
-                        labelStyle: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16.sp,
-                        ),
-                        indicatorSize: TabBarIndicatorSize.label,
-                        indicatorColor: AppColor.red60,
-                        unselectedLabelStyle: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16.sp,
-                        ),
-                        labelColor: AppColor.grey100,
-                        unselectedLabelColor: AppColor.light90,
-                        tabs: const [
-                          Tab(
-                            text: 'Books',
-                          ),
-                          Tab(
-                            text: 'Records',
-                          ),
-                        ],
-                      ),
-                      Expanded(
-                        // height: MediaQuery.sizeOf(context).height * 0.6,
-                        child: TabBarView(
-                          children: [
-                            SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  24.verticalSpace,
-                                  Padding(
-                                    padding: [16].pad,
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        'Recently Visited',
-                                        style: TextStyle(
-                                          color: AppColor.light100,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14.sp,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  18.verticalSpace,
-                                  for (int i = 0; i <= 10; i++)
-                                    Container(
-                                      padding: [16, 16].pad,
-                                      margin: [16, 0, 16, 16].pad,
-                                      decoration: ShapeDecoration(
-                                        color: AppColor.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.r),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            AppSvg.card,
-                                          ).animate().scale(),
-                                          16.horizontalSpace,
-                                          Text(
-                                            'Birthday',
-                                            style: TextStyle(
-                                              color: AppColor.grey100,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16.sp,
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                          Text(
-                                            '12',
-                                            style: TextStyle(
-                                              color: AppColor.grey40,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14.sp,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                            SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  24.verticalSpace,
-                                  Padding(
-                                    padding: [16].pad,
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        'Recently Visited',
-                                        style: TextStyle(
-                                          color: AppColor.light100,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14.sp,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  18.verticalSpace,
-                                  for (int i = 0; i <= 10; i++)
-                                    // const RecordCard(),
-                                    const Text('Record')
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                child: SearchModalContent(
+                  searchController: search,
                 ),
               ),
             ),
@@ -353,8 +239,21 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                 },
                 child: Row(
                   children: [
-                    Image.asset(
-                      AppImages.image,
+                    Consumer(
+                      builder: (context, ref, _) {
+                        var photo = ref.watch(profilePhotoProvider);
+                        return (photo == null || photo.isEmpty)
+                            ? Image.asset(
+                                AppImages.image,
+                              )
+                            : ImageLoader(
+                                width: 40,
+                                height: 40,
+                                image: photo,
+                                boxShape: BoxShape.circle,
+                                boxFit: BoxFit.cover,
+                              );
+                      },
                     ),
                     8.horizontalSpace,
                     Column(
@@ -646,6 +545,12 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(shareIntentProvider, (previous, next) {
+      context.pushNamed(
+        CreateRecordScreen.name,
+        extra: Create(media: next),
+      );
+    });
     return Align(
       alignment: Alignment.bottomCenter,
       child: SizedBox(

@@ -26,39 +26,26 @@ class LoginController extends ConsumerState<LoginScreen> {
     setState(() {});
     if (key.currentState!.validate()) {
       isLoading.value = true;
-      final loginAccountProvider = FutureProvider.autoDispose(
-        (ref) => PostRequest.loginToAccount(
-          loginModel: LoginModel(
-            password: pin.text,
-            phone: phone.text,
-          ),
+      PostRequest.loginToAccount(
+        loginModel: LoginModel(
+          password: pin.text,
+          phone: phone.text,
         ),
-      );
-      ref.listenManual(
-        loginAccountProvider,
-        fireImmediately: false,
-        (previous, next) {
-          next.when(
-            data: (UserModel data) {
-              isLoading.value = false;
-              ShowFlushBar.showSuccess(
-                context: context,
-                message: data.message,
-                perform: () async {
-                  LocalStorage.instance
-                      .saveUserInfo(data.data)
-                      .whenComplete(() => context.goNamed(HomeScreen.name));
-                },
-              );
-            },
-            error: (error, trace) {
-              isLoading.value = false;
-              listenError(context: context, error: error);
-            },
-            loading: () => debugPrint('LOADING'),
-          );
-        },
-      );
+      ).then((data) {
+        isLoading.value = false;
+        ShowFlushBar.showSuccess(
+          context: context,
+          message: data.message,
+          perform: () async {
+            LocalStorage.instance
+                .saveUserInfo(data.data)
+                .whenComplete(() => context.goNamed(HomeScreen.name));
+          },
+        );
+      }).catchError((error) {
+        isLoading.value = false;
+        listenError(context: context, error: error);
+      });
     }
   }
 

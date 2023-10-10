@@ -131,10 +131,10 @@ final GoRouter routes = GoRouter(
           path: CreateRecordScreen.path,
           name: CreateRecordScreen.name,
           pageBuilder: (context, state) {
-            CreateRecordModel? bookId = state.extra as CreateRecordModel?;
+            Create? create = state.extra as Create?;
             return FadeTransitionPage(
               child: CreateRecordScreen(
-                bookId: bookId,
+                create: create ?? Create(),
               ),
               key: state.pageKey,
             );

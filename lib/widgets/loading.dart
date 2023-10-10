@@ -10,7 +10,7 @@ class CustomLoader extends StatelessWidget {
         tween: ColorTween(
           begin: AppColor.red30,
           end: AppColor.red60,
-        ), 
+        ),
         duration: const Duration(seconds: 4),
         builder: (context, color, _) {
           return CircularProgressIndicator.adaptive(

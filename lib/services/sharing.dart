@@ -1,25 +1,27 @@
-// import 'dart:async';
+import 'dart:async';
+import 'package:recordam/utils/utils.dart';
 
-// import 'package:receive_sharing_intent/receive_sharing_intent.dart';
-// import 'package:recordam/utils/utils.dart';
+class FileSharing {
+  static late StreamSubscription intentDataStreamSubscription;
 
-// class FileSharing {
-//   static late StreamSubscription intentDataStreamSubscription;
+  static void initialise(WidgetRef ref) {
+    // For sharing images coming from outside the app while the app is in the memory
+    intentDataStreamSubscription = ReceiveSharingIntent.getMediaStream().listen(
+        (List<SharedMediaFile> value) {
+      ref.read(shareIntentProvider.notifier).state = value;
+      debugPrint('$value');
+    }, onError: (err) {
+      debugPrint("getIntentDataStream error: $err");
+    });
 
-//   static void initialise(BuildContext context) {
-//     // For sharing images coming from outside the app while the app is in the memory
-//     intentDataStreamSubscription = ReceiveSharingIntent.getMediaStream().listen(
-//         (List<SharedMediaFile> value) {
-//       debugPrint('$value');
-//     }, onError: (err) {
-//       debugPrint("getIntentDataStream error: $err");
-//     });
-
-//     // For sharing images coming from outside the app while the app is closed
-//     ReceiveSharingIntent.getInitialMedia().then((List<SharedMediaFile> value) {
-//       debugPrint('$value');
-//     }, onError: (err) {
-//       debugPrint("getIntentDataStream error: $err");
-//     });
-//   }
-// }
+    // For sharing images coming from outside the app while the app is closed
+    ReceiveSharingIntent.getInitialMedia().then((List<SharedMediaFile> value) {
+      debugPrint('$value');
+      if (value.isNotEmpty) {
+        ref.read(shareIntentProvider.notifier).state = value;
+      }
+    }, onError: (err) {
+      debugPrint("getIntentDataStream error: $err");
+    });
+  }
+}

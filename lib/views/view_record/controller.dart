@@ -37,46 +37,36 @@ class RecordController extends ConsumerState<RecordScreen> {
       accountNumber: widget.record.accountNumber,
       symbol: widget.record.symbol,
     );
-    late AutoDisposeFutureProvider<String> testProvider;
+    late Future<String> testFuture;
+
     if (widget.record.isDatabase) {
-      testProvider = FutureProvider.autoDispose(
-          (ref) => PostRequest.updateRecord(record: record));
+      testFuture = PostRequest.updateRecord(record: record);
     } else {
-      testProvider = FutureProvider.autoDispose(
-          (ref) => PostRequest.createRecord(record: record));
+      testFuture = PostRequest.createRecord(record: record);
     }
-    ref.listenManual(
-      testProvider,
-      fireImmediately: true,
-      (previous, next) {
-        next.when(
-          data: (data) {
-            debugPrint('LOADED');
-            isLoading.value = false;
-            ref.invalidate(homeRecordProvider);
-            ref.invalidate(homeBookProvider);
-            ShowFlushBar.showSuccess(
-              context: context,
-              message: data,
-              perform: () => context.goNamed(HomeScreen.name),
-            );
-          },
-          error: (error, trace) {
-            isLoading.value = false;
-            debugPrint(error.toString());
-            listenError(
-              error: error,
-              context: context,
-            );
-          },
-          loading: () => isLoading.value = true,
-        );
-      },
-    );
+    testFuture.then((data) {
+      debugPrint('LOADED');
+      isLoading.value = false;
+      ref.invalidate(homeRecordProvider);
+      ref.invalidate(homeBookProvider);
+      ShowFlushBar.showSuccess(
+        context: context,
+        message: data,
+        perform: () => context.goNamed(HomeScreen.name),
+      );
+    }).catchError((error) {
+      isLoading.value = false;
+      debugPrint(error.toString());
+      listenError(
+        error: error,
+        context: context,
+      );
+    });
   }
 
   void showBooks() async {
     var pagination = Pagination();
+    var search = TextEditingController();
     var choice = await showModalBottomSheet<Book?>(
       showDragHandle: true,
       isScrollControlled: true,
@@ -87,13 +77,33 @@ class RecordController extends ConsumerState<RecordScreen> {
           topRight: Radius.circular(30.r),
         ),
       ),
-      builder: (context) => SizedBox(
+      backgroundColor: AppColor.grey,
+      builder: (context) => Container(
+        color: AppColor.grey,
         height: MediaQuery.sizeOf(context).height * 0.7,
-        child: Books(
-          pagination: pagination,
-          onTap: (p0) {
-            context.pop(p0);
-          },
+        child: Column(
+          children: [
+            Padding(
+              padding: [16, 0].pad,
+              child: CustomTextInput(
+                controller: search,
+                prefix: const SvgButton(
+                  icon: AppSvg.blackSearch,
+                ),
+                hintText: 'Search',
+              ),
+            ),
+            Expanded(
+              child: Books(
+                pagination: pagination,
+                mini: true,
+                searchWord: search,
+                onTap: (p0) {
+                  context.pop(p0);
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

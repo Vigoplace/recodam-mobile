@@ -44,43 +44,30 @@ class SignupController extends ConsumerState<SignupScreen> {
     setState(() {});
     if (key.currentState!.validate()) {
       isLoading.value = true;
-      final createAccountProvider = FutureProvider.autoDispose(
-        (ref) => PostRequest.createAccount(
-          createAccountModel: CreateAccountModel(
-            email: email.text,
-            name: name.text,
-            password: pin.text,
-            phone: phone.text,
-          ),
-        ),
-      );
 
-      ref.listenManual(
-        createAccountProvider,
-        fireImmediately: false,
-        (previous, next) {
-          next.when(
-            data: (data) {
-              debugPrint('LOADED');
-              isLoading.value = false;
-              ShowFlushBar.showSuccess(
-                context: context,
-                message: data.message,
-                perform: () async {
-                  LocalStorage.instance
-                      .saveUserInfo(data.data)
-                      .whenComplete(() => context.goNamed(HomeScreen.name));
-                },
-              );
-            },
-            error: (error, trace) {
-              isLoading.value = false;
-              listenError(context: context, error: error);
-            },
-            loading: () => debugPrint('LOADING'),
-          );
-        },
-      );
+      PostRequest.createAccount(
+        createAccountModel: CreateAccountModel(
+          email: email.text,
+          name: name.text,
+          password: pin.text,
+          phone: phone.text,
+        ),
+      ).then((data) {
+        debugPrint('LOADED');
+        isLoading.value = false;
+        ShowFlushBar.showSuccess(
+          context: context,
+          message: data.message,
+          perform: () async {
+            LocalStorage.instance
+                .saveUserInfo(data.data)
+                .whenComplete(() => context.goNamed(HomeScreen.name));
+          },
+        );
+      }).catchError((error) {
+        isLoading.value = false;
+        listenError(context: context, error: error);
+      });
     }
   }
 

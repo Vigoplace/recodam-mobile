@@ -1,10 +1,10 @@
-import 'dart:io';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
 class CreateBookScreen extends ConsumerStatefulWidget {
   static const path = "create_book";
   static const name = "create_book";
+
   const CreateBookScreen({Key? key}) : super(key: key);
 
   @override
@@ -13,7 +13,6 @@ class CreateBookScreen extends ConsumerStatefulWidget {
 
 class CreateBookController extends ConsumerState<CreateBookScreen> {
   var isLoading = ValueNotifier(false);
-  ValueNotifier<File?> file = ValueNotifier(null);
 
   late TextEditingController bookName;
   late TextEditingController description;
@@ -32,6 +31,7 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
   void createBook() async {
     setState(() => submitted = true);
     if (key.currentState!.validate()) {
+      isLoading.value = true;
       CreateBook book = CreateBook(
         name: bookName.text,
         description: description.text,
@@ -40,35 +40,26 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
         access: access.value.name,
         symbol: currency.value.symbol,
       );
-      final testProvider = FutureProvider.autoDispose(
-          (ref) => PostRequest.createBook(book: book));
-
-      ref.listenManual(
-        testProvider,
-        fireImmediately: true,
-        (previous, next) {
-          next.when(
-            data: (data) {
-              debugPrint('LOADED');
-              isLoading.value = false;
-              ref.invalidate(homeBookProvider);
-              ShowFlushBar.showSuccess(
-                context: context,
-                message: data,
-                perform: () {
-                  context.pop();
-                },
-              );
-            },
-            error: (error, trace) {
-              isLoading.value = false;
-              debugPrint(error.toString());
-              listenError(
-                error: error,
-                context: context,
-              );
-            },
-            loading: () => isLoading.value = true,
+      PostRequest.createBook(
+        book: book,
+      ).then((value) {
+        debugPrint('LOADED');
+        isLoading.value = false;
+        ref.invalidate(homeBookProvider);
+        ShowFlushBar.showSuccess(
+          context: context,
+          message: value,
+          perform: () {
+            context.pop();
+          },
+        );
+      }).catchError(
+        (error) {
+          isLoading.value = false;
+          debugPrint(error.toString());
+          listenError(
+            error: error,
+            context: context,
           );
         },
       );
@@ -77,14 +68,6 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
         'One or more required field is missing',
         context: context,
       );
-    }
-  }
-
-  void pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    var xFile = await picker.pickImage(source: ImageSource.gallery);
-    if (xFile != null) {
-      file.value = File(xFile.path);
     }
   }
 

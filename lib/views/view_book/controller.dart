@@ -1,4 +1,5 @@
 import 'package:recordam/utils/utils.dart';
+import 'package:share_plus/share_plus.dart';
 part 'view.dart';
 
 class ViewBookScreen extends ConsumerStatefulWidget {

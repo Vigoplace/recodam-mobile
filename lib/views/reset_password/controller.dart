@@ -30,67 +30,39 @@ class ResetPasswordController extends ConsumerState<ResetPasswordScreen> {
     setState(() {});
     if (key.currentState!.validate()) {
       isLoading.value = true;
-      final loginAccountProvider = FutureProvider.autoDispose(
-        (ref) => PostRequest.resetPassword(
-          otp: otp.text,
-          pin: pin.text,
-        ),
-      );
-      ref.listenManual(
-        loginAccountProvider,
-        fireImmediately: false,
-        (previous, next) {
-          next.when(
-            data: (data) {
-              isLoading.value = false;
-              ShowFlushBar.showSuccess(
-                context: context,
-                message: data,
-                perform: () => context.goNamed(LoginScreen.name),
-              );
-            },
-            error: (error, trace) {
-              isLoading.value = false;
-              listenError(context: context, error: error);
-            },
-            loading: () => debugPrint('LOADING'),
-          );
-        },
-      );
+      PostRequest.resetPassword(
+        otp: otp.text,
+        pin: pin.text,
+      ).then((data) {
+        isLoading.value = false;
+        ShowFlushBar.showSuccess(
+          context: context,
+          message: data,
+          perform: () => context.goNamed(LoginScreen.name),
+        );
+      }).catchError((error) {
+        isLoading.value = false;
+        listenError(context: context, error: error);
+      });
     }
   }
 
   void resendToken() async {
     isLoading.value = true;
-    final loginAccountProvider = FutureProvider.autoDispose(
-      (ref) {
-        var email = LocalStorage.instance.getEmail();
-        return PostRequest.forgotPassword(
-          email: email,
-        );
-      },
-    );
-    ref.listenManual(
-      loginAccountProvider,
-      fireImmediately: false,
-      (previous, next) {
-        next.when(
-          data: (data) {
-            startTimer();
-            isLoading.value = false;
-            ShowFlushBar.showSuccess(
-              context: context,
-              message: data,
-            );
-          },
-          error: (error, trace) {
-            isLoading.value = false;
-            listenError(context: context, error: error);
-          },
-          loading: () => debugPrint('LOADING'),
-        );
-      },
-    );
+    var email = LocalStorage.instance.getEmail();
+    PostRequest.forgotPassword(
+      email: email,
+    ).then((value) {
+      startTimer();
+      isLoading.value = false;
+      ShowFlushBar.showSuccess(
+        context: context,
+        message: value,
+      );
+    }).catchError((error) {
+      isLoading.value = false;
+      listenError(context: context, error: error);
+    });
   }
 
   @override

@@ -14,13 +14,34 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
         action: [
           RoundIconButton(
             icon: AppSvg.share,
-            onTap: () {},
+            onTap: () => Share.share('Recodam'),
             paddingLeft: 16,
           ),
-          RoundIconButton(
-            icon: AppSvg.moreVert,
-            onTap: () {},
-            paddingLeft: 16,
+          PopupMenuButton(
+            color: AppColor.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            offset: const Offset(0, 60),
+            itemBuilder: (context) =>
+                ['Summary', 'Generate report', 'Delete book', 'Close book']
+                    .map(
+                      (e) => PopupMenuItem(
+                        child: Text(
+                          e,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.grey100,
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
+            child: const RoundIconButton(
+              icon: AppSvg.moreVert,
+              paddingLeft: 16,
+            ),
           ),
         ],
       ),
@@ -28,9 +49,11 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
         text: 'Add record',
         onTap: () => context.pushNamed(
           CreateRecordScreen.name,
-          extra: CreateRecordModel(
-            id: widget.book.id,
-            name: widget.book.name,
+          extra: Create(
+            bookId: CreateRecordModel(
+              id: widget.book.id,
+              name: widget.book.name,
+            ),
           ),
         ),
         width: 150.w,

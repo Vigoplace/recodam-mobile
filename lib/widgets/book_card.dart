@@ -259,3 +259,62 @@ class _HorizBookCardState extends State<HorizBookCard> {
     ).animate().moveY();
   }
 }
+
+class BookCardMini extends StatelessWidget {
+  final Book book;
+  final void Function(Book)? onTap;
+
+  const BookCardMini({
+    super.key,
+    required this.book,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (onTap == null) {
+          context.pushNamed(ViewBookScreen.name, extra: book);
+        } else {
+          onTap!(book);
+        }
+      },
+      child: Container(
+        padding: [16, 16].pad,
+        margin: [16, 0, 16, 16].pad,
+        decoration: ShapeDecoration(
+          color: AppColor.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+        ),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              AppSvg.card,
+            ).animate().scale(),
+            16.horizontalSpace,
+            Text(
+              book.name,
+              style: TextStyle(
+                color: AppColor.grey100,
+                fontWeight: FontWeight.w700,
+                fontSize: 16.sp,
+              ),
+            ),
+            const Spacer(),
+            Text(
+              '${book.totalRecords}',
+              style: TextStyle(
+                color: AppColor.grey40,
+                fontWeight: FontWeight.w400,
+                fontSize: 14.sp,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:recordam/utils/utils.dart';
 
@@ -21,41 +23,38 @@ class _BooksState extends ConsumerState<Records> {
   late RefreshController refreshController;
   ValueNotifier<List<Record>> recordList = ValueNotifier([]);
   List<Record> holderList = [];
-  late FutureProviderFamily<List<Record>, Pagination> booksProvider;
+  late FutureProviderFamily<List<Record>, Pagination> recordsProvider;
   bool loaded = false;
+  Timer? _debounce;
 
   @override
   void initState() {
     super.initState();
-    pagination = widget.pagination;
-    booksProvider = FutureProvider.family(
+    pagination = widget.pagination..page = 1;
+    recordsProvider = FutureProvider.family(
       (ref, Pagination pagination) =>
           GetRequest.getRecords(pagination: pagination),
     );
     refreshController = RefreshController();
+
     widget.searchWord?.addListener(() {
-      if (widget.searchWord != null) {
-        recordList.value = holderList.where((element) {
-          return element.senderName.toLowerCase().contains(
-                    widget.searchWord!.text.toLowerCase(),
-                  ) ||
-              (element.accountName ?? '').toLowerCase().contains(
-                    widget.searchWord!.text.toLowerCase(),
-                  ) ||
-              (element.bankName ?? '').toLowerCase().contains(
-                    widget.searchWord!.text.toLowerCase(),
-                  ) ||
-              (element.accountNumber ?? '').toLowerCase().contains(
-                    widget.searchWord!.text.toLowerCase(),
-                  ) ||
-              element.amount.toLowerCase().contains(
-                    widget.searchWord!.text.toLowerCase(),
-                  ) ||
-              element.details.toLowerCase().contains(
-                    widget.searchWord!.text.toLowerCase(),
-                  );
-        }).toList();
+      if (widget.searchWord != null && widget.searchWord!.text.isNotEmpty) {
+        _onSearchTextChanged(widget.searchWord!.text);
       }
+    });
+    if (widget.searchWord != null && widget.searchWord!.text.isNotEmpty) {
+      _onSearchTextChanged(widget.searchWord!.text, seconds: 0);
+    }
+  }
+
+  void _onSearchTextChanged(String query, {int seconds = 1}) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(Duration(seconds: seconds), () {
+      pagination
+        ..page = 1
+        ..search = widget.searchWord!.text;
+      ref.invalidate(recordsProvider(pagination));
+      loaded = false;
     });
   }
 
@@ -63,12 +62,13 @@ class _BooksState extends ConsumerState<Records> {
   void dispose() {
     refreshController.dispose();
     recordList.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    var books = ref.watch(booksProvider(pagination));
+    var books = ref.watch(recordsProvider(pagination));
     return books.when(
       skipLoadingOnRefresh: false,
       data: (data) {
@@ -136,7 +136,7 @@ class _BooksState extends ConsumerState<Records> {
         error as DioException;
         return ErrorScreen(
           error: error,
-          reload: () => ref.invalidate(booksProvider),
+          reload: () => ref.invalidate(recordsProvider),
         );
       },
       loading: () => const CustomLoader(),
