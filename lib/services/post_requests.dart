@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:http_parser/http_parser.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:recordam/utils/utils.dart';
@@ -28,9 +26,12 @@ class PostRequest {
     required CreateAccountModel createAccountModel,
   }) async {
     var path = 'auth/create';
+    var payload = createAccountModel.toJson();
+    var messagingToken = await FirebaseMessaging.instance.getToken();
+    payload.addAll({'messaging_token': messagingToken});
     var user = await network.postRequestHandler(
       path,
-      data: createAccountModel.toJson(),
+      data: payload,
     );
     return UserModel.fromJson(user.data);
   }
@@ -39,9 +40,12 @@ class PostRequest {
     required LoginModel loginModel,
   }) async {
     var path = 'auth/login';
+    var payload = loginModel.toJson();
+    var messagingToken = await FirebaseMessaging.instance.getToken();
+    payload.addAll({'messaging_token': messagingToken});
     var user = await network.postRequestHandler(
       path,
-      data: loginModel.toJson(),
+      data: payload,
     );
     return UserModel.fromJson(user.data);
   }

@@ -51,6 +51,7 @@ class SignupController extends ConsumerState<SignupScreen> {
           name: name.text,
           password: pin.text,
           phone: phone.text,
+          countryCode: country.value.code,
         ),
       ).then((data) {
         debugPrint('LOADED');

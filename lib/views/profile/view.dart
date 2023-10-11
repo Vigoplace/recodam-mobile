@@ -24,17 +24,27 @@ class ProfileView extends StatelessView<ProfileScreen, ProfileController> {
                     child: Consumer(
                       builder: (context, ref, _) {
                         var photo = ref.watch(profilePhotoProvider);
-                        return photo == null
-                            ? const CircleAvatar(
-                                backgroundImage: AssetImage(
-                                  AppImages.image,
-                                ),
-                              )
-                            : ImageLoader(
+                        return GestureDetector(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ViewImage(
                                 image: photo,
-                                boxShape: BoxShape.circle,
-                                boxFit: BoxFit.cover,
-                              );
+                                appBarText: 'Profile image',
+                              ),
+                            ),
+                          ),
+                          child: photo == null
+                              ? const CircleAvatar(
+                                  backgroundImage: AssetImage(
+                                    AppImages.image,
+                                  ),
+                                )
+                              : ImageLoader(
+                                  image: photo,
+                                  boxShape: BoxShape.circle,
+                                  boxFit: BoxFit.cover,
+                                ),
+                        );
                       },
                     ),
                   ),

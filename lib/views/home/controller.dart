@@ -21,12 +21,13 @@ class HomeController extends ConsumerState<HomeScreen> {
     super.initState();
     refreshController = RefreshController();
     SocketServices.instance.connectAndListen();
+    FileSharing.initialise(ref);
+    RecodamFirebaseService.initNotification(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(nameProvider.notifier).state = LocalStorage.instance.getName();
       ref.read(profilePhotoProvider.notifier).state =
           LocalStorage.instance.getProfilePhoto();
     });
-    FileSharing.initialise(ref);
   }
 
   @override

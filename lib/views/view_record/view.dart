@@ -47,6 +47,7 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                           MaterialPageRoute(
                             builder: (context) => ViewImage(
                               image: widget.record.file,
+                              appBarText: 'Payment proof',
                             ),
                           ),
                         ),

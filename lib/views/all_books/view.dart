@@ -7,11 +7,31 @@ class AllBooksView extends StatelessView<AllBooksScreen, AllBooksController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.grey,
       appBar: const CustomAppbar(
         title: 'All books',
       ),
-      body: Books(
-        pagination: controller.pagination,
+      body: Column(
+        children: [
+          Container(
+            color: AppColor.white,
+            padding: [16, 20].pad,
+            child: CustomTextInput(
+              hintText: 'Search for book',
+              fillColor: AppColor.grey,
+              controller: controller.search,
+              prefix: const SvgButton(
+                icon: AppSvg.blackSearch,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Books(
+              searchWord: controller.search,
+              pagination: controller.pagination,
+            ),
+          ),
+        ],
       ),
     );
   }

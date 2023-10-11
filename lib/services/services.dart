@@ -5,3 +5,4 @@ export 'patch_request.dart';
 export 'get_request.dart';
 export 'socket.dart';
 export 'sharing.dart';
+export 'messaging.dart';

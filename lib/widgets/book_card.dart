@@ -176,7 +176,6 @@ class _HorizBookCardState extends State<HorizBookCard> {
           }
         },
         child: Card(
-          color: AppColor.grey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.r),
           ),

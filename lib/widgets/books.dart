@@ -25,8 +25,9 @@ class _BooksState extends ConsumerState<Books> {
   late FutureProviderFamily<List<Book>, Pagination> booksProvider;
   ValueNotifier<List<Book>> bookList = ValueNotifier([]);
   List<Book> holderList = [];
-  bool loaded = false;
+  bool _loaded = false;
   Timer? _debounce;
+  String _textTracker = '';
 
   @override
   void initState() {
@@ -53,8 +54,11 @@ class _BooksState extends ConsumerState<Books> {
       pagination
         ..page = 1
         ..search = widget.searchWord!.text;
-      ref.invalidate(booksProvider(pagination));
-      loaded = false;
+      if (_textTracker != widget.searchWord?.text) {
+        ref.invalidate(booksProvider(pagination));
+        _textTracker = widget.searchWord!.text;
+      }
+      _loaded = false;
     });
   }
 
@@ -71,10 +75,10 @@ class _BooksState extends ConsumerState<Books> {
     return books.when(
       skipLoadingOnRefresh: false,
       data: (data) {
-        if (!loaded) {
+        if (!_loaded) {
           bookList.value = data.toList();
         }
-        loaded = true;
+        _loaded = true;
         holderList = data.toList();
         return ValueListenableBuilder(
           valueListenable: bookList,

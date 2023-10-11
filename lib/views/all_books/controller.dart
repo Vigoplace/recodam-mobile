@@ -12,6 +12,19 @@ class AllBooksScreen extends ConsumerStatefulWidget {
 
 class AllBooksController extends ConsumerState<AllBooksScreen> {
   var pagination = Pagination();
+  late TextEditingController search;
+
+  @override
+  void initState() {
+    super.initState();
+    search = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    search.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

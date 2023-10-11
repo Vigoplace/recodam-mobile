@@ -12,8 +12,27 @@ class AllRecordsView
         title: 'All records',
       ),
       backgroundColor: AppColor.grey,
-      body: Records(
-        pagination: controller.pagination,
+      body: Column(
+        children: [
+          Container(
+            color: AppColor.white,
+            padding: [16, 20].pad,
+            child: CustomTextInput(
+              hintText: 'Search for book',
+              fillColor: AppColor.grey,
+              controller: controller.search,
+              prefix: const SvgButton(
+                icon: AppSvg.blackSearch,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Records(
+              pagination: controller.pagination,
+              searchWord: controller.search,
+            ),
+          ),
+        ],
       ),
     );
   }

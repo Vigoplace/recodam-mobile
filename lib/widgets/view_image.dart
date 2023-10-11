@@ -1,31 +1,29 @@
 import 'package:recordam/utils/utils.dart';
 
-class ViewImage extends StatefulWidget {
-  final String image;
+class ViewImage extends StatelessWidget {
+  final String? image;
+  final String appBarText;
   const ViewImage({
     super.key,
     required this.image,
+    required this.appBarText,
   });
-
-  @override
-  State<ViewImage> createState() => _ViewImageState();
-}
-
-class _ViewImageState extends State<ViewImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppbar(
+      appBar: CustomAppbar(
         centerTitle: false,
-        title: 'Transaction Proof',
+        title: appBarText,
       ),
       backgroundColor: AppColor.grey,
       body: InteractiveViewer(
         child: Center(
-          child: ImageLoader(
-            image: widget.image,
-            boxFit: BoxFit.fill,
-          ).animate().fade(duration: const Duration(seconds: 1)),
+          child: (image == null || image!.isEmpty)
+              ? Image.asset(AppImages.image)
+              : ImageLoader(
+                  image: image!,
+                  boxFit: BoxFit.fill,
+                ).animate().fade(duration: const Duration(seconds: 1)),
         ),
       ),
     );

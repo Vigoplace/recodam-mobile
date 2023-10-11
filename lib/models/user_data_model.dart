@@ -5,12 +5,14 @@ class CreateAccountModel {
   final String email;
   final String phone;
   final String password;
+  final String countryCode;
 
   CreateAccountModel({
     required this.email,
     required this.name,
     required this.password,
     required this.phone,
+    required this.countryCode,
   });
 
   Map<String, dynamic> toJson() {
@@ -19,6 +21,7 @@ class CreateAccountModel {
       'email': email,
       'phone': phone,
       'password': password,
+      'country_code': countryCode,
     };
   }
 }

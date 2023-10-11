@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "255789219006",
+    "project_id": "recodam-39c31",
+    "storage_bucket": "recodam-39c31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255789219006:android:ebaf6039a590306e2232ef",
+        "android_client_info": {
+          "package_name": "org.recodam.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDveh05mGdnf07kAuYxrfDAo0sdtjRy9_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
