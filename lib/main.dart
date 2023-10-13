@@ -1,4 +1,3 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'firebase_options.dart';
@@ -36,17 +35,19 @@ class MyApp extends StatelessWidget {
             ],
             child: Column(
               children: [
-                Consumer(builder: (context, ref, _) {
-                  final sending = ref.watch(sendingProvider);
-                  return Visibility(
-                    visible: sending,
-                    child: LinearProgressIndicator(
-                      minHeight: 50.h,
-                      color: AppColor.red30,
-                      backgroundColor: AppColor.red60,
-                    ),
-                  );
-                }),
+                Consumer(
+                  builder: (context, ref, _) {
+                    final sending = ref.watch(sendingProvider);
+                    return Visibility(
+                      visible: sending,
+                      child: LinearProgressIndicator(
+                        minHeight: 50.h,
+                        color: AppColor.red30,
+                        backgroundColor: AppColor.red60,
+                      ),
+                    );
+                  },
+                ),
                 Expanded(
                   child: ScrollConfiguration(
                     behavior: MyBehavior(),

@@ -17,6 +17,52 @@ class GetRequest {
     return List.generate(10, (index) => index += 1);
   }
 
+  static Future<Map<DateTime, List<Book>>> getGroupedBooks() async {
+    var path = 'book/group';
+    var token = LocalStorage.instance.getToken();
+    var books = await network.getRequestHandler(
+      path,
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+      ),
+    );
+    Map<DateTime, List<Book>> groupedBooks = {};
+    (books.data['data'] as Map).forEach((key, value) {
+      // Parse the date key into a DateTime object
+      var date = DateTime.parse(key);
+      var booksList = (value as List).map((bookJson) {
+        return Book.fromJson(
+            bookJson); // Assuming you have a fromJson constructor in your Book class
+      }).toList();
+      groupedBooks[date] = booksList;
+    });
+
+    return groupedBooks;
+  }
+
+  static Future<Map<DateTime, List<Record>>> getGroupedRecords() async {
+    var path = 'record/group';
+    var token = LocalStorage.instance.getToken();
+    var books = await network.getRequestHandler(
+      path,
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+      ),
+    );
+    Map<DateTime, List<Record>> groupedBooks = {};
+    (books.data['data'] as Map).forEach((key, value) {
+      // Parse the date key into a DateTime object
+      var date = DateTime.parse(key);
+      var booksList = (value as List).map((bookJson) {
+        return Record.fromJson(
+            bookJson); // Assuming you have a fromJson constructor in your Book class
+      }).toList();
+      groupedBooks[date] = booksList;
+    });
+
+    return groupedBooks;
+  }
+
   static Future<List<Book>> getAllBooks({Pagination? pagination}) async {
     var path = 'book';
     var token = LocalStorage.instance.getToken();
@@ -50,6 +96,31 @@ class GetRequest {
         'page': pagination?.page,
         'size': pagination?.size,
         'search': pagination?.search,
+      },
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+      ),
+    );
+    debugPrint(books.data.toString());
+    var bookInfo = RecordInfo.fromJson(books.data['data']);
+    pagination?.total = bookInfo.total;
+    pagination?.page += 1;
+    return bookInfo.book;
+  }
+
+  static Future<List<Record>> getHomeRecords({Pagination? pagination}) async {
+    var path = 'record';
+    if (pagination?.book != null) {
+      path = 'book/${pagination!.book}';
+    }
+    var token = LocalStorage.instance.getToken();
+    var books = await network.getRequestHandler(
+      path,
+      queryPatameters: {
+        'page': pagination?.page,
+        'size': pagination?.size,
+        'search': pagination?.search,
+        'type': 'no-book', // Two kinds, NO-BOOK AND ALL
       },
       options: Options(
         headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},

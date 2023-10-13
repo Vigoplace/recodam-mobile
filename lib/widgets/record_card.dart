@@ -10,9 +10,16 @@ class RecordCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.pushNamed(
-        RecordScreen.name,
-        extra: record,
+      onTap: () {
+        PostRequest.updateRecordView(bookId: record.id)
+            .catchError((error) => '');
+        context.pushNamed(
+          RecordScreen.name,
+          extra: record,
+        );
+      },
+      overlayColor: MaterialStateColor.resolveWith(
+        (states) => Colors.transparent,
       ),
       child: Container(
         padding: [20, 22].pad,

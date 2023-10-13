@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
@@ -81,10 +82,13 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
   }
 
   void pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    var xFile = await picker.pickImage(source: ImageSource.gallery);
-    if (xFile != null) {
-      file.value = File(xFile.path);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowedExtensions: ['pdf', 'png', 'jpeg', 'jpg'],
+      type: FileType.custom,
+    );
+
+    if (result != null) {
+      file.value = File(result.files.single.path!);
     }
   }
 

@@ -25,6 +25,7 @@ class AppSvg {
   static const String menu = 'assets/svg/menu.svg';
   static const String moreHoriz = 'assets/svg/more_horiz.svg';
   static const String moreVert = 'assets/svg/more_vert.svg';
+  static const String nigeria = 'assets/svg/nigeria.svg';
   static const String pin = 'assets/svg/pin.svg';
   static const String posted = 'assets/svg/posted.svg';
   static const String record = 'assets/svg/record.svg';

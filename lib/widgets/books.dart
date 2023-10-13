@@ -24,7 +24,6 @@ class _BooksState extends ConsumerState<Books> {
   late RefreshController refreshController;
   late FutureProviderFamily<List<Book>, Pagination> booksProvider;
   ValueNotifier<List<Book>> bookList = ValueNotifier([]);
-  List<Book> holderList = [];
   bool _loaded = false;
   Timer? _debounce;
   String _textTracker = '';
@@ -79,7 +78,6 @@ class _BooksState extends ConsumerState<Books> {
           bookList.value = data.toList();
         }
         _loaded = true;
-        holderList = data.toList();
         return ValueListenableBuilder(
           valueListenable: bookList,
           builder: (context, list, _) {
@@ -87,12 +85,12 @@ class _BooksState extends ConsumerState<Books> {
               controller: refreshController,
               enablePullUp: true,
               onLoading: () async {
-                if (data.length != pagination.total) {
+                if (list.length != pagination.total) {
                   try {
                     var a = await GetRequest.getAllBooks(
                       pagination: pagination,
                     );
-                    data.addAll(a);
+                    bookList.value.addAll(a);
                     refreshController.loadComplete();
                     setState(() {});
                   } catch (_) {
@@ -104,11 +102,11 @@ class _BooksState extends ConsumerState<Books> {
                 }
               },
               onRefresh: () async {
-                data.clear();
+                bookList.value.clear();
                 pagination.page = 1;
                 try {
                   var a = await GetRequest.getAllBooks(pagination: pagination);
-                  data.addAll(a);
+                  bookList.value.addAll(a);
                   setState(() {});
                   ();
                   refreshController.refreshCompleted(resetFooterState: true);

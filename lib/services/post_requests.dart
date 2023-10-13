@@ -177,6 +177,31 @@ class PostRequest {
     return user.data['message'];
   }
 
+  static Future<String> updateBookView({required int bookId}) async {
+    var path = 'book/view';
+    var token = LocalStorage.instance.getToken();
+    var user = await network.postRequestHandler(
+      path,
+      data: {'id': bookId},
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+      ),
+    );
+    return user.data['message'];
+  }
+  static Future<String> updateRecordView({required int bookId}) async {
+    var path = 'record/view';
+    var token = LocalStorage.instance.getToken();
+    var user = await network.postRequestHandler(
+      path,
+      data: {'id': bookId},
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+      ),
+    );
+    return user.data['message'];
+  }
+
   static Future<String> uploadPhoto({
     required WidgetRef ref,
     required File file,

@@ -10,6 +10,7 @@ void main() {
     expect(File(AppImages.network).existsSync(), true);
     expect(File(AppImages.onboarding).existsSync(), true);
     expect(File(AppImages.paper).existsSync(), true);
+    expect(File(AppImages.pdf).existsSync(), true);
     expect(File(AppImages.splash).existsSync(), true);
     expect(File(AppImages.test).existsSync(), true);
   });

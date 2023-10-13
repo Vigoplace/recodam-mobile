@@ -183,6 +183,7 @@ class Book {
   String symbol;
   int userId;
   int totalRecords;
+  DateTime? viewed;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -198,6 +199,7 @@ class Book {
     required this.createdAt,
     required this.updatedAt,
     required this.totalRecords,
+    required this.viewed,
   });
 
   factory Book.fromJson(Map<String, dynamic> data) {
@@ -213,6 +215,7 @@ class Book {
       totalRecords: data['total_records'],
       createdAt: DateTime.parse(data['created_at']),
       updatedAt: DateTime.parse(data['updated_at']),
+      viewed: data['viewed'] != null ? DateTime.parse(data['viewed']) : null,
     );
   }
 }
@@ -347,6 +350,7 @@ class RecordBook {
 class Record {
   int id;
   DateTime date;
+  DateTime? viewed;
   String senderName;
   String amount;
   String? bankName;
@@ -374,6 +378,7 @@ class Record {
     required this.ownerId,
     required this.symbol,
     this.book,
+    this.viewed,
     this.isDatabase = true,
   });
 
@@ -381,6 +386,7 @@ class Record {
     return Record(
       id: data['id'] as int,
       date: DateTime.parse(data['date']),
+      viewed: data['viewed'] != null ? DateTime.parse(data['viewed']) : null,
       senderName: data['sender_name'],
       amount: data['amount'],
       bankName: data['bank_name'],

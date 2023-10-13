@@ -1,3 +1,4 @@
+import 'package:grouped_list/grouped_list.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
@@ -13,11 +14,13 @@ class AllRecordsScreen extends ConsumerStatefulWidget {
 class AllRecordsController extends ConsumerState<AllRecordsScreen> {
   var pagination = Pagination();
   late TextEditingController search;
+  late FutureProvider<Map<DateTime, List<Record>>> allRecords;
 
   @override
   void initState() {
     super.initState();
     search = TextEditingController();
+    allRecords = FutureProvider((ref) => GetRequest.getGroupedRecords());
   }
 
   @override

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:recordam/utils/utils.dart';
 
 class NetworkService {
@@ -23,7 +22,7 @@ class NetworkService {
       data: data,
       cancelToken: cancelToken,
     );
-    log(a.data.toString());
+    debugPrint(a.data.toString());
     return a;
   }
 
@@ -45,7 +44,7 @@ class NetworkService {
       options: options,
       cancelToken: cancelToken,
     );
-    log(a.data.toString());
+    debugPrint(a.data.toString());
     return a;
   }
 
@@ -66,7 +65,7 @@ class NetworkService {
       data: data,
       options: options,
     );
-    log(a.data.toString());
+    debugPrint(a.data.toString());
     return a;
   }
 }

@@ -169,7 +169,7 @@ class CreateRecordView
               valueListenable: controller.file,
               builder: (context, value, _) {
                 return Container(
-                  height: 140.h,
+                  height: 150.h,
                   decoration: BoxDecoration(
                     color: AppColor.grey1,
                     borderRadius: BorderRadius.circular(8.r),
@@ -188,9 +188,13 @@ class CreateRecordView
                                 icon: AppSvg.upload,
                                 onTap: controller.pickImage,
                               )
-                            : Image.file(
-                                value,
-                              ).animate().scale(),
+                            : value.path.endsWith('pdf')
+                                ? Image.asset(
+                                    AppImages.pdf,
+                                  )
+                                : Image.file(
+                                    value,
+                                  ).animate().scale(),
                       ),
                       if (value != null)
                         Align(
@@ -200,7 +204,7 @@ class CreateRecordView
                             child: RoundIconButton(
                               backgroundColor: AppColor.red60,
                               mainAxisAlignment: MainAxisAlignment.end,
-                              icon: AppSvg.checked,
+                              icon: AppSvg.remove,
                               onTap: () => controller.file.value = null,
                             ),
                           ),

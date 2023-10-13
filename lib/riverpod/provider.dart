@@ -6,7 +6,7 @@ StateProvider<String?> profilePhotoProvider = StateProvider((ref) => '');
 final homeBookProvider =
     FutureProvider.autoDispose((ref) => GetRequest.getAllBooks());
 final homeRecordProvider =
-    FutureProvider.autoDispose((ref) => GetRequest.getRecords());
+    FutureProvider.autoDispose((ref) => GetRequest.getHomeRecords());
 final sendingProvider = StateProvider((ref) => false);
 var countryProvider = FutureProvider.autoDispose(
   (ref) => GetRequest.getAllCountries(),

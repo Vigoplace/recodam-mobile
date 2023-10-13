@@ -7,32 +7,54 @@ class AllRecordsView
 
   @override
   Widget build(BuildContext context) {
+    var records = controller.ref.watch(controller.allRecords);
     return Scaffold(
-      appBar: const CustomAppbar(
-        title: 'All records',
-      ),
       backgroundColor: AppColor.grey,
-      body: Column(
-        children: [
-          Container(
-            color: AppColor.white,
-            padding: [16, 20].pad,
-            child: CustomTextInput(
-              hintText: 'Search for book',
-              fillColor: AppColor.grey,
-              controller: controller.search,
-              prefix: const SvgButton(
-                icon: AppSvg.blackSearch,
+      appBar: const CustomAppbar(
+        title: 'Recently viewed records',
+      ),
+      body: records.when(
+        data: (data) => data.keys.toList().isNotEmpty
+            ? GroupedListView<List<Record>, DateTime>(
+                elements: data.values.toList(),
+                groupBy: (element) => element[0].viewed!,
+                order: GroupedListOrder.DESC,
+                groupSeparatorBuilder: (DateTime groupByValue) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    30.verticalSpace,
+                    Padding(
+                      padding: EdgeInsets.only(left: 20.w),
+                      child: Text(
+                        groupByValue.formattedDate(),
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColor.grey100,
+                        ),
+                      ),
+                    ),
+                    20.verticalSpace,
+                  ],
+                ),
+                itemBuilder: (context, element) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: element
+                      .map((record) => RecordCard(record: record))
+                      .toList(),
+                ),
+              )
+            : const EmptyWidget(
+                text: 'Nothing to see here',
               ),
-            ),
-          ),
-          Expanded(
-            child: Records(
-              pagination: controller.pagination,
-              searchWord: controller.search,
-            ),
-          ),
-        ],
+        error: (error, trace) {
+          error as DioException;
+          return ErrorScreen(
+            error: error,
+            reload: () => controller.ref.invalidate(controller.allRecords),
+          );
+        },
+        loading: () => const CustomLoader(),
       ),
     );
   }

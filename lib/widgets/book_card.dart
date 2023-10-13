@@ -36,7 +36,11 @@ class _BookCardState extends State<BookCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.pushNamed(ViewBookScreen.name, extra: widget.book),
+      onTap: () {
+        PostRequest.updateBookView(bookId: widget.book.id)
+            .catchError((error) => '');
+        context.pushNamed(ViewBookScreen.name, extra: widget.book);
+      },
       child: Container(
         padding: [0, 0, 0, 1.5].pad,
         decoration: BoxDecoration(
@@ -170,6 +174,8 @@ class _HorizBookCardState extends State<HorizBookCard> {
       child: GestureDetector(
         onTap: () {
           if (widget.onTap == null) {
+            PostRequest.updateBookView(bookId: widget.book.id)
+                .catchError((error) => '');
             context.pushNamed(ViewBookScreen.name, extra: widget.book);
           } else {
             widget.onTap!(widget.book);
@@ -261,12 +267,14 @@ class _HorizBookCardState extends State<HorizBookCard> {
 
 class BookCardMini extends StatelessWidget {
   final Book book;
+  final double? height;
   final void Function(Book)? onTap;
 
   const BookCardMini({
     super.key,
     required this.book,
     this.onTap,
+    this.height,
   });
 
   @override
@@ -274,12 +282,14 @@ class BookCardMini extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (onTap == null) {
+          PostRequest.updateBookView(bookId: book.id).catchError((error) => '');
           context.pushNamed(ViewBookScreen.name, extra: book);
         } else {
           onTap!(book);
         }
       },
       child: Container(
+        height: height,
         padding: [16, 16].pad,
         margin: [16, 0, 16, 16].pad,
         decoration: ShapeDecoration(

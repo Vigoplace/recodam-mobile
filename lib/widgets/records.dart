@@ -7,11 +7,13 @@ class Records extends ConsumerStatefulWidget {
   final Pagination pagination;
   final void Function(Book)? onTap;
   final TextEditingController? searchWord;
+  final RecordSearchType recordSearchType;
   const Records({
     super.key,
     required this.pagination,
     this.searchWord,
     this.onTap,
+    this.recordSearchType = RecordSearchType.all,
   });
 
   @override
@@ -22,7 +24,6 @@ class _BooksState extends ConsumerState<Records> {
   late Pagination pagination;
   late RefreshController refreshController;
   ValueNotifier<List<Record>> recordList = ValueNotifier([]);
-  List<Record> holderList = [];
   late FutureProviderFamily<List<Record>, Pagination> recordsProvider;
   bool _loaded = false;
   Timer? _debounce;
@@ -33,8 +34,12 @@ class _BooksState extends ConsumerState<Records> {
     super.initState();
     pagination = widget.pagination..page = 1;
     recordsProvider = FutureProvider.family(
-      (ref, Pagination pagination) =>
-          GetRequest.getRecords(pagination: pagination),
+      (ref, Pagination pagination) {
+        return switch (widget.recordSearchType) {
+          RecordSearchType.all => GetRequest.getRecords(pagination: pagination),
+          _ => GetRequest.getHomeRecords(pagination: pagination),
+        };
+      },
     );
     refreshController = RefreshController();
 
@@ -80,7 +85,6 @@ class _BooksState extends ConsumerState<Records> {
           recordList.value = data.toList();
         }
         _loaded = true;
-        holderList = data.toList();
         return ValueListenableBuilder(
           valueListenable: recordList,
           builder: (context, list, _) {
@@ -88,12 +92,12 @@ class _BooksState extends ConsumerState<Records> {
               controller: refreshController,
               enablePullUp: true,
               onLoading: () async {
-                if (data.length != pagination.total) {
+                if (list.length != pagination.total) {
                   try {
                     var a = await GetRequest.getRecords(
                       pagination: pagination,
                     );
-                    data.addAll(a);
+                    recordList.value.addAll(a);
                     refreshController.loadComplete();
                     setState(() {});
                   } catch (_) {
@@ -105,11 +109,11 @@ class _BooksState extends ConsumerState<Records> {
                 }
               },
               onRefresh: () async {
-                data.clear();
+                recordList.value.clear();
                 pagination.page = 1;
                 try {
                   var a = await GetRequest.getRecords(pagination: pagination);
-                  data.addAll(a);
+                  recordList.value.addAll(a);
                   setState(() {});
                   ();
                   refreshController.refreshCompleted(resetFooterState: true);

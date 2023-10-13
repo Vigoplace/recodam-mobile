@@ -27,6 +27,7 @@ void main() {
     expect(File(AppSvg.menu).existsSync(), true);
     expect(File(AppSvg.moreHoriz).existsSync(), true);
     expect(File(AppSvg.moreVert).existsSync(), true);
+    expect(File(AppSvg.nigeria).existsSync(), true);
     expect(File(AppSvg.pin).existsSync(), true);
     expect(File(AppSvg.posted).existsSync(), true);
     expect(File(AppSvg.record).existsSync(), true);
