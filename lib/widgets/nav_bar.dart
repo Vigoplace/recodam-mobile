@@ -1,5 +1,4 @@
 import 'package:grouped_list/grouped_list.dart';
-
 import '../utils/utils.dart';
 
 class CustomBottomNavbar extends ConsumerStatefulWidget {

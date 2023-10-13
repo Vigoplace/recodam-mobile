@@ -115,7 +115,6 @@ class _BooksState extends ConsumerState<Records> {
                   var a = await GetRequest.getRecords(pagination: pagination);
                   recordList.value.addAll(a);
                   setState(() {});
-                  ();
                   refreshController.refreshCompleted(resetFooterState: true);
                 } catch (_) {
                   refreshController.refreshFailed();

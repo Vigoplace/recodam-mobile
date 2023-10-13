@@ -14,6 +14,8 @@ class Pagination {
   int total;
   int size;
   int? book;
+  int limit;
+  DateTime? lastDate;
   String search;
   Pagination({
     this.page = 1,
@@ -21,6 +23,8 @@ class Pagination {
     this.size = 20,
     this.book,
     this.search = '',
+    this.lastDate,
+    this.limit = 4,
   });
 }
 

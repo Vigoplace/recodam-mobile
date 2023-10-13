@@ -17,17 +17,25 @@ class GetRequest {
     return List.generate(10, (index) => index += 1);
   }
 
-  static Future<Map<DateTime, List<Book>>> getGroupedBooks() async {
+  static Future<Map<DateTime, List<Book>>> getGroupedBooks({
+    required Pagination pagination,
+  }) async {
     var path = 'book/group';
     var token = LocalStorage.instance.getToken();
     var books = await network.getRequestHandler(
       path,
+      queryPatameters: {
+        'limit': pagination.limit,
+        'offset': pagination.lastDate == null
+            ? null
+            : '${pagination.lastDate!.year}-${pagination.lastDate!.month}-${pagination.lastDate!.day}',
+      },
       options: Options(
         headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
       ),
     );
     Map<DateTime, List<Book>> groupedBooks = {};
-    (books.data['data'] as Map).forEach((key, value) {
+    (books.data['data']['books'] as Map).forEach((key, value) {
       // Parse the date key into a DateTime object
       var date = DateTime.parse(key);
       var booksList = (value as List).map((bookJson) {
@@ -36,21 +44,30 @@ class GetRequest {
       }).toList();
       groupedBooks[date] = booksList;
     });
-
+    pagination.total = books.data['data']['total'];
+    pagination.lastDate = groupedBooks.keys.last;
     return groupedBooks;
   }
 
-  static Future<Map<DateTime, List<Record>>> getGroupedRecords() async {
+  static Future<Map<DateTime, List<Record>>> getGroupedRecords({
+    required Pagination pagination,
+  }) async {
     var path = 'record/group';
     var token = LocalStorage.instance.getToken();
     var books = await network.getRequestHandler(
       path,
+      queryPatameters: {
+        'limit': pagination.limit,
+        'offset': pagination.lastDate == null
+            ? null
+            : '${pagination.lastDate!.year}-${pagination.lastDate!.month}-${pagination.lastDate!.day}',
+      },
       options: Options(
         headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
       ),
     );
     Map<DateTime, List<Record>> groupedBooks = {};
-    (books.data['data'] as Map).forEach((key, value) {
+    (books.data['data']['records'] as Map).forEach((key, value) {
       // Parse the date key into a DateTime object
       var date = DateTime.parse(key);
       var booksList = (value as List).map((bookJson) {
@@ -59,7 +76,8 @@ class GetRequest {
       }).toList();
       groupedBooks[date] = booksList;
     });
-
+    pagination.total = books.data['data']['total'];
+    pagination.lastDate = groupedBooks.keys.last;
     return groupedBooks;
   }
 

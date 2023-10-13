@@ -73,7 +73,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                           ),
                           onTap: () => context.pushNamed(AllBooksScreen.name),
                           child: Text(
-                            'Recently viewed',
+                            'See all',
                             style: TextStyle(
                               color: AppColor.red60,
                               fontWeight: FontWeight.w700,
@@ -153,7 +153,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                           ),
                           onTap: () => context.pushNamed(AllRecordsScreen.name),
                           child: Text(
-                            'Recently viewed',
+                            'See all',
                             style: TextStyle(
                               color: AppColor.red60,
                               fontWeight: FontWeight.w700,

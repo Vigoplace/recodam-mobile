@@ -1,4 +1,4 @@
-import 'package:grouped_list/grouped_list.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
@@ -12,20 +12,29 @@ class AllBooksScreen extends ConsumerStatefulWidget {
 }
 
 class AllBooksController extends ConsumerState<AllBooksScreen> {
-  var pagination = Pagination();
+  var pagination = Pagination(limit: 10);
   late TextEditingController search;
   late FutureProvider<Map<DateTime, List<Book>>> allBooks;
+  late RefreshController refreshController;
+
+  final Map<DateTime, List<Book>> holder = {};
 
   @override
   void initState() {
     super.initState();
     search = TextEditingController();
-    allBooks = FutureProvider((ref) => GetRequest.getGroupedBooks());
+    allBooks = FutureProvider((ref) => GetRequest.getGroupedBooks(
+          pagination: pagination,
+        ));
+    refreshController = RefreshController();
   }
+
+  void reload() => setState(() {});
 
   @override
   void dispose() {
     search.dispose();
+    refreshController.dispose();
     super.dispose();
   }
 
