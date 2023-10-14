@@ -291,7 +291,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
     details = TextEditingController();
     date = TextEditingController();
     if (widget.create.media.isNotEmpty) {
-      file.value = File(widget.create.media.first.path);
+      // file.value = File(widget.create.media.first.);
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(shareIntentProvider.notifier).state.clear();

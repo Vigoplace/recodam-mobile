@@ -26,10 +26,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -58,5 +55,14 @@ class DefaultFirebaseOptions {
     messagingSenderId: '255789219006',
     projectId: 'recodam-39c31',
     storageBucket: 'recodam-39c31.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyCEpharIR1JuXG7leL27g_I6eknpUXq1Uw',
+    appId: '1:255789219006:ios:352f4d2bdc91991a2232ef',
+    messagingSenderId: '255789219006',
+    projectId: 'recodam-39c31',
+    storageBucket: 'recodam-39c31.appspot.com',
+    iosBundleId: 'org.recodam.mobile',
   );
 }

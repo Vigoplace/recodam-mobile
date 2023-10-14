@@ -17,5 +17,5 @@ var currencyProvider = FutureProvider.autoDispose(
 var bankProvider = FutureProvider.autoDispose(
   (ref) => GetRequest.getAllBanks(),
 );
-final StateProvider<List<SharedMediaFile>> shareIntentProvider =
+final StateProvider<List<SharedFile>> shareIntentProvider =
     StateProvider((ref) => []);

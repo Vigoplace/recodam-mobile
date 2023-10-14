@@ -1,3 +1,4 @@
+import 'package:flutter_sharing_intent/model/sharing_file.dart';
 import 'package:recordam/utils/utils.dart';
 
 class ActivityModel {
@@ -86,7 +87,7 @@ class WebViewModel {
 
 class Create {
   final CreateRecordModel? bookId;
-  final List<SharedMediaFile> media;
+  final List<SharedFile> media;
   Create({
     this.bookId,
     this.media = const [],
