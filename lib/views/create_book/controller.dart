@@ -122,16 +122,13 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
                   ),
                 );
               },
-              error: (error, trace) {
-                error as DioException;
-                return SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.5,
-                  child: ErrorScreen(
-                    error: error,
-                    reload: () => ref.invalidate(currencyProvider),
-                  ),
-                );
-              },
+              error: (error, trace) => SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.5,
+                child: ErrorScreen(
+                  error: error,
+                  reload: () => ref.invalidate(currencyProvider),
+                ),
+              ),
               loading: () => SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.5,
                 child: const CustomLoader(),

@@ -15,11 +15,13 @@ class HomeController extends ConsumerState<HomeScreen> {
   var acceptedTerms = ValueNotifier(false);
   var showPin = ValueNotifier(false);
   late RefreshController refreshController;
+  late RefreshController homeRefresh;
 
   @override
   void initState() {
     super.initState();
     refreshController = RefreshController();
+    homeRefresh = RefreshController();
     SocketServices.instance.connectAndListen();
     FileSharing.initialise(ref);
     RecodamFirebaseService.initNotification(context);
@@ -33,11 +35,13 @@ class HomeController extends ConsumerState<HomeScreen> {
   @override
   void dispose() {
     refreshController.dispose();
+    homeRefresh.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    homeRefresh = RefreshController();
     return HomeView(this);
   }
 }

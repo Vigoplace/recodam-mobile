@@ -1,4 +1,3 @@
-
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
@@ -64,9 +63,7 @@ class RecordController extends ConsumerState<RecordScreen> {
   }
 
   void showBooks() async {
-    var pagination = Pagination();
-    var search = TextEditingController();
-    var choice = await showModalBottomSheet<Book?>(
+    showModalBottomSheet<ManageAcess?>(
       showDragHandle: true,
       isScrollControlled: true,
       context: context,
@@ -79,38 +76,196 @@ class RecordController extends ConsumerState<RecordScreen> {
       backgroundColor: AppColor.grey,
       builder: (context) => Container(
         color: AppColor.grey,
-        height: MediaQuery.sizeOf(context).height * 0.7,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: [16, 0].pad,
-              child: CustomTextInput(
-                controller: search,
-                prefix: const SvgButton(
-                  icon: AppSvg.blackSearch,
-                ),
-                hintText: 'Search',
+            Text(
+              "Choose the type of book",
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+                color: AppColor.grey100,
               ),
             ),
-            Expanded(
-              child: Books(
-                pagination: pagination,
-                mini: true,
-                searchWord: search,
-                onTap: (p0) {
-                  context.pop(p0);
-                },
+            30.verticalSpace,
+            ListTile(
+              title: const Text('Private book'),
+              titleTextStyle: TextStyle(
+                color: AppColor.grey100,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w400,
               ),
-            ),
+              onTap: () => context.pop(ManageAcess.private),
+              trailing: const SvgButton(
+                icon: AppSvg.chevronRight,
+              ),
+            ).animate().moveX(),
+            10.verticalSpace,
+            ListTile(
+              title: const Text('Public book'),
+              titleTextStyle: TextStyle(
+                color: AppColor.grey100,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w400,
+              ),
+              onTap: () => context.pop(ManageAcess.public),
+              trailing: const SvgButton(
+                icon: AppSvg.chevronRight,
+              ),
+            ).animate().moveX(),
+            50.verticalSpace,
           ],
         ),
       ),
-    );
-    if (choice != null) {
-      book.text = choice.name;
-      bookId = choice.id;
-    }
+    ).then((choice) async {
+      if (choice != null) {
+        if (choice == ManageAcess.private) {
+          var bookChoice = await context.pushNamed<Book?>(
+            AddToBookScreen.name,
+            extra: AddToBookInfo(
+              title: choice,
+            ),
+          );
+          if (bookChoice != null) {
+            book.text = bookChoice.name;
+            bookId = bookChoice.id;
+          }
+        } else {
+          onPublicBookSelection();
+        }
+      }
+    });
   }
+
+  void onPublicBookSelection() async {
+    showModalBottomSheet<bool?>(
+      showDragHandle: true,
+      isScrollControlled: true,
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.r),
+          topRight: Radius.circular(30.r),
+        ),
+      ),
+      backgroundColor: AppColor.grey,
+      builder: (context) => Container(
+        color: AppColor.grey,
+        child: Padding(
+          padding: [20].pad,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Post to Public book",
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColor.grey100,
+                ),
+              ),
+              30.verticalSpace,
+              const CustomTextInput(
+                titleText: 'Enter the owner’s number',
+              ),
+              40.verticalSpace,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () => context.pop(),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.grey20,
+                      ),
+                    ),
+                  ),
+                  40.horizontalSpace,
+                  GestureDetector(
+                    onTap: () => context.pop(true),
+                    child: Text(
+                      "Okay",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.light100,
+                      ),
+                    ),
+                  ),
+                ],
+              ).animate().moveX(),
+              50.verticalSpace,
+            ],
+          ),
+        ),
+      ),
+    ).then((choice) async {
+      if (choice != null) {
+        var bookChoice = await context.pushNamed<Book?>(
+          AddToBookScreen.name,
+          extra: AddToBookInfo(
+            title: ManageAcess.public,
+          ),
+        );
+        if (bookChoice != null) {
+          book.text = bookChoice.name;
+          bookId = bookChoice.id;
+        }
+      }
+    });
+  }
+
+  // void showBooks() async {
+  //   var pagination = Pagination();
+  //   var search = TextEditingController();
+  //   var choice = await showModalBottomSheet<Book?>(
+  //     showDragHandle: true,
+  //     isScrollControlled: true,
+  //     context: context,
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.only(
+  //         topLeft: Radius.circular(30.r),
+  //         topRight: Radius.circular(30.r),
+  //       ),
+  //     ),
+  //     backgroundColor: AppColor.grey,
+  //     builder: (context) => Container(
+  //       color: AppColor.grey,
+  //       height: MediaQuery.sizeOf(context).height * 0.7,
+  //       child: Column(
+  //         children: [
+  //           Padding(
+  //             padding: [16, 0].pad,
+  //             child: CustomTextInput(
+  //               controller: search,
+  //               prefix: const SvgButton(
+  //                 icon: AppSvg.blackSearch,
+  //               ),
+  //               hintText: 'Search',
+  //             ),
+  //           ),
+  //           Expanded(
+  //             child: Books(
+  //               pagination: pagination,
+  //               mini: true,
+  //               searchWord: search,
+  //               onTap: (p0) {
+  //                 context.pop(p0);
+  //               },
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  //   if (choice != null) {
+  //     book.text = choice.name;
+  //     bookId = choice.id;
+  //   }
+  // }
 
   @override
   void initState() {

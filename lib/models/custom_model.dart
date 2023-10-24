@@ -1,4 +1,3 @@
-import 'package:flutter_sharing_intent/model/sharing_file.dart';
 import 'package:recordam/utils/utils.dart';
 
 class ActivityModel {
@@ -405,4 +404,11 @@ class Record {
       book: data['book_id'] != null ? RecordBook.fromJson(data) : null,
     );
   }
+}
+
+class AddToBookInfo {
+  ManageAcess title;
+  AddToBookInfo({
+    required this.title,
+  });
 }

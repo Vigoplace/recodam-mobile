@@ -14,6 +14,7 @@ void main() {
     expect(File(AppSvg.checked).existsSync(), true);
     expect(File(AppSvg.checkmark).existsSync(), true);
     expect(File(AppSvg.chevronDown).existsSync(), true);
+    expect(File(AppSvg.chevronRight).existsSync(), true);
     expect(File(AppSvg.clock).existsSync(), true);
     expect(File(AppSvg.delete).existsSync(), true);
     expect(File(AppSvg.directionRight).existsSync(), true);

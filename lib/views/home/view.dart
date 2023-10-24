@@ -112,13 +112,10 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                                       return BookCard(book: book);
                                     },
                                   ),
-                            error: (error, trace) {
-                              error as DioException;
-                              return ErrorScreen(
-                                error: error,
-                                reload: () => ref.invalidate(homeBookProvider),
-                              );
-                            },
+                            error: (error, trace) => ErrorScreen(
+                              error: error,
+                              reload: () => ref.invalidate(homeBookProvider),
+                            ),
                             loading: () => SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
@@ -183,13 +180,10 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                                     .map((e) => RecordCard(record: e))
                                     .toList(),
                               ),
-                        error: (error, trace) {
-                          error as DioException;
-                          return ErrorScreen(
-                            error: error,
-                            reload: () => ref.invalidate(homeRecordProvider),
-                          );
-                        },
+                        error: (error, trace) => ErrorScreen(
+                          error: error,
+                          reload: () => ref.invalidate(homeRecordProvider),
+                        ),
                         loading: () => SingleChildScrollView(
                           child: Column(
                             children: [

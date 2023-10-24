@@ -138,13 +138,10 @@ class _BooksState extends ConsumerState<Books> {
           },
         );
       },
-      error: (error, trace) {
-        error as DioException;
-        return ErrorScreen(
-          error: error,
-          reload: () => ref.invalidate(booksProvider),
-        );
-      },
+      error: (error, trace) => ErrorScreen(
+        error: error,
+        reload: () => ref.invalidate(booksProvider),
+      ),
       loading: () => const Center(child: CustomLoader()),
     );
   }

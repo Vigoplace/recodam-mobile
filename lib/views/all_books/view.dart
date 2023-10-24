@@ -82,9 +82,8 @@ class AllBooksView extends StatelessView<AllBooksScreen, AllBooksController> {
                             ],
                           ),
                           Column(
-                            children: book
-                                .map((e) => BookCardMini(book: e))
-                                .toList(),
+                            children:
+                                book.map((e) => BookCardMini(book: e)).toList(),
                           ),
                         ],
                       );
@@ -95,13 +94,10 @@ class AllBooksView extends StatelessView<AllBooksScreen, AllBooksController> {
                   text: 'Nothing to see here',
                 );
         },
-        error: (error, trace) {
-          error as DioException;
-          return ErrorScreen(
-            error: error,
-            reload: () => controller.ref.invalidate(controller.allBooks),
-          );
-        },
+        error: (error, trace) => ErrorScreen(
+          error: error,
+          reload: () => controller.ref.invalidate(controller.allBooks),
+        ),
         loading: () => const CustomLoader(),
       ),
     );

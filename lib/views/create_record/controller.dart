@@ -156,16 +156,13 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
                   ),
                 );
               },
-              error: (error, trace) {
-                error as DioException;
-                return SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.5,
-                  child: ErrorScreen(
-                    error: error,
-                    reload: () => ref.invalidate(currencyProvider),
-                  ),
-                );
-              },
+              error: (error, trace) => SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.5,
+                child: ErrorScreen(
+                  error: error,
+                  reload: () => ref.invalidate(currencyProvider),
+                ),
+              ),
               loading: () => SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.5,
                 child: const CustomLoader(),
@@ -256,16 +253,13 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
                   ),
                 );
               },
-              error: (error, trace) {
-                error as DioException;
-                return SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.5,
-                  child: ErrorScreen(
-                    error: error,
-                    reload: () => ref.invalidate(bankProvider),
-                  ),
-                );
-              },
+              error: (error, trace) => SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.5,
+                child: ErrorScreen(
+                  error: error,
+                  reload: () => ref.invalidate(bankProvider),
+                ),
+              ),
               loading: () => SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.5,
                 child: const CustomLoader(),
@@ -290,8 +284,9 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
     accountName = TextEditingController();
     details = TextEditingController();
     date = TextEditingController();
-    if (widget.create.media.isNotEmpty) {
-      // file.value = File(widget.create.media.first.);
+    if (widget.create.media.isNotEmpty &&
+        widget.create.media.first.value != null) {
+      file.value = File(widget.create.media.first.value!);
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(shareIntentProvider.notifier).state.clear();

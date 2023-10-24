@@ -152,16 +152,13 @@ class SignupController extends ConsumerState<SignupScreen> {
                   ),
                 );
               },
-              error: (error, trace) {
-                error as DioException;
-                return SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.5,
-                  child: ErrorScreen(
-                    error: error,
-                    reload: () => ref.invalidate(countryProvider),
-                  ),
-                );
-              },
+              error: (error, trace) => SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.5,
+                child: ErrorScreen(
+                  error: error,
+                  reload: () => ref.invalidate(countryProvider),
+                ),
+              ),
               loading: () => SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.5,
                 child: const CustomLoader(),

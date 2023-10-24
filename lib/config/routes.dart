@@ -212,6 +212,19 @@ final GoRouter routes = GoRouter(
             );
           },
         ),
+        GoRoute(
+          path: AddToBookScreen.path,
+          name: AddToBookScreen.name,
+          pageBuilder: (context, state) {
+            AddToBookInfo info = state.extra! as AddToBookInfo;
+            return FadeTransitionPage(
+              child: AddToBookScreen(
+                bookInfo: info,
+              ),
+              key: state.pageKey,
+            );
+          },
+        ),
       ],
     ),
   ],

@@ -17,3 +17,4 @@ export 'all_books/controller.dart';
 export 'all_records/controller.dart';
 export 'forgot_password/controller.dart';
 export 'reset_password/controller.dart';
+export 'add_to_book/controller.dart';

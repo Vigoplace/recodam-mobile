@@ -96,13 +96,10 @@ class AllRecordsView
                   text: 'Nothing to see here',
                 );
         },
-        error: (error, trace) {
-          error as DioException;
-          return ErrorScreen(
-            error: error,
-            reload: () => controller.ref.invalidate(controller.allRecords),
-          );
-        },
+        error: (error, trace) => ErrorScreen(
+          error: error,
+          reload: () => controller.ref.invalidate(controller.allRecords),
+        ),
         loading: () => const CustomLoader(),
       ),
     );

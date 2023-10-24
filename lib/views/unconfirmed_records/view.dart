@@ -67,13 +67,10 @@ class UnConfirmedRecordsView extends StatelessView<UnConfirmedRecordsScreen,
                   ),
           );
         },
-        error: (error, trace) {
-          error as DioException;
-          return ErrorScreen(
-            error: error,
-            reload: () => controller.ref.invalidate(controller.booksProvider),
-          );
-        },
+        error: (error, trace) => ErrorScreen(
+          error: error,
+          reload: () => controller.ref.invalidate(controller.booksProvider),
+        ),
         loading: () => const CustomLoader(),
       ),
     );

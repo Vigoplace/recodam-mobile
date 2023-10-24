@@ -1,7 +1,7 @@
 import 'package:recordam/utils/utils.dart';
 
 class ErrorScreen extends StatefulWidget {
-  final DioException error;
+  final Object error;
   final void Function() reload;
   const ErrorScreen({
     super.key,
@@ -20,13 +20,20 @@ class _ErrorScreenState extends State<ErrorScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            widget.error.response == null
-                ? "Check your internet connection"
-                : widget.error.response!.data is Map
-                    ? widget.error.response!.data['message']
-                    : 'Something went wrong',
-          ),
+          Builder(builder: (context) {
+            if (widget.error is DioException) {
+              return Text(
+                (widget.error as DioException).response == null
+                    ? "Check your internet connection"
+                    : (widget.error as DioException).response!.data is Map
+                        ? (widget.error as DioException)
+                            .response!
+                            .data['message']
+                        : 'Something went wrong',
+              );
+            }
+            return const Text('Something went wrong');
+          }),
           10.verticalSpace,
           AppButton(
             text: 'Retry',

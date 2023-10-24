@@ -101,8 +101,9 @@ class ResetPasswordView
                             if (duration.inSeconds == 0) {
                               text = '';
                             } else {
-                              text =
-                                  ' in ${duration.inMinutes}m:${duration.inSeconds}s';
+                              int minutes = duration.inSeconds ~/ 60;
+                              int seconds = duration.inSeconds % 60;
+                              text = ' in ${minutes}m:${seconds}s';
                             }
                             return Text(
                               'Resend token$text',
