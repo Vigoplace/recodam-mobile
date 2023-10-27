@@ -8,7 +8,7 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
     return Scaffold(
       appBar: CustomAppbar(
         centerTitle: false,
-        title: widget.record.isDatabase ? null : 'Confirm Record',
+        title: widget.info.record.isDatabase ? null : 'Confirm Record',
       ),
       body: ListView(
         padding: [16, 22, 16, 0].pad,
@@ -26,15 +26,17 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                   Positioned.fill(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.r),
-                      child: widget.record.isDatabase
+                      child: widget.info.record.isDatabase
                           ? ImageLoader(
-                              image: widget.record.file,
+                              image: widget.info.record.file,
                               boxFit: BoxFit.cover,
                             )
-                          : Image.file(
-                              File(widget.record.file),
-                              fit: BoxFit.cover,
-                            ),
+                          : widget.info.record.file.endsWith('pdf')
+                              ? Image.asset(AppImages.pdf)
+                              : Image.file(
+                                  File(widget.info.record.file),
+                                  fit: BoxFit.cover,
+                                ),
                     ),
                   ),
                   Align(
@@ -46,7 +48,7 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                         onTap: () => Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => ViewImage(
-                              image: widget.record.file,
+                              image: widget.info.record.file,
                               appBarText: 'Payment proof',
                             ),
                           ),
@@ -67,7 +69,8 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
               fontWeight: FontWeight.w400,
               fontSize: 16.sp,
             ),
-            hintText: '${widget.record.symbol} ${widget.record.amount}',
+            hintText:
+                '${widget.info.record.symbol} ${widget.info.record.amount}',
             fillColor: AppColor.grey1,
             readOnly: true,
           ),
@@ -75,14 +78,14 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
           CustomTextInput(
             titleText: "Senders name",
             fillColor: AppColor.grey1,
-            hintText: widget.record.senderName,
+            hintText: widget.info.record.senderName,
             readOnly: true,
           ),
           32.verticalSpace,
           CustomTextInput(
             titleText: "Transaction details/Purpose",
             fillColor: AppColor.grey1,
-            hintText: widget.record.details,
+            hintText: widget.info.record.details,
             readOnly: true,
           ),
           32.verticalSpace,
@@ -90,14 +93,14 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
             String accountName = '';
             String bankName = '';
             String accountNumber = '';
-            if (widget.record.accountName != null) {
-              accountName = widget.record.accountName!;
+            if (widget.info.record.accountName != null) {
+              accountName = widget.info.record.accountName!;
             }
-            if (widget.record.bankName != null) {
-              bankName = widget.record.bankName!;
+            if (widget.info.record.bankName != null) {
+              bankName = widget.info.record.bankName!;
             }
-            if (widget.record.accountNumber != null) {
-              accountNumber = widget.record.accountNumber!;
+            if (widget.info.record.accountNumber != null) {
+              accountNumber = widget.info.record.accountNumber!;
             }
             return CustomTextInput(
               titleText: "Bank details",
@@ -106,12 +109,14 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
               readOnly: true,
             );
           }),
-          32.verticalSpace,
-          CustomTextInput(
-            titleText: "Add more details",
-            hintText: "Money for maryland school donation",
-            controller: controller.details,
-          ),
+          if ([DetailType.view].contains(widget.info.type)) ...[
+            32.verticalSpace,
+            CustomTextInput(
+              titleText: "Add more details",
+              hintText: "Money for maryland school donation",
+              controller: controller.details,
+            )
+          ],
           32.verticalSpace,
           CustomTextInput(
             titleText: "Add to book",
@@ -121,27 +126,44 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
             ),
             readOnly: true,
             controller: controller.book,
-            onTap: controller.showBooks,
+            onTap: controller.chooseBook,
           ),
           65.verticalSpace,
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              if ([DetailType.view].contains(widget.info.type))
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'Post',
+                      style: TextStyle(
+                        color: AppColor.red100,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ),
+                ),
+              const Spacer(),
               ValueListenableBuilder(
-                valueListenable: controller.isLoading,
+                valueListenable: controller.buttonState,
                 builder: (context, state, _) {
                   return LoadingButton(
-                    isLoading: state,
+                    isLoading: state.isLoading,
                     width: 100.w,
                     normal: AppButton(
                       width: 100.w,
-                      text: widget.record.isDatabase ? "Update" : "Save",
+                      enable: state.send,
+                      text: widget.info.record.isDatabase ? "Update" : "Save",
                       onTap: controller.createRecord,
                     ),
                   );
                 },
               ),
-              if (!widget.record.isDatabase) ...[
+              if ([DetailType.posted].contains(widget.info.type)) ...[
                 16.horizontalSpace,
                 Text(
                   'Delete',
@@ -154,7 +176,7 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
               ]
             ],
           ),
-          32.verticalSpace,
+          50.verticalSpace,
         ],
       ),
     );

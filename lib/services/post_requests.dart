@@ -189,6 +189,7 @@ class PostRequest {
     );
     return user.data['message'];
   }
+
   static Future<String> updateRecordView({required int bookId}) async {
     var path = 'record/view';
     var token = LocalStorage.instance.getToken();

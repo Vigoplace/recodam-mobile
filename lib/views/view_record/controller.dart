@@ -4,10 +4,10 @@ part 'view.dart';
 class RecordScreen extends ConsumerStatefulWidget {
   static const path = "record";
   static const name = "record";
-  final Record record;
+  final ViewRecordInfo info;
   const RecordScreen({
     Key? key,
-    required this.record,
+    required this.info,
   }) : super(key: key);
 
   @override
@@ -15,45 +15,59 @@ class RecordScreen extends ConsumerStatefulWidget {
 }
 
 class RecordController extends ConsumerState<RecordScreen> {
-  var isLoading = ValueNotifier(false);
+  var buttonState = ValueNotifier(ButtonState());
   late TextEditingController details;
   late TextEditingController book;
   int? bookId;
 
   void createRecord() {
     CreateRecord record = CreateRecord(
-      senderName: widget.record.senderName,
-      amount: widget.record.amount,
-      details: details.text.isEmpty ? widget.record.details : details.text,
-      date: widget.record.date,
-      file: widget.record.file,
-      recordType: widget.record.recordType,
-      id: widget.record.id,
+      senderName: widget.info.record.senderName,
+      amount: widget.info.record.amount,
+      details: details.text.isEmpty ? widget.info.record.details : details.text,
+      date: widget.info.record.date,
+      file: widget.info.record.file,
+      recordType: widget.info.record.recordType,
+      id: widget.info.record.id,
       newBookId: bookId,
-      bankName: widget.record.bankName,
-      accountName: widget.record.accountName,
-      accountNumber: widget.record.accountNumber,
-      symbol: widget.record.symbol,
+      bankName: widget.info.record.bankName,
+      accountName: widget.info.record.accountName,
+      accountNumber: widget.info.record.accountNumber,
+      symbol: widget.info.record.symbol,
     );
-    late Future<String> testFuture;
-
-    if (widget.record.isDatabase) {
-      testFuture = PostRequest.updateRecord(record: record);
+    late Future<String> Function({required CreateRecord record}) sendRequest;
+    if (widget.info.record.isDatabase) {
+      sendRequest = PostRequest.updateRecord;
     } else {
-      testFuture = PostRequest.createRecord(record: record);
+      sendRequest = PostRequest.createRecord;
     }
-    testFuture.then((data) {
+    sendRequest(record: record).then((data) {
       debugPrint('LOADED');
-      isLoading.value = false;
+      buttonState.value = ButtonState(
+        isLoading: false,
+        send: buttonState.value.send,
+      );
       ref.invalidate(homeRecordProvider);
       ref.invalidate(homeBookProvider);
       ShowFlushBar.showSuccess(
         context: context,
         message: data,
-        perform: () => context.goNamed(HomeScreen.name),
+        perform: () {
+          if ([DetailType.create].contains(widget.info.type)) {
+            context.goNamed(HomeScreen.name);
+          } else if ([DetailType.view].contains(widget.info.type)) {
+            context.pop(record);
+          } else if ([DetailType.add].contains(widget.info.type)) {
+            context.pop(record);
+            context.pop(record);
+          }
+        },
       );
     }).catchError((error) {
-      isLoading.value = false;
+      buttonState.value = ButtonState(
+        isLoading: false,
+        send: buttonState.value.send,
+      );
       debugPrint(error.toString());
       listenError(
         error: error,
@@ -218,67 +232,123 @@ class RecordController extends ConsumerState<RecordScreen> {
     });
   }
 
-  // void showBooks() async {
-  //   var pagination = Pagination();
-  //   var search = TextEditingController();
-  //   var choice = await showModalBottomSheet<Book?>(
-  //     showDragHandle: true,
-  //     isScrollControlled: true,
-  //     context: context,
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.only(
-  //         topLeft: Radius.circular(30.r),
-  //         topRight: Radius.circular(30.r),
-  //       ),
-  //     ),
-  //     backgroundColor: AppColor.grey,
-  //     builder: (context) => Container(
-  //       color: AppColor.grey,
-  //       height: MediaQuery.sizeOf(context).height * 0.7,
-  //       child: Column(
-  //         children: [
-  //           Padding(
-  //             padding: [16, 0].pad,
-  //             child: CustomTextInput(
-  //               controller: search,
-  //               prefix: const SvgButton(
-  //                 icon: AppSvg.blackSearch,
-  //               ),
-  //               hintText: 'Search',
-  //             ),
-  //           ),
-  //           Expanded(
-  //             child: Books(
-  //               pagination: pagination,
-  //               mini: true,
-  //               searchWord: search,
-  //               onTap: (p0) {
-  //                 context.pop(p0);
-  //               },
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  //   if (choice != null) {
-  //     book.text = choice.name;
-  //     bookId = choice.id;
-  //   }
-  // }
+  void chooseBook() async {
+    var pagination = Pagination();
+    var search = TextEditingController();
+    var choice = await showModalBottomSheet<Book?>(
+      showDragHandle: true,
+      isScrollControlled: true,
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.r),
+          topRight: Radius.circular(30.r),
+        ),
+      ),
+      backgroundColor: AppColor.white,
+      builder: (context) => SizedBox(
+        height: MediaQuery.sizeOf(context).height * 0.7,
+        child: Column(
+          children: [
+            Padding(
+              padding: [16, 0].pad,
+              child: CustomTextInput(
+                controller: search,
+                prefix: const SvgButton(
+                  icon: AppSvg.blackSearch,
+                ),
+                hintText: 'Search',
+              ),
+            ),
+            20.verticalSpace,
+            InkWell(
+              overlayColor: MaterialStateColor.resolveWith(
+                (states) => Colors.transparent,
+              ),
+              onTap: () {
+                book.text = 'Dashboard';
+                context.pop();
+              },
+              child: Container(
+                padding: [16, 16].pad,
+                margin: [16].pad,
+                decoration: ShapeDecoration(
+                  color: AppColor.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      AppSvg.dashboard,
+                    ).animate().scale(),
+                    20.horizontalSpace,
+                    Text(
+                      'My dasboard',
+                      style: TextStyle(
+                        color: AppColor.grey100,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            15.verticalSpace,
+            Expanded(
+              child: Books(
+                pagination: pagination,
+                space: 2,
+                mini: true,
+                topMargin: 0,
+                searchWord: search,
+                onTap: (p0) {
+                  context.pop(p0);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (choice != null) {
+      book.text = choice.name;
+      bookId = choice.id;
+    }
+  }
+
+  void confirmSend() {
+    if (book.text.isEmpty) {
+      buttonState.value = ButtonState(
+        isLoading: buttonState.value.isLoading,
+        send: false,
+      );
+    } else {
+      buttonState.value = ButtonState(
+        isLoading: buttonState.value.isLoading,
+        send: true,
+      );
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    book = TextEditingController(text: widget.record.book?.bookName);
-    details = TextEditingController(text: widget.record.details);
-    bookId = widget.record.book?.bookId;
+    book = TextEditingController(text: widget.info.record.book?.bookName)
+      ..addListener(() {
+        confirmSend();
+      });
+    details = TextEditingController(text: widget.info.record.details);
+    bookId = widget.info.record.book?.bookId;
   }
 
   @override
   void dispose() {
     book.dispose();
     details.dispose();
+    buttonState.dispose();
     super.dispose();
   }
 

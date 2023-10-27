@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
@@ -26,6 +28,7 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
     symbol: '₦',
     short: 'NGN',
     name: 'Naira',
+    image: '',
   ));
 
   void createBook() async {
@@ -102,6 +105,7 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
                           ),
                         ),
                       ),
+                      20.verticalSpace,
                       Expanded(
                         child: data.isNotEmpty
                             ? ListView.builder(
@@ -111,6 +115,13 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
                                   return ListTile(
                                     onTap: () => context.pop(country),
                                     title: Text(country.name),
+                                    trailing: SvgPicture.memory(
+                                      Uint8List.fromList(
+                                        base64.decode(country.image),
+                                      ),
+                                      width: 20.w,
+                                      fit: BoxFit.scaleDown,
+                                    ),
                                   ).animate().scale();
                                 },
                               )

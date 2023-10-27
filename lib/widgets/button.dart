@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../utils/utils.dart';
 
 class LoadingButton extends StatelessWidget {
@@ -48,23 +50,49 @@ class LoadingButton extends StatelessWidget {
   }
 }
 
-class AppButton extends StatelessWidget {
+class AppButton extends StatefulWidget {
   final String text;
   final Function() onTap;
   final double? width;
   final Widget? icon;
+  final bool enable;
   const AppButton({
     super.key,
     required this.text,
     required this.onTap,
     this.width,
+    this.enable = true,
     this.icon,
   });
 
   @override
+  State<AppButton> createState() => _AppButtonState();
+}
+
+class _AppButtonState extends State<AppButton> {
+  late Timer _timer;
+  late bool enable;
+
+  @override
+  void initState() {
+    super.initState();
+    enable = widget.enable;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      enable = widget.enable;
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onTap,
+      onPressed: enable ? widget.onTap : null,
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100.r),
@@ -76,16 +104,16 @@ class AppButton extends StatelessWidget {
         ),
         padding: [28, 12].pad,
         backgroundColor: AppColor.red60,
-        minimumSize: Size(width ?? 205.w, 48.h),
+        minimumSize: Size(widget.width ?? 205.w, 48.h),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (icon != null) ...[
-            icon!,
+          if (widget.icon != null) ...[
+            widget.icon!,
             8.horizontalSpace,
           ],
-          Text(text),
+          Text(widget.text),
         ],
       ),
     ).animate().scale();

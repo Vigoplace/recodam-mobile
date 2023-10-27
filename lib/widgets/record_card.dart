@@ -1,22 +1,31 @@
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:recordam/utils/utils.dart';
 
-class RecordCard extends StatelessWidget {
+class RecordCard extends ConsumerWidget {
   final Record record;
+  final RefreshController? refreshController;
   const RecordCard({
     super.key,
     required this.record,
+    this.refreshController,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
-      onTap: () {
+      onTap: () async {
         PostRequest.updateRecordView(bookId: record.id)
             .catchError((error) => '');
-        context.pushNamed(
+        var rec = await context.pushNamed<CreateRecord?>(
           RecordScreen.name,
-          extra: record,
+          extra: ViewRecordInfo(
+            record: record,
+            type: DetailType.view,
+          ),
         );
+        if (rec != null && refreshController != null) {
+          refreshController!.requestRefresh();
+        }
       },
       overlayColor: MaterialStateColor.resolveWith(
         (states) => Colors.transparent,

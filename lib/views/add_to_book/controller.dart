@@ -55,6 +55,7 @@ class AddToBookController extends ConsumerState<AddToBookScreen> {
             22.verticalSpace,
             BookCardMini(
               book: book,
+              onTap: (p0) {},
             ),
             Padding(
               padding: [20].pad,

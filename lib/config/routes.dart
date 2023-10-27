@@ -13,7 +13,7 @@ class FadeTransitionPage extends CustomTransitionPage {
     Widget child,
   ) =>
       FadeTransition(
-        opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+        opacity: CurveTween(curve: Curves.bounceInOut).animate(animation),
         child: child,
       );
 }
@@ -154,9 +154,9 @@ final GoRouter routes = GoRouter(
           path: RecordScreen.path,
           name: RecordScreen.name,
           pageBuilder: (context, state) {
-            final Record record = state.extra! as Record;
+            final ViewRecordInfo info = state.extra! as ViewRecordInfo;
             return FadeTransitionPage(
-              child: RecordScreen(record: record),
+              child: RecordScreen(info: info),
               key: state.pageKey,
             );
           },

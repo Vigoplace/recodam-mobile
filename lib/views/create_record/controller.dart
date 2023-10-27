@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:recordam/utils/utils.dart';
@@ -31,6 +33,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
     symbol: '₦',
     short: 'NGN',
     name: 'Naira',
+    image: '',
   ));
   BankModel? bank;
 
@@ -45,30 +48,33 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
     }
     setState(() => submitted = true);
     if (formKey.currentState!.validate()) {
-      Navigator.of(context).push(
+      Navigator.of(context).push<CreateRecord?>(
         MaterialPageRoute(
           builder: (context) => RecordScreen(
-            record: Record(
-              id: 0,
-              date: dateTime,
-              symbol: currency.value.symbol,
-              senderName: senderName.text,
-              amount: amount.text,
-              bankName: bankName.text.isEmpty ? null : bankName.text,
-              accountNumber:
-                  accountNumber.text.isEmpty ? null : accountNumber.text,
-              accountName: accountName.text.isEmpty ? null : accountName.text,
-              details: details.text,
-              recordType: recordType.name,
-              file: file.value!.path,
-              ownerId: 0,
-              isDatabase: false,
-              book: widget.create.bookId != null
-                  ? RecordBook(
-                      bookId: widget.create.bookId!.id!,
-                      bookName: widget.create.bookId!.name,
-                    )
-                  : null,
+            info: ViewRecordInfo(
+              type: widget.create.bookId?.type ?? DetailType.create,
+              record: Record(
+                id: 0,
+                date: dateTime,
+                symbol: currency.value.symbol,
+                senderName: senderName.text,
+                amount: amount.text,
+                bankName: bankName.text.isEmpty ? null : bankName.text,
+                accountNumber:
+                    accountNumber.text.isEmpty ? null : accountNumber.text,
+                accountName: accountName.text.isEmpty ? null : accountName.text,
+                details: details.text,
+                recordType: recordType.name,
+                file: file.value!.path,
+                ownerId: 0,
+                isDatabase: false,
+                book: widget.create.bookId != null
+                    ? RecordBook(
+                        bookId: widget.create.bookId!.id!,
+                        bookName: widget.create.bookId!.name,
+                      )
+                    : null,
+              ),
             ),
           ),
         ),
@@ -136,6 +142,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
                           ),
                         ),
                       ),
+                      20.verticalSpace,
                       Expanded(
                         child: data.isNotEmpty
                             ? ListView.builder(
@@ -145,6 +152,13 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
                                   return ListTile(
                                     onTap: () => context.pop(country),
                                     title: Text(country.name),
+                                    trailing: SvgPicture.memory(
+                                      Uint8List.fromList(
+                                        base64.decode(country.image),
+                                      ),
+                                      width: 20.w,
+                                      fit: BoxFit.scaleDown,
+                                    ),
                                   ).animate().scale();
                                 },
                               )

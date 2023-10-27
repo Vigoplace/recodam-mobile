@@ -96,9 +96,11 @@ class Create {
 class CreateRecordModel {
   String? name;
   int? id;
+  DetailType? type;
   CreateRecordModel({
     required this.name,
     required this.id,
+    this.type,
   });
 }
 
@@ -248,11 +250,13 @@ class CurrencyModel {
   String symbol;
   String short;
   String name;
+  String image;
 
   CurrencyModel({
     required this.symbol,
     required this.short,
     required this.name,
+    required this.image,
   });
 
   factory CurrencyModel.fromJson(Map<String, dynamic> data) {
@@ -260,6 +264,7 @@ class CurrencyModel {
       symbol: data['symbol'],
       short: data['short'],
       name: data['name'],
+      image: data['image'],
     );
   }
 }
@@ -351,6 +356,16 @@ class RecordBook {
   }
 }
 
+class ViewRecordInfo {
+  Record record;
+  DetailType type;
+
+  ViewRecordInfo({
+    required this.record,
+    required this.type,
+  });
+}
+
 class Record {
   int id;
   DateTime date;
@@ -410,5 +425,15 @@ class AddToBookInfo {
   ManageAcess title;
   AddToBookInfo({
     required this.title,
+  });
+}
+
+class ButtonState {
+  bool isLoading;
+  bool send;
+
+  ButtonState({
+    this.isLoading = false,
+    this.send = false,
   });
 }

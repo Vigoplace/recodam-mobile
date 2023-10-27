@@ -215,6 +215,12 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
   }
 
   void showMenuModal() {
+    var unconfirmed = FutureProvider<int>((ref) async {
+      return await Future.delayed(const Duration(seconds: 2), () => 2);
+    });
+    var posted = FutureProvider<int>((ref) async {
+      return await Future.delayed(const Duration(seconds: 2), () => 2);
+    });
     showModalBottomSheet(
       showDragHandle: true,
       isScrollControlled: true,
@@ -312,14 +318,21 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
                               ),
                             ),
                           ),
-                          Text(
-                            "10",
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColor.grey100,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                          Consumer(builder: (context, ref, _) {
+                            var count = ref.watch(unconfirmed);
+                            return Text(
+                              count.when(
+                                data: (data) => '$data',
+                                error: (error, trace) => '...',
+                                loading: () => '...',
+                              ),
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: AppColor.grey100,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            );
+                          }),
                         ],
                       ),
                     ),
@@ -348,14 +361,21 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
                               ),
                             ),
                           ),
-                          Text(
-                            "10",
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColor.grey100,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                          Consumer(builder: (context, ref, _) {
+                            var count = ref.watch(posted);
+                            return Text(
+                              count.when(
+                                data: (data) => '$data',
+                                error: (error, trace) => '...',
+                                loading: () => '...',
+                              ),
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: AppColor.grey100,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            );
+                          }),
                         ],
                       ),
                     ),

@@ -1,3 +1,4 @@
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:recordam/utils/utils.dart';
 import 'package:share_plus/share_plus.dart';
 part 'view.dart';
@@ -18,6 +19,7 @@ class ViewBookScreen extends ConsumerStatefulWidget {
 class ViewBookController extends ConsumerState<ViewBookScreen> {
   var pagination = Pagination();
   late TextEditingController search;
+  late RefreshController refreshController;
 
   @override
   void initState() {

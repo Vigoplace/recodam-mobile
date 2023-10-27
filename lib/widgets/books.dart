@@ -7,12 +7,16 @@ class Books extends ConsumerStatefulWidget {
   final bool mini;
   final TextEditingController? searchWord;
   final void Function(Book)? onTap;
+  final double? space;
+  final double? topMargin;
   const Books({
     super.key,
     required this.pagination,
     this.mini = false,
     this.onTap,
     this.searchWord,
+    this.space,
+    this.topMargin,
   });
 
   @override
@@ -118,9 +122,10 @@ class _BooksState extends ConsumerState<Books> {
                       text: 'Nothing to see here',
                     )
                   : ListView.separated(
-                      padding: [0, 30, 0, 0].pad,
+                      padding: [0, widget.topMargin ?? 30, 0, 0].pad,
                       itemCount: list.length,
-                      separatorBuilder: (context, index) => 15.verticalSpace,
+                      separatorBuilder: (context, index) =>
+                          (widget.space ?? 15).verticalSpace,
                       itemBuilder: (context, index) {
                         var book = list[index];
                         return widget.mini

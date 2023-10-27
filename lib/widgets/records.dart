@@ -8,11 +8,13 @@ class Records extends ConsumerStatefulWidget {
   final void Function(Book)? onTap;
   final TextEditingController? searchWord;
   final RecordSearchType recordSearchType;
+  final void Function(RefreshController)? onCreate;
   const Records({
     super.key,
     required this.pagination,
     this.searchWord,
     this.onTap,
+    this.onCreate,
     this.recordSearchType = RecordSearchType.all,
   });
 
@@ -42,6 +44,9 @@ class _BooksState extends ConsumerState<Records> {
       },
     );
     refreshController = RefreshController();
+    if (widget.onCreate != null) {
+      widget.onCreate!(refreshController);
+    }
 
     widget.searchWord?.addListener(() {
       if (widget.searchWord != null && widget.searchWord!.text.isNotEmpty) {
@@ -132,6 +137,7 @@ class _BooksState extends ConsumerState<Records> {
                         var book = list[index];
                         return RecordCard(
                           record: book,
+                          refreshController: refreshController,
                         );
                       },
                     ),

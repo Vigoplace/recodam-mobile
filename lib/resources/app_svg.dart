@@ -14,6 +14,7 @@ class AppSvg {
   static const String chevronDown = 'assets/svg/chevron-down.svg';
   static const String chevronRight = 'assets/svg/chevron-right.svg';
   static const String clock = 'assets/svg/clock.svg';
+  static const String dashboard = 'assets/svg/dashboard.svg';
   static const String delete = 'assets/svg/delete.svg';
   static const String directionRight = 'assets/svg/direction right.svg';
   static const String drafts = 'assets/svg/drafts.svg';

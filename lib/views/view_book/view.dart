@@ -47,15 +47,21 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
       ),
       floatingActionButton: AppButton(
         text: 'Add record',
-        onTap: () => context.pushNamed(
-          CreateRecordScreen.name,
-          extra: Create(
-            bookId: CreateRecordModel(
-              id: widget.book.id,
-              name: widget.book.name,
+        onTap: () async {
+          var a = await context.pushNamed<CreateRecord?>(
+            CreateRecordScreen.name,
+            extra: Create(
+              bookId: CreateRecordModel(
+                id: widget.book.id,
+                name: widget.book.name,
+                type: DetailType.add,
+              ),
             ),
-          ),
-        ),
+          );
+          if (a != null) {
+            controller.refreshController.requestRefresh();
+          }
+        },
         width: 150.w,
         icon: SvgPicture.asset(AppSvg.record),
       ),
@@ -77,6 +83,9 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
             child: Records(
               pagination: controller.pagination,
               searchWord: controller.search,
+              onCreate: (refreshController) {
+                controller.refreshController = refreshController;
+              },
             ),
           ),
         ],
