@@ -26,7 +26,7 @@ class AllRecordsView
                             .length !=
                         controller.pagination.total) {
                       try {
-                        var a = await GetRequest.getGroupedRecords(
+                        var a = await GetRequest.instance.getGroupedRecords(
                           pagination: controller.pagination,
                         );
                         controller.holder.addAll(a);
@@ -44,7 +44,7 @@ class AllRecordsView
                     controller.holder.clear();
                     controller.pagination.lastDate = null;
                     try {
-                      var a = await GetRequest.getGroupedRecords(
+                      var a = await GetRequest.instance.getGroupedRecords(
                         pagination: controller.pagination,
                       );
                       controller.holder.addAll(a);
@@ -98,6 +98,7 @@ class AllRecordsView
         },
         error: (error, trace) => ErrorScreen(
           error: error,
+          trace: trace,
           reload: () => controller.ref.invalidate(controller.allRecords),
         ),
         loading: () => const CustomLoader(),

@@ -2,11 +2,13 @@ import 'package:recordam/utils/utils.dart';
 
 class ErrorScreen extends StatefulWidget {
   final Object error;
+  final StackTrace trace;
   final void Function() reload;
   const ErrorScreen({
     super.key,
     required this.error,
     required this.reload,
+    required this.trace,
   });
 
   @override
@@ -16,6 +18,8 @@ class ErrorScreen extends StatefulWidget {
 class _ErrorScreenState extends State<ErrorScreen> {
   @override
   Widget build(BuildContext context) {
+    debugPrint('${widget.error}');
+    debugPrint('${widget.trace}');
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -35,10 +39,14 @@ class _ErrorScreenState extends State<ErrorScreen> {
             return const Text('Something went wrong');
           }),
           10.verticalSpace,
-          AppButton(
-            text: 'Retry',
-            onTap: widget.reload,
-          ),
+          if (widget.error is DioException &&
+              (widget.error as DioException).response?.statusCode == 404)
+            const SizedBox.shrink()
+          else
+            AppButton(
+              text: 'Retry',
+              onTap: widget.reload,
+            ),
           40.verticalSpace,
         ],
       ),

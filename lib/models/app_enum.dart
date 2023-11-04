@@ -4,4 +4,10 @@ enum RecordSearchType { all, noBook }
 
 enum ManageAcess { public, private }
 
-enum DetailType { create, view, unconfirmed, posted, add }
+enum DetailType {
+  create,
+  view,
+  unconfirmed,
+  posted,
+  add,
+}

@@ -14,7 +14,8 @@ class RecordCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () async {
-        PostRequest.updateRecordView(bookId: record.id)
+        PostRequest.instance
+            .updateRecordView(bookId: record.id)
             .catchError((error) => '');
         var rec = await context.pushNamed<CreateRecord?>(
           RecordScreen.name,
@@ -43,13 +44,18 @@ class RecordCard extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  record.senderName,
-                  style: TextStyle(
-                    color: AppColor.grey100,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14.sp,
-                  ),
+                Builder(
+                  builder: (context) {
+                    bool isSender = record.myRecord;
+                    return Text(
+                      'From: ${isSender ? 'Me' : record.senderName}',
+                      style: TextStyle(
+                        color: AppColor.grey100,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14.sp,
+                      ),
+                    );
+                  },
                 ),
                 Text(
                   '${record.symbol}${record.amount}',
@@ -62,10 +68,10 @@ class RecordCard extends ConsumerWidget {
                 ),
               ],
             ),
-            8.verticalSpace,
+            4.verticalSpace,
             Text(
               (record.bankName == null || record.bankName!.isEmpty)
-                  ? 'No bank name'
+                  ? 'Cash'
                   : record.bankName!,
               style: TextStyle(
                 color: AppColor.grey100,
@@ -73,6 +79,18 @@ class RecordCard extends ConsumerWidget {
                 fontSize: 11.sp,
               ),
             ),
+            10.verticalSpace,
+            if (!record.myRecord)
+              Builder(builder: (context) {
+                return Text(
+                  'To: ${record.senderName}',
+                  style: TextStyle(
+                    color: AppColor.grey100,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14.sp,
+                  ),
+                );
+              }),
             23.verticalSpace,
             Text(
               record.details,

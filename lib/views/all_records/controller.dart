@@ -23,7 +23,7 @@ class AllRecordsController extends ConsumerState<AllRecordsScreen> {
   void initState() {
     super.initState();
     search = TextEditingController();
-    allRecords = FutureProvider((ref) => GetRequest.getGroupedRecords(
+    allRecords = FutureProvider((ref) => GetRequest.instance.getGroupedRecords(
           pagination: pagination,
         ));
     refreshController = RefreshController();

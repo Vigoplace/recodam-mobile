@@ -56,9 +56,10 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
               record: Record(
                 id: 0,
                 date: dateTime,
+                myRecord: true,
                 symbol: currency.value.symbol,
                 senderName: senderName.text,
-                amount: amount.text,
+                amount: num.tryParse(amount.text) ?? 0,
                 bankName: bankName.text.isEmpty ? null : bankName.text,
                 accountNumber:
                     accountNumber.text.isEmpty ? null : accountNumber.text,
@@ -174,6 +175,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
                 height: MediaQuery.sizeOf(context).height * 0.5,
                 child: ErrorScreen(
                   error: error,
+                  trace: trace,
                   reload: () => ref.invalidate(currencyProvider),
                 ),
               ),
@@ -271,6 +273,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
                 height: MediaQuery.sizeOf(context).height * 0.5,
                 child: ErrorScreen(
                   error: error,
+                  trace: trace,
                   reload: () => ref.invalidate(bankProvider),
                 ),
               ),

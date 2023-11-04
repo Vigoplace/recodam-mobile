@@ -45,7 +45,8 @@ class SignupController extends ConsumerState<SignupScreen> {
     if (key.currentState!.validate()) {
       isLoading.value = true;
 
-      PostRequest.createAccount(
+      PostRequest.instance
+          .createAccount(
         createAccountModel: CreateAccountModel(
           email: email.text,
           name: name.text,
@@ -53,8 +54,8 @@ class SignupController extends ConsumerState<SignupScreen> {
           phone: phone.text,
           countryCode: country.value.code,
         ),
-      ).then((data) {
-        debugPrint('LOADED');
+      )
+          .then((data) {
         isLoading.value = false;
         ShowFlushBar.showSuccess(
           context: context,
@@ -156,6 +157,7 @@ class SignupController extends ConsumerState<SignupScreen> {
                 height: MediaQuery.sizeOf(context).height * 0.5,
                 child: ErrorScreen(
                   error: error,
+                  trace: trace,
                   reload: () => ref.invalidate(countryProvider),
                 ),
               ),

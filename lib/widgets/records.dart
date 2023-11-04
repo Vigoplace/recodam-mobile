@@ -38,8 +38,9 @@ class _BooksState extends ConsumerState<Records> {
     recordsProvider = FutureProvider.family(
       (ref, Pagination pagination) {
         return switch (widget.recordSearchType) {
-          RecordSearchType.all => GetRequest.getRecords(pagination: pagination),
-          _ => GetRequest.getHomeRecords(pagination: pagination),
+          RecordSearchType.all =>
+            GetRequest.instance.getRecords(pagination: pagination),
+          _ => GetRequest.instance.getHomeRecords(pagination: pagination),
         };
       },
     );
@@ -99,7 +100,7 @@ class _BooksState extends ConsumerState<Records> {
               onLoading: () async {
                 if (list.length != pagination.total) {
                   try {
-                    var a = await GetRequest.getRecords(
+                    var a = await GetRequest.instance.getRecords(
                       pagination: pagination,
                     );
                     recordList.value.addAll(a);
@@ -117,7 +118,8 @@ class _BooksState extends ConsumerState<Records> {
                 recordList.value.clear();
                 pagination.page = 1;
                 try {
-                  var a = await GetRequest.getRecords(pagination: pagination);
+                  var a = await GetRequest.instance
+                      .getRecords(pagination: pagination);
                   recordList.value.addAll(a);
                   setState(() {});
                   refreshController.refreshCompleted(resetFooterState: true);
@@ -147,6 +149,7 @@ class _BooksState extends ConsumerState<Records> {
       },
       error: (error, trace) => ErrorScreen(
         error: error,
+        trace: trace,
         reload: () => ref.invalidate(recordsProvider),
       ),
       loading: () => const CustomLoader(),

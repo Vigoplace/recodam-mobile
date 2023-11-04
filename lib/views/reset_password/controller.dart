@@ -30,10 +30,12 @@ class ResetPasswordController extends ConsumerState<ResetPasswordScreen> {
     setState(() {});
     if (key.currentState!.validate()) {
       isLoading.value = true;
-      PostRequest.resetPassword(
+      PostRequest.instance
+          .resetPassword(
         otp: otp.text,
         pin: pin.text,
-      ).then((data) {
+      )
+          .then((data) {
         isLoading.value = false;
         ShowFlushBar.showSuccess(
           context: context,
@@ -50,9 +52,11 @@ class ResetPasswordController extends ConsumerState<ResetPasswordScreen> {
   void resendToken() async {
     isLoading.value = true;
     var email = LocalStorage.instance.getEmail();
-    PostRequest.forgotPassword(
+    PostRequest.instance
+        .forgotPassword(
       email: email,
-    ).then((value) {
+    )
+        .then((value) {
       startTimer();
       isLoading.value = false;
       ShowFlushBar.showSuccess(

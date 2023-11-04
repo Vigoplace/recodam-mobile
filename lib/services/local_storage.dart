@@ -52,6 +52,7 @@ class LocalStorage {
     await prefs.setString(_name, value);
     return value;
   }
+
   Future<String> setEmail(String value) async {
     await prefs.setString(_email, value);
     return value;
@@ -86,7 +87,7 @@ class LocalStorage {
     return prefs.getInt(_id)!;
   }
 
-  String getToken() {
-    return prefs.getString(_token)!;
+  String? getToken() {
+    return prefs.getString(_token);
   }
 }

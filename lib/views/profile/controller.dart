@@ -1,4 +1,3 @@
-
 import 'package:recordam/utils/utils.dart';
 import 'package:recordam/views/profile/widget.dart';
 part 'view.dart';
@@ -95,7 +94,7 @@ class ProfileController extends ConsumerState<ProfileScreen> {
     final ImagePicker picker = ImagePicker();
     var xFile = await picker.pickImage(source: source);
     if (xFile != null) {
-      PostRequest.uploadPhoto(ref: ref, file: File(xFile.path)).then(
+      PostRequest.instance.uploadPhoto(ref: ref, file: File(xFile.path)).then(
         (file) {
           LocalStorage.instance.setProfilePhoto(file).then(
               (value) => ref.read(profilePhotoProvider.notifier).state = value);
@@ -115,6 +114,7 @@ class ProfileController extends ConsumerState<ProfileScreen> {
   }
 
   void changeName() async {
+    nameController.text = LocalStorage.instance.getName();
     var decision = await showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -178,10 +178,12 @@ class ProfileController extends ConsumerState<ProfileScreen> {
     );
     if (decision == true) {
       if (nameController.text.isNotEmpty) {
-        PostRequest.updateProfile(
+        PostRequest.instance
+            .updateProfile(
           ref: ref,
           name: nameController.text,
-        ).then(
+        )
+            .then(
           (message) {
             LocalStorage.instance
                 .setName(nameController.text)
@@ -270,8 +272,9 @@ class ProfileController extends ConsumerState<ProfileScreen> {
       ).animate().moveY(),
     );
     if (decision == true) {
-      GetRequest.logout(ref: ref).then(
+      GetRequest.instance.logout(ref: ref).then(
         (message) {
+          SocketServices.instance.disconnect();
           ShowFlushBar.showSuccess(
             context: context,
             message: message,

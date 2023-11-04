@@ -7,7 +7,6 @@ export 'home/controller.dart';
 export 'profile/controller.dart';
 export 'create_record/controller.dart';
 export 'create_book/controller.dart';
-export 'search/controller.dart';
 export 'unconfirmed_records/controller.dart';
 export 'posted_records/controller.dart';
 export 'view_book/controller.dart';

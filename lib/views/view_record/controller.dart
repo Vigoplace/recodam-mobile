@@ -19,6 +19,8 @@ class RecordController extends ConsumerState<RecordScreen> {
   late TextEditingController details;
   late TextEditingController book;
   int? bookId;
+  ValueNotifier<bool> isPost = ValueNotifier(false);
+  ValueNotifier<UserData?> user = ValueNotifier(null);
 
   void createRecord() {
     CreateRecord record = CreateRecord(
@@ -30,6 +32,7 @@ class RecordController extends ConsumerState<RecordScreen> {
       recordType: widget.info.record.recordType,
       id: widget.info.record.id,
       newBookId: bookId,
+      newOwnerId: user.value?.id,
       bankName: widget.info.record.bankName,
       accountName: widget.info.record.accountName,
       accountNumber: widget.info.record.accountNumber,
@@ -37,12 +40,11 @@ class RecordController extends ConsumerState<RecordScreen> {
     );
     late Future<String> Function({required CreateRecord record}) sendRequest;
     if (widget.info.record.isDatabase) {
-      sendRequest = PostRequest.updateRecord;
+      sendRequest = PostRequest.instance.updateRecord;
     } else {
-      sendRequest = PostRequest.createRecord;
+      sendRequest = PostRequest.instance.createRecord;
     }
     sendRequest(record: record).then((data) {
-      debugPrint('LOADED');
       buttonState.value = ButtonState(
         isLoading: false,
         send: buttonState.value.send,
@@ -68,7 +70,6 @@ class RecordController extends ConsumerState<RecordScreen> {
         isLoading: false,
         send: buttonState.value.send,
       );
-      debugPrint(error.toString());
       listenError(
         error: error,
         context: context,
@@ -138,6 +139,7 @@ class RecordController extends ConsumerState<RecordScreen> {
             AddToBookScreen.name,
             extra: AddToBookInfo(
               title: choice,
+              number: '',
             ),
           );
           if (bookChoice != null) {
@@ -152,6 +154,8 @@ class RecordController extends ConsumerState<RecordScreen> {
   }
 
   void onPublicBookSelection() async {
+    String number = '';
+    TextEditingController controller = TextEditingController();
     showModalBottomSheet<bool?>(
       showDragHandle: true,
       isScrollControlled: true,
@@ -163,70 +167,91 @@ class RecordController extends ConsumerState<RecordScreen> {
         ),
       ),
       backgroundColor: AppColor.grey,
-      builder: (context) => Container(
-        color: AppColor.grey,
-        child: Padding(
-          padding: [20].pad,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Post to Public book",
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                  color: AppColor.grey100,
+      builder: (context) => StatefulBuilder(builder: (context, refresh) {
+        return Container(
+          color: AppColor.grey,
+          height: MediaQuery.sizeOf(context).height * 0.6,
+          child: Padding(
+            padding: [20].pad,
+            child: Column(
+              // mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Post to Public book",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColor.grey100,
+                  ),
                 ),
-              ),
-              30.verticalSpace,
-              const CustomTextInput(
-                titleText: 'Enter the owner’s number',
-              ),
-              40.verticalSpace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () => context.pop(),
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w700,
-                        color: AppColor.grey20,
+                30.verticalSpace,
+                CustomTextInput(
+                  controller: controller,
+                  titleText: 'Enter the owner’s number',
+                  keyboardType: TextInputType.phone,
+                  textInputAction: TextInputAction.done,
+                  onChanged: (p0) => refresh(() => number = p0),
+                ),
+                40.verticalSpace,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () => context.pop(),
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColor.grey20,
+                        ),
                       ),
                     ),
-                  ),
-                  40.horizontalSpace,
-                  GestureDetector(
-                    onTap: () => context.pop(true),
-                    child: Text(
-                      "Okay",
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w700,
-                        color: AppColor.light100,
+                    40.horizontalSpace,
+                    GestureDetector(
+                      onTap: controller.text.isEmpty
+                          ? null
+                          : () => context.pop(true),
+                      child: Text(
+                        "Okay",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w700,
+                          color: controller.text.isEmpty
+                              ? AppColor.grey20
+                              : AppColor.light100,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ).animate().moveX(),
-              50.verticalSpace,
-            ],
+                  ],
+                ).animate().moveX(),
+                50.verticalSpace,
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     ).then((choice) async {
       if (choice != null) {
-        var bookChoice = await context.pushNamed<Book?>(
+        var bookChoice = await context.pushNamed<PostBookInfo?>(
           AddToBookScreen.name,
           extra: AddToBookInfo(
             title: ManageAcess.public,
+            number: number,
           ),
         );
+
         if (bookChoice != null) {
-          book.text = bookChoice.name;
-          bookId = bookChoice.id;
+          if (bookChoice.book == null) {
+            user.value = bookChoice.user;
+            isPost.value = true;
+            bookId = null;
+            book.clear();
+          } else {
+            user.value = bookChoice.user;
+            book.text = (bookChoice.book!).name;
+            bookId = (bookChoice.book!).id;
+          }
         }
       }
     });
@@ -267,6 +292,7 @@ class RecordController extends ConsumerState<RecordScreen> {
               ),
               onTap: () {
                 book.text = 'Dashboard';
+                bookId = null;
                 context.pop();
               },
               child: Container(

@@ -25,7 +25,7 @@ class AllBooksView extends StatelessView<AllBooksScreen, AllBooksController> {
                             .length !=
                         controller.pagination.total) {
                       try {
-                        var a = await GetRequest.getGroupedBooks(
+                        var a = await GetRequest.instance.getGroupedBooks(
                           pagination: controller.pagination,
                         );
                         controller.holder.addAll(a);
@@ -43,7 +43,7 @@ class AllBooksView extends StatelessView<AllBooksScreen, AllBooksController> {
                     controller.holder.clear();
                     controller.pagination.lastDate = null;
                     try {
-                      var a = await GetRequest.getGroupedBooks(
+                      var a = await GetRequest.instance.getGroupedBooks(
                         pagination: controller.pagination,
                       );
                       controller.holder.addAll(a);
@@ -96,6 +96,7 @@ class AllBooksView extends StatelessView<AllBooksScreen, AllBooksController> {
         },
         error: (error, trace) => ErrorScreen(
           error: error,
+          trace: trace,
           reload: () => controller.ref.invalidate(controller.allBooks),
         ),
         loading: () => const CustomLoader(),

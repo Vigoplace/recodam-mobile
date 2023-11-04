@@ -16,6 +16,12 @@ class SocketServices {
     return _socket!;
   }
 
+  void disconnect() {
+    if (socket.active) {
+      socket.disconnect();
+    }
+  }
+
   void connectAndListen() {
     if (!socket.active) {
       socket

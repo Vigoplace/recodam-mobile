@@ -18,13 +18,22 @@ class AddToBookController extends ConsumerState<AddToBookScreen> {
   var pagination = Pagination();
   late TextEditingController search;
 
+  late FutureProvider<UserData> info;
+
   @override
   void initState() {
     super.initState();
     search = TextEditingController();
+    pagination.path = 'users/books/${widget.bookInfo.number}';
+    info = FutureProvider(
+      (ref) => GetRequest.instance.getUserNumber(
+        number: widget.bookInfo.number,
+        pagination: pagination,
+      ),
+    );
   }
 
-  void showConfirmation(Book book) {
+  void showConfirmation(Book? book) {
     showModalBottomSheet<bool?>(
       showDragHandle: true,
       isScrollControlled: true,
@@ -52,11 +61,27 @@ class AddToBookController extends ConsumerState<AddToBookScreen> {
                 ),
               ),
             ),
-            22.verticalSpace,
-            BookCardMini(
-              book: book,
-              onTap: (p0) {},
-            ),
+            if (book != null) ...[
+              22.verticalSpace,
+              BookCardMini(
+                book: book,
+                onTap: (p0) {},
+              )
+            ] else ...[
+              10.verticalSpace,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: [20].pad,
+                  child: Text(
+                    '${ref.read(info).asData!.value.name}\'s Dashboard',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+              )
+            ],
             Padding(
               padding: [20].pad,
               child: Row(
@@ -92,11 +117,18 @@ class AddToBookController extends ConsumerState<AddToBookScreen> {
           ],
         );
       },
-    ).then((choice) {
-      if (choice == true) {
-        context.pop(book);
-      }
-    });
+    ).then(
+      (choice) {
+        if (choice == true) {
+          context.pop(
+            PostBookInfo(
+              book: book,
+              user: ref.read(info).value!,
+            ),
+          );
+        }
+      },
+    );
   }
 
   @override

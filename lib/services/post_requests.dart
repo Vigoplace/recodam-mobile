@@ -2,19 +2,20 @@ import 'package:http_parser/http_parser.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:recordam/utils/utils.dart';
 
-class PostRequest {
-  static NetworkService network = NetworkService();
+class PostRequest extends NetworkService {
+  static final PostRequest instance = PostRequest._init();
+  PostRequest._init();
 
-  static Future<void> test() async {
+  Future<void> test() async {
     // var path = '';
-    // var _ = await network.getRequestHandler(path);
+    // var _ = await getRequestHandler(path);
     await Future.delayed(const Duration(seconds: 2));
     return;
   }
 
-  static Future<void> testSending(WidgetRef ref) async {
+  Future<void> testSending(WidgetRef ref) async {
     // var path = '';
-    // var _ = await network.getRequestHandler(path);
+    // var _ = await getRequestHandler(path);
     ref.read(sendingProvider.notifier).state = true;
     await Future.delayed(const Duration(seconds: 2));
     ref.read(sendingProvider.notifier).state = false;
@@ -22,52 +23,52 @@ class PostRequest {
     return;
   }
 
-  static Future<UserModel> createAccount({
+  Future<UserModel> createAccount({
     required CreateAccountModel createAccountModel,
   }) async {
     var path = 'auth/create';
     var payload = createAccountModel.toJson();
     var messagingToken = await FirebaseMessaging.instance.getToken();
     payload.addAll({'messaging_token': messagingToken});
-    var user = await network.postRequestHandler(
+    var user = await postRequestHandler(
       path,
       data: payload,
     );
     return UserModel.fromJson(user.data);
   }
 
-  static Future<UserModel> loginToAccount({
+  Future<UserModel> loginToAccount({
     required LoginModel loginModel,
   }) async {
     var path = 'auth/login';
     var payload = loginModel.toJson();
     var messagingToken = await FirebaseMessaging.instance.getToken();
     payload.addAll({'messaging_token': messagingToken});
-    var user = await network.postRequestHandler(
+    var user = await postRequestHandler(
       path,
       data: payload,
     );
     return UserModel.fromJson(user.data);
   }
 
-  static Future<String> forgotPassword({
+  Future<String> forgotPassword({
     required String email,
   }) async {
     var path = 'auth/forgot-password';
-    var user = await network.postRequestHandler(
+    var user = await postRequestHandler(
       path,
       data: {'email': email},
     );
     return user.data['message'];
   }
 
-  static Future<String> resetPassword({
+  Future<String> resetPassword({
     required String otp,
     required String pin,
   }) async {
     var path = 'auth/reset-password';
     var email = LocalStorage.instance.getEmail();
-    var user = await network.postRequestHandler(
+    var user = await postRequestHandler(
       path,
       data: {
         'email': email,
@@ -79,31 +80,25 @@ class PostRequest {
     return user.data['message'];
   }
 
-  static Future<String> createBook({
+  Future<String> createBook({
     required CreateBook book,
   }) async {
     var path = 'book/create';
-    var token = LocalStorage.instance.getToken();
-    var user = await network.postRequestHandler(
+    var user = await postRequestHandler(
       path,
       data: book.toJson(),
-      options: Options(
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
-      ),
     );
     return user.data['message'];
   }
 
-  static Future<String> createRecord({
+  Future<String> createRecord({
     required CreateRecord record,
   }) async {
     var path = 'record/create';
-    var token = LocalStorage.instance.getToken();
     FormData data = FormData();
     String mimeType = mime(record.file)!;
     String type = mimeType.split('/')[0];
     String subtype = mimeType.split('/')[1];
-    // late String file;
 
     data.fields.addAll([
       MapEntry('sender_name', record.senderName),
@@ -129,86 +124,67 @@ class PostRequest {
         ),
       ),
     );
-    var user = await network.postRequestHandler(
+    var user = await postRequestHandler(
       path,
       data: data,
-      options: Options(
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
-      ),
     );
     return user.data['message'];
   }
 
-  static Future<String> updateRecord({
+  Future<String> updateRecord({
     required CreateRecord record,
   }) async {
     var path = 'record/update';
-    var token = LocalStorage.instance.getToken();
     var data = {
       'id': record.id,
       'book_id': record.newBookId,
+      'owner_id': record.newOwnerId,
       'details': record.details,
     };
-    var user = await network.postRequestHandler(
+    var user = await postRequestHandler(
       path,
       data: data,
-      options: Options(
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
-      ),
     );
     return user.data['message'];
   }
 
-  static Future<String> updateProfile({
+  Future<String> updateProfile({
     required WidgetRef ref,
     String? name,
   }) async {
     var path = 'auth/update';
-    var token = LocalStorage.instance.getToken();
     ref.read(sendingProvider.notifier).state = true;
-    var user = await network.postRequestHandler(
+    var user = await postRequestHandler(
       path,
       data: {'name': name},
-      options: Options(
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
-      ),
     );
     ref.read(sendingProvider.notifier).state = false;
     return user.data['message'];
   }
 
-  static Future<String> updateBookView({required int bookId}) async {
+  Future<String> updateBookView({required int bookId}) async {
     var path = 'book/view';
-    var token = LocalStorage.instance.getToken();
-    var user = await network.postRequestHandler(
+    var user = await postRequestHandler(
       path,
       data: {'id': bookId},
-      options: Options(
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
-      ),
     );
     return user.data['message'];
   }
 
-  static Future<String> updateRecordView({required int bookId}) async {
+  Future<String> updateRecordView({required int bookId}) async {
     var path = 'record/view';
-    var token = LocalStorage.instance.getToken();
-    var user = await network.postRequestHandler(
+    var user = await postRequestHandler(
       path,
       data: {'id': bookId},
-      options: Options(
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
-      ),
     );
     return user.data['message'];
   }
 
-  static Future<String> uploadPhoto({
+  Future<String> uploadPhoto({
     required WidgetRef ref,
     required File file,
   }) async {
     var path = 'misc/upload';
-    var token = LocalStorage.instance.getToken();
     ref.read(sendingProvider.notifier).state = true;
     FormData data = FormData();
     String mimeType = mime(file.path) ?? '';
@@ -224,12 +200,11 @@ class PostRequest {
         ),
       ),
     );
-    var user = await network.postRequestHandler(
+    var user = await postRequestHandler(
       path,
       data: data,
       options: Options(
         headers: {
-          HttpHeaders.authorizationHeader: 'Bearer $token',
           HttpHeaders.contentTypeHeader: "multipart/form-data",
         },
       ),

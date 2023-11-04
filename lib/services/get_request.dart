@@ -1,28 +1,27 @@
 import 'package:recordam/utils/utils.dart';
 
-class GetRequest {
-  static NetworkService network = NetworkService();
-
-  static Future<String> test() async {
+class GetRequest extends NetworkService {
+  static final GetRequest instance = GetRequest._init();
+  GetRequest._init();
+  Future<String> test() async {
     // var path = '';
-    // var _ = await network.getRequestHandler(path);
+    // var _ = await getRequestHandler(path);
     var _ = await Future.delayed(const Duration(seconds: 3), () => 'Hello');
     return _;
   }
 
-  static Future<List<int>> testPagination({Pagination? pagination}) async {
+  Future<List<int>> testPagination({Pagination? pagination}) async {
     // var path = '';
-    // var _ = await network.getRequestHandler(path);
+    // var _ = await getRequestHandler(path);
     var _ = await Future.delayed(const Duration(seconds: 3), () => 'Hello');
     return List.generate(10, (index) => index += 1);
   }
 
-  static Future<Map<DateTime, List<Book>>> getGroupedBooks({
+  Future<Map<DateTime, List<Book>>> getGroupedBooks({
     required Pagination pagination,
   }) async {
     var path = 'book/group';
-    var token = LocalStorage.instance.getToken();
-    var books = await network.getRequestHandler(
+    var books = await getRequestHandler(
       path,
       queryPatameters: {
         'limit': pagination.limit,
@@ -30,9 +29,6 @@ class GetRequest {
             ? null
             : '${pagination.lastDate!.year}-${pagination.lastDate!.month}-${pagination.lastDate!.day}',
       },
-      options: Options(
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
-      ),
     );
     Map<DateTime, List<Book>> groupedBooks = {};
     (books.data['data']['books'] as Map).forEach((key, value) {
@@ -49,12 +45,11 @@ class GetRequest {
     return groupedBooks;
   }
 
-  static Future<Map<DateTime, List<Record>>> getGroupedRecords({
+  Future<Map<DateTime, List<Record>>> getGroupedRecords({
     required Pagination pagination,
   }) async {
     var path = 'record/group';
-    var token = LocalStorage.instance.getToken();
-    var books = await network.getRequestHandler(
+    var books = await getRequestHandler(
       path,
       queryPatameters: {
         'limit': pagination.limit,
@@ -62,9 +57,6 @@ class GetRequest {
             ? null
             : '${pagination.lastDate!.year}-${pagination.lastDate!.month}-${pagination.lastDate!.day}',
       },
-      options: Options(
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
-      ),
     );
     Map<DateTime, List<Record>> groupedBooks = {};
     (books.data['data']['records'] as Map).forEach((key, value) {
@@ -81,58 +73,47 @@ class GetRequest {
     return groupedBooks;
   }
 
-  static Future<List<Book>> getAllBooks({Pagination? pagination}) async {
-    var path = 'book';
-    var token = LocalStorage.instance.getToken();
-    var books = await network.getRequestHandler(
+  Future<List<Book>> getAllBooks({Pagination? pagination}) async {
+    var path = pagination?.path ?? 'book';
+    var books = await getRequestHandler(
       path,
       queryPatameters: {
         'page': pagination?.page,
         'size': pagination?.size,
         'search': pagination?.search,
       },
-      options: Options(
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
-      ),
     );
-    debugPrint(books.data.toString());
     var bookInfo = BookInfo.fromJson(books.data['data']);
     pagination?.total = bookInfo.total;
     pagination?.page += 1;
     return bookInfo.book;
   }
 
-  static Future<List<Record>> getRecords({Pagination? pagination}) async {
+  Future<List<Record>> getRecords({Pagination? pagination}) async {
     var path = 'record';
     if (pagination?.book != null) {
       path = 'book/${pagination!.book}';
     }
-    var token = LocalStorage.instance.getToken();
-    var books = await network.getRequestHandler(
+    var books = await getRequestHandler(
       path,
       queryPatameters: {
         'page': pagination?.page,
         'size': pagination?.size,
         'search': pagination?.search,
       },
-      options: Options(
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
-      ),
     );
-    debugPrint(books.data.toString());
     var bookInfo = RecordInfo.fromJson(books.data['data']);
     pagination?.total = bookInfo.total;
     pagination?.page += 1;
     return bookInfo.book;
   }
 
-  static Future<List<Record>> getHomeRecords({Pagination? pagination}) async {
+  Future<List<Record>> getHomeRecords({Pagination? pagination}) async {
     var path = 'record';
     if (pagination?.book != null) {
       path = 'book/${pagination!.book}';
     }
-    var token = LocalStorage.instance.getToken();
-    var books = await network.getRequestHandler(
+    var books = await getRequestHandler(
       path,
       queryPatameters: {
         'page': pagination?.page,
@@ -140,55 +121,62 @@ class GetRequest {
         'search': pagination?.search,
         'type': 'no-book', // Two kinds, NO-BOOK AND ALL
       },
-      options: Options(
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
-      ),
     );
-    debugPrint(books.data.toString());
     var bookInfo = RecordInfo.fromJson(books.data['data']);
     pagination?.total = bookInfo.total;
     pagination?.page += 1;
     return bookInfo.book;
   }
 
-  static Future<List<CountryModel>> getAllCountries(
-      {Pagination? pagination}) async {
+  Future<List<CountryModel>> getAllCountries({Pagination? pagination}) async {
     var path = 'misc/countries';
-    var countries = await network.getRequestHandler(path);
+    var countries = await getRequestHandler(path);
     return (countries.data['data'] as List)
         .map((e) => CountryModel.fromJson(e))
         .toList();
   }
 
-  static Future<List<CurrencyModel>> getAllCurrencies(
-      {Pagination? pagination}) async {
+  Future<List<CurrencyModel>> getAllCurrencies({Pagination? pagination}) async {
     var path = 'misc/currencies';
-    var countries = await network.getRequestHandler(path);
+    var countries = await getRequestHandler(path);
     return (countries.data['data'] as List)
         .map((e) => CurrencyModel.fromJson(e))
         .toList();
   }
 
-  static Future<List<BankModel>> getAllBanks({Pagination? pagination}) async {
+  Future<List<BankModel>> getAllBanks({Pagination? pagination}) async {
     var path = 'misc/banks';
-    var countries = await network.getRequestHandler(path);
+    var countries = await getRequestHandler(path);
     return (countries.data['data'] as List)
         .map((e) => BankModel.fromJson(e))
         .toList();
   }
 
-  static Future<String> logout({required WidgetRef ref}) async {
+  Future<String> logout({required WidgetRef ref}) async {
     var path = 'auth/logout';
-    var token = LocalStorage.instance.getToken();
     ref.read(sendingProvider.notifier).state = true;
-    var user = await network.getRequestHandler(
+    var user = await getRequestHandler(
       path,
-      options: Options(
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
-      ),
     );
     await LocalStorage.instance.prefs.clear();
     ref.read(sendingProvider.notifier).state = false;
     return user.data['message'];
+  }
+
+  Future<UserData> getUserNumber({
+    required String number,
+    bool infoOnly = false,
+    Pagination? pagination,
+  }) async {
+    var path = 'users/$number';
+    var user = await getRequestHandler(
+      path,
+      queryPatameters: {
+        'page': pagination?.page,
+        'size': pagination?.size,
+        'search': pagination?.search,
+      },
+    );
+    return UserData.fromJson(user.data['data']);
   }
 }

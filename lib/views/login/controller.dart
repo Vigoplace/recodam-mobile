@@ -26,12 +26,14 @@ class LoginController extends ConsumerState<LoginScreen> {
     setState(() {});
     if (key.currentState!.validate()) {
       isLoading.value = true;
-      PostRequest.loginToAccount(
+      PostRequest.instance
+          .loginToAccount(
         loginModel: LoginModel(
           password: pin.text,
           phone: phone.text,
         ),
-      ).then((data) {
+      )
+          .then((data) {
         isLoading.value = false;
         ShowFlushBar.showSuccess(
           context: context,

@@ -117,49 +117,109 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
               controller: controller.details,
             )
           ],
-          32.verticalSpace,
-          CustomTextInput(
-            titleText: "Add to book",
-            hintText: "Choose book",
-            suffixIcon: const SvgButton(
-              icon: AppSvg.chevronDown,
-            ),
-            readOnly: true,
-            controller: controller.book,
-            onTap: controller.chooseBook,
+          ValueListenableBuilder(
+              valueListenable: controller.isPost,
+              builder: (context, post, _) {
+                return post
+                    ? const SizedBox.shrink()
+                    : Column(
+                        children: [
+                          32.verticalSpace,
+                          CustomTextInput(
+                            titleText:
+                                "${widget.info.record.isDatabase ? "Update" : "Add to"} book",
+                            hintText: "Choose book",
+                            suffixIcon: const SvgButton(
+                              icon: AppSvg.chevronDown,
+                            ),
+                            readOnly: true,
+                            controller: controller.book,
+                            onTap: controller.chooseBook,
+                          ),
+                        ],
+                      );
+              }),
+          ValueListenableBuilder(
+            valueListenable: controller.user,
+            builder: (context, user, _) {
+              return user != null
+                  ? Column(
+                      children: [
+                        15.verticalSpace,
+                        Center(
+                          child: Text(
+                            'Post this book to ${user.name}\'s ${controller.bookId == null ? 'Dashboard' : controller.book.text}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20.sp,
+                            ),
+                          ),
+                        ),
+                        30.verticalSpace,
+                      ],
+                    )
+                  : const SizedBox.shrink();
+            },
           ),
-          65.verticalSpace,
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               if ([DetailType.view].contains(widget.info.type))
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Post',
-                      style: TextStyle(
-                        color: AppColor.red100,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16.sp,
-                      ),
-                    ),
-                  ),
+                  child: ValueListenableBuilder(
+                      valueListenable: controller.isPost,
+                      builder: (context, isPost, _) {
+                        return TextButton(
+                          onPressed: () {
+                            if (isPost) {
+                              controller.isPost.value = false;
+                              controller.user.value = null;
+                            } else {
+                              controller.onPublicBookSelection();
+                            }
+                          },
+                          child: Text(
+                            isPost ? 'Cancel' : 'Post',
+                            style: TextStyle(
+                              color: AppColor.red100,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        );
+                      }),
                 ),
               const Spacer(),
               ValueListenableBuilder(
                 valueListenable: controller.buttonState,
                 builder: (context, state, _) {
-                  return LoadingButton(
-                    isLoading: state.isLoading,
-                    width: 100.w,
-                    normal: AppButton(
-                      width: 100.w,
-                      enable: state.send,
-                      text: widget.info.record.isDatabase ? "Update" : "Save",
-                      onTap: controller.createRecord,
-                    ),
+                  return ValueListenableBuilder(
+                    valueListenable: controller.isPost,
+                    builder: (context, post, _) {
+                      return post
+                          ? LoadingButton(
+                              isLoading: state.isLoading,
+                              width: 100.w,
+                              normal: AppButton(
+                                width: 100.w,
+                                text: "Update",
+                                onTap: controller.createRecord,
+                              ),
+                            )
+                          : LoadingButton(
+                              isLoading: state.isLoading,
+                              width: 100.w,
+                              normal: AppButton(
+                                width: 100.w,
+                                enable: state.send,
+                                text: widget.info.record.isDatabase
+                                    ? "Update"
+                                    : "Save",
+                                onTap: controller.createRecord,
+                              ),
+                            );
+                    },
                   );
                 },
               ),

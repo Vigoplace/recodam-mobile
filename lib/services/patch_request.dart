@@ -1,14 +1,14 @@
 import 'package:recordam/utils/utils.dart';
 
-class PatchRequest {
-  static NetworkService network = NetworkService();
-
-  static Future<void> deleteAjo({
+class PatchRequest extends NetworkService {
+  static final PatchRequest instance = PatchRequest._init();
+  PatchRequest._init();
+  Future<void> deleteAjo({
     required int id,
     required CancelToken cancel,
   }) async {
     var path = 'recordam/delete/$id';
-    var _ = await network.patchRequestHandler(
+    var _ = await patchRequestHandler(
       path,
       cancelToken: cancel,
     );

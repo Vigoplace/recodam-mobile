@@ -43,10 +43,11 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
         access: access.value.name,
         symbol: currency.value.symbol,
       );
-      PostRequest.createBook(
+      PostRequest.instance
+          .createBook(
         book: book,
-      ).then((value) {
-        debugPrint('LOADED');
+      )
+          .then((value) {
         isLoading.value = false;
         ref.invalidate(homeBookProvider);
         ShowFlushBar.showSuccess(
@@ -59,7 +60,6 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
       }).catchError(
         (error) {
           isLoading.value = false;
-          debugPrint(error.toString());
           listenError(
             error: error,
             context: context,
@@ -137,6 +137,7 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
                 height: MediaQuery.sizeOf(context).height * 0.5,
                 child: ErrorScreen(
                   error: error,
+                  trace: trace,
                   reload: () => ref.invalidate(currencyProvider),
                 ),
               ),

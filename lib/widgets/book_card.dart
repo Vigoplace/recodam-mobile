@@ -37,7 +37,8 @@ class _BookCardState extends State<BookCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        PostRequest.updateBookView(bookId: widget.book.id)
+        PostRequest.instance
+            .updateBookView(bookId: widget.book.id)
             .catchError((error) => '');
         context.pushNamed(ViewBookScreen.name, extra: widget.book);
       },
@@ -64,6 +65,16 @@ class _BookCardState extends State<BookCard> {
                   color: AppColor.grey100,
                   fontWeight: FontWeight.w700,
                   fontSize: 14.sp,
+                ),
+              ),
+              10.verticalSpace,
+              Text(
+                widget.book.description,
+                maxLines: 2,
+                overflow: TextOverflow.fade,
+                style: TextStyle(
+                  color: AppColor.grey100,
+                  fontSize: 12.sp,
                 ),
               ),
               21.verticalSpace,
@@ -115,6 +126,16 @@ class _BookCardState extends State<BookCard> {
                   Text(
                     '${widget.book.totalRecords}',
                     style: TextStyle(
+                      color: AppColor.grey100,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    '${widget.book.symbol}${widget.book.sum}',
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
                       color: AppColor.grey100,
                       fontWeight: FontWeight.w400,
                       fontSize: 12.sp,
@@ -174,7 +195,8 @@ class _HorizBookCardState extends State<HorizBookCard> {
       child: GestureDetector(
         onTap: () {
           if (widget.onTap == null) {
-            PostRequest.updateBookView(bookId: widget.book.id)
+            PostRequest.instance
+                .updateBookView(bookId: widget.book.id)
                 .catchError((error) => '');
             context.pushNamed(ViewBookScreen.name, extra: widget.book);
           } else {
@@ -282,7 +304,9 @@ class BookCardMini extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (onTap == null) {
-          PostRequest.updateBookView(bookId: book.id).catchError((error) => '');
+          PostRequest.instance
+              .updateBookView(bookId: book.id)
+              .catchError((error) => '');
           context.pushNamed(ViewBookScreen.name, extra: book);
         } else {
           onTap!(book);

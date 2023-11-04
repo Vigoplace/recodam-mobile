@@ -22,7 +22,7 @@ class PostedRecordsController extends ConsumerState<PostedRecordsScreen> {
     super.initState();
     booksProvider = FutureProvider.family(
       (ref, Pagination pagination) =>
-          GetRequest.getRecords(pagination: pagination),
+          GetRequest.instance.getRecords(pagination: pagination),
     );
     refreshController = RefreshController();
   }

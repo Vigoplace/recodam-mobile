@@ -38,7 +38,7 @@ class _BooksState extends ConsumerState<Books> {
     pagination = widget.pagination..page = 1;
     booksProvider = FutureProvider.family(
       (ref, Pagination pagination) =>
-          GetRequest.getAllBooks(pagination: pagination),
+          GetRequest.instance.getAllBooks(pagination: pagination),
     );
     refreshController = RefreshController();
     widget.searchWord?.addListener(() {
@@ -91,7 +91,7 @@ class _BooksState extends ConsumerState<Books> {
               onLoading: () async {
                 if (list.length != pagination.total) {
                   try {
-                    var a = await GetRequest.getAllBooks(
+                    var a = await GetRequest.instance.getAllBooks(
                       pagination: pagination,
                     );
                     bookList.value.addAll(a);
@@ -109,7 +109,8 @@ class _BooksState extends ConsumerState<Books> {
                 bookList.value.clear();
                 pagination.page = 1;
                 try {
-                  var a = await GetRequest.getAllBooks(pagination: pagination);
+                  var a = await GetRequest.instance
+                      .getAllBooks(pagination: pagination);
                   bookList.value.addAll(a);
                   setState(() {});
                   refreshController.refreshCompleted(resetFooterState: true);
@@ -145,6 +146,7 @@ class _BooksState extends ConsumerState<Books> {
       },
       error: (error, trace) => ErrorScreen(
         error: error,
+        trace: trace,
         reload: () => ref.invalidate(booksProvider),
       ),
       loading: () => const Center(child: CustomLoader()),

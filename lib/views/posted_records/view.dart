@@ -24,7 +24,7 @@ class PostedRecordsView
             onLoading: () async {
               if (data.length != controller.pagination.total) {
                 try {
-                  var a = await GetRequest.getRecords(
+                  var a = await GetRequest.instance.getRecords(
                     pagination: controller.pagination,
                   );
                   data.addAll(a);
@@ -42,8 +42,8 @@ class PostedRecordsView
               data.clear();
               controller.pagination.page = 1;
               try {
-                var a = await GetRequest.getRecords(
-                    pagination: controller.pagination);
+                var a = await GetRequest.instance
+                    .getRecords(pagination: controller.pagination);
                 data.addAll(a);
                 controller.reload();
                 controller.refreshController
@@ -68,6 +68,7 @@ class PostedRecordsView
         },
         error: (error, trace) => ErrorScreen(
           error: error,
+          trace: trace,
           reload: () => controller.ref.invalidate(controller.booksProvider),
         ),
         loading: () => const CustomLoader(),

@@ -23,9 +23,11 @@ class ForgotPasswordController extends ConsumerState<ForgotPasswordScreen> {
     setState(() {});
     if (key.currentState!.validate()) {
       isLoading.value = true;
-      PostRequest.forgotPassword(
+      PostRequest.instance
+          .forgotPassword(
         email: email.text,
-      ).then((value) {
+      )
+          .then((value) {
         isLoading.value = false;
         ShowFlushBar.showSuccess(
           context: context,

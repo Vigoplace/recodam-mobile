@@ -17,6 +17,7 @@ class Pagination {
   int limit;
   DateTime? lastDate;
   String search;
+  String? path;
   Pagination({
     this.page = 1,
     this.total = 100,
@@ -25,6 +26,7 @@ class Pagination {
     this.search = '',
     this.lastDate,
     this.limit = 4,
+    this.path,
   });
 }
 
@@ -135,7 +137,7 @@ class CreateBook {
 
 class CreateRecord {
   String senderName;
-  String amount;
+  num amount;
   String? bankName;
   String? accountNumber;
   String? accountName;
@@ -146,6 +148,7 @@ class CreateRecord {
   String symbol;
   int? id;
   int? newBookId;
+  int? newOwnerId;
 
   CreateRecord({
     required this.senderName,
@@ -160,6 +163,7 @@ class CreateRecord {
     required this.recordType,
     this.id,
     this.newBookId,
+    this.newOwnerId,
   });
 }
 
@@ -182,6 +186,7 @@ class BookInfo {
 class Book {
   int id;
   String name;
+  num sum;
   String description;
   int openingBalance;
   String type;
@@ -206,6 +211,7 @@ class Book {
     required this.updatedAt,
     required this.totalRecords,
     required this.viewed,
+    required this.sum,
   });
 
   factory Book.fromJson(Map<String, dynamic> data) {
@@ -218,6 +224,7 @@ class Book {
       access: data['access'],
       userId: data['user_id'],
       symbol: data['symbol'],
+      sum: data['sum'] ?? 0,
       totalRecords: data['total_records'],
       createdAt: DateTime.parse(data['created_at']),
       updatedAt: DateTime.parse(data['updated_at']),
@@ -371,7 +378,7 @@ class Record {
   DateTime date;
   DateTime? viewed;
   String senderName;
-  String amount;
+  num amount;
   String? bankName;
   String? accountNumber;
   String? accountName;
@@ -382,6 +389,7 @@ class Record {
   int ownerId;
   bool isDatabase;
   RecordBook? book;
+  bool myRecord;
 
   Record({
     required this.id,
@@ -399,9 +407,11 @@ class Record {
     this.book,
     this.viewed,
     this.isDatabase = true,
+    required this.myRecord,
   });
 
   factory Record.fromJson(Map<String, dynamic> data) {
+    int myId = LocalStorage.instance.getId();
     return Record(
       id: data['id'] as int,
       date: DateTime.parse(data['date']),
@@ -417,14 +427,17 @@ class Record {
       ownerId: data['owner_id'],
       symbol: data['symbol'],
       book: data['book_id'] != null ? RecordBook.fromJson(data) : null,
+      myRecord: myId == data['owner_id'] ? true : false,
     );
   }
 }
 
 class AddToBookInfo {
   ManageAcess title;
+  String number;
   AddToBookInfo({
     required this.title,
+    required this.number,
   });
 }
 
@@ -435,5 +448,60 @@ class ButtonState {
   ButtonState({
     this.isLoading = false,
     this.send = false,
+  });
+}
+
+class Either<L, R> {
+  final L? left;
+  final R? right;
+  const Either(this.left, this.right);
+
+  Either.left(L value, this.left) : right = null;
+  Either.right(R value, this.right) : left = null;
+
+  bool get isLeft => left != null;
+  bool get isRight => right != null;
+}
+
+class Right<L, R> extends Either<L, R> {
+  final R _r;
+  const Right(this._r) : super(null, _r);
+  R get value => _r;
+
+  @override
+  bool operator ==(other) {
+    if (other is Either<L, R>) {
+      return (other).isRight == _r;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => _r.hashCode;
+}
+
+class Left<L, R> extends Either<L, R> {
+  final L _l;
+  const Left(this._l) : super(_l, null);
+  L get value => _l;
+
+  @override
+  bool operator ==(other) {
+    if (other is Either<L, R>) {
+      return other.isRight == _l;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => _l.hashCode;
+}
+
+class PostBookInfo {
+  UserData user;
+  Book? book;
+  PostBookInfo({
+    required this.book,
+    required this.user,
   });
 }

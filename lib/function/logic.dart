@@ -4,6 +4,7 @@ void listenError({
   required Object error,
   required BuildContext context,
 }) {
+  debugPrint('$error');
   if (error is DioException) {
     if (error.response != null && error.response?.data is Map) {
       var err = CustomError.fromJson(error.response?.data);

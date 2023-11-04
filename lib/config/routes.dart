@@ -162,16 +162,6 @@ final GoRouter routes = GoRouter(
           },
         ),
         GoRoute(
-          path: SearchScreen.path,
-          name: SearchScreen.name,
-          pageBuilder: (context, state) {
-            return FadeTransitionPage(
-              child: const SearchScreen(),
-              key: state.pageKey,
-            );
-          },
-        ),
-        GoRoute(
           path: UnConfirmedRecordsScreen.path,
           name: UnConfirmedRecordsScreen.name,
           pageBuilder: (context, state) {

@@ -114,6 +114,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                                   ),
                             error: (error, trace) => ErrorScreen(
                               error: error,
+                              trace: trace,
                               reload: () => ref.invalidate(homeBookProvider),
                             ),
                             loading: () => SingleChildScrollView(
@@ -182,6 +183,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                               ),
                         error: (error, trace) => ErrorScreen(
                           error: error,
+                          trace: trace,
                           reload: () => ref.invalidate(homeRecordProvider),
                         ),
                         loading: () => SingleChildScrollView(
