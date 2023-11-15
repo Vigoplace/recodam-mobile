@@ -11,6 +11,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
       body: Stack(
         children: [
           CustomScrollView(
+            cacheExtent: 1000,
             slivers: [
               SliverAppBar(
                 backgroundColor: AppColor.white,

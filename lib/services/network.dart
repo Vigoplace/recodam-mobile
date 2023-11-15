@@ -1,12 +1,10 @@
 import 'package:recordam/utils/utils.dart';
 
-// NetworkService network = NetworkService();
-
 abstract class NetworkService {
-  static final Dio _dio = Dio();
+  final Dio _dio = Dio();
 
   NetworkService() {
-    print('Addex');
+    debugPrint('Addex');
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
@@ -20,23 +18,23 @@ abstract class NetworkService {
           return handler.next(response);
         },
         onError: (DioException e, handler) async {
-          // if (e.response?.statusCode == 401) {
-          //   try {
-          //     // Refresh token
-          //     var response = await _dio.request(
-          //       e.requestOptions.path,
-          //       data: e.requestOptions.data,
-          //       queryParameters: e.requestOptions.queryParameters,
-          //       options: Options(
-          //         method: e.requestOptions.method,
-          //         headers: e.requestOptions.headers,
-          //       ),
-          //     );
-          //     return handler.resolve(response);
-          //   } catch (_) {
-          //     // Logout
-          //   }
-          // }
+          if (e.response?.statusCode == 401) {
+            try {
+              // Refresh token
+              var response = await _dio.request(
+                e.requestOptions.path,
+                data: e.requestOptions.data,
+                queryParameters: e.requestOptions.queryParameters,
+                options: Options(
+                  method: e.requestOptions.method,
+                  headers: e.requestOptions.headers,
+                ),
+              );
+              return handler.resolve(response);
+            } catch (_) {
+              // Logout
+            }
+          }
           return handler.next(e);
         },
       ),

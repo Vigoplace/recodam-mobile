@@ -8,43 +8,43 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.grey,
-      appBar: CustomAppbar(
-        title: widget.book.name,
-        centerTitle: false,
-        action: [
-          RoundIconButton(
-            icon: AppSvg.share,
-            onTap: () => Share.share('Recodam'),
-            paddingLeft: 16,
-          ),
-          PopupMenuButton(
-            color: AppColor.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            offset: const Offset(0, 60),
-            itemBuilder: (context) =>
-                ['Summary', 'Generate report', 'Delete book', 'Close book']
-                    .map(
-                      (e) => PopupMenuItem(
-                        child: Text(
-                          e,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: AppColor.grey100,
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-            child: const RoundIconButton(
-              icon: AppSvg.moreVert,
-              paddingLeft: 16,
-            ),
-          ),
-        ],
-      ),
+      // appBar: CustomAppbar(
+      //   title: widget.book.name,
+      //   centerTitle: false,
+      //   action: [
+      //     RoundIconButton(
+      //       icon: AppSvg.share,
+      //       onTap: () => Share.share('Recodam'),
+      //       paddingLeft: 16,
+      //     ),
+      //     PopupMenuButton(
+      //       color: AppColor.white,
+      //       shape: RoundedRectangleBorder(
+      //         borderRadius: BorderRadius.circular(8.r),
+      //       ),
+      //       offset: const Offset(0, 60),
+      //       itemBuilder: (context) =>
+      //           ['Summary', 'Generate report', 'Delete book', 'Close book']
+      //               .map(
+      //                 (e) => PopupMenuItem(
+      //                   child: Text(
+      //                     e,
+      //                     style: TextStyle(
+      //                       fontSize: 16,
+      //                       fontWeight: FontWeight.w400,
+      //                       color: AppColor.grey100,
+      //                     ),
+      //                   ),
+      //                 ),
+      //               )
+      //               .toList(),
+      //       child: const RoundIconButton(
+      //         icon: AppSvg.moreVert,
+      //         paddingLeft: 16,
+      //       ),
+      //     ),
+      //   ],
+      // ),
       floatingActionButton: AppButton(
         text: 'Add record',
         onTap: () async {
@@ -65,30 +65,91 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
         width: 150.w,
         icon: SvgPicture.asset(AppSvg.record),
       ),
-      body: Column(
-        children: [
-          Container(
-            color: AppColor.white,
-            padding: [16, 20].pad,
-            child: CustomTextInput(
-              hintText: 'Search',
-              fillColor: AppColor.grey,
-              controller: controller.search,
-              prefix: const SvgButton(
-                icon: AppSvg.blackSearch,
+      body: NestedScrollView(
+        headerSliverBuilder: (context, val) => [
+          SliverAppBar(
+            backgroundColor: AppColor.white,
+            leading: RoundIconButton(
+              icon: AppSvg.directionRight,
+              onTap: () => context.pop(),
+              paddingLeft: 16,
+            ),
+            centerTitle: false,
+            leadingWidth: 80.w,
+            title: Text(
+              widget.book.name,
+              style: TextStyle(
+                color: AppColor.grey100,
+                fontWeight: FontWeight.w700,
+                fontSize: 18.sp,
               ),
             ),
-          ),
-          Expanded(
-            child: Records(
-              pagination: controller.pagination,
-              searchWord: controller.search,
-              onCreate: (refreshController) {
-                controller.refreshController = refreshController;
-              },
-            ),
+            actions: [
+              RoundIconButton(
+                icon: AppSvg.share,
+                onTap: () => Share.share('Recodam'),
+                paddingLeft: 16,
+              ),
+              PopupMenuButton(
+                color: AppColor.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                offset: const Offset(0, 60),
+                itemBuilder: (context) =>
+                    ['Summary', 'Generate report', 'Delete book', 'Close book']
+                        .map(
+                          (e) => PopupMenuItem(
+                            child: Text(
+                              e,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: AppColor.grey100,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                child: const RoundIconButton(
+                  icon: AppSvg.moreVert,
+                  paddingLeft: 16,
+                ),
+              ),
+              16.horizontalSpace,
+            ],
           ),
         ],
+        body: Column(
+          children: [
+            Container(
+              color: AppColor.white,
+              padding: [16, 20].pad,
+              child: Column(
+                children: [
+                  25.verticalSpace,
+                  CustomTextInput(
+                    hintText: 'Search',
+                    fillColor: AppColor.grey,
+                    controller: controller.search,
+                    prefix: const SvgButton(
+                      icon: AppSvg.blackSearch,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Records(
+                pagination: controller.pagination,
+                searchWord: controller.search,
+                onCreate: (refreshController) {
+                  controller.refreshController = refreshController;
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

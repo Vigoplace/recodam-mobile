@@ -188,13 +188,12 @@ class CreateRecordView
                                 icon: AppSvg.upload,
                                 onTap: controller.pickImage,
                               )
-                            : value.path.endsWith('pdf')
-                                ? Image.asset(
-                                    AppImages.pdf,
-                                  )
-                                : Image.file(
-                                    value,
-                                  ).animate().scale(),
+                            : FutureBuilder(
+                                future: FilePreview.getThumbnail(value.path),
+                                builder: (context, snapshot) {
+                                  return snapshot.data ?? const CustomLoader();
+                                },
+                              ),
                       ),
                       if (value != null)
                         Align(
@@ -228,9 +227,7 @@ class CreateRecordView
               initialIndex: RecordType.debit,
               content: const ['Debit', 'Credit'],
               type: const [RecordType.debit, RecordType.credit],
-              onTap: <RecordType>(position) {
-                debugPrint('$position');
-              },
+              onTap: <RecordType>(position) => controller.recordType = position,
             ),
             65.verticalSpace,
             Center(

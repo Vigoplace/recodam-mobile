@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:file_previewer/file_previewer.dart';
 import 'package:intl/intl.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
