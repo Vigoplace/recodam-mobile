@@ -5,7 +5,7 @@ part 'view.dart';
 class ProfileScreen extends ConsumerStatefulWidget {
   static const path = "profile";
   static const name = "profile";
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   ConsumerState<ProfileScreen> createState() => ProfileController();
@@ -24,6 +24,7 @@ class ProfileController extends ConsumerState<ProfileScreen> {
           topRight: Radius.circular(30.r),
         ),
       ),
+      backgroundColor: AppColor.white,
       builder: (context) => Padding(
         padding: [16, 0, 0, 0].pad,
         child: Column(
@@ -119,6 +120,7 @@ class ProfileController extends ConsumerState<ProfileScreen> {
       context: context,
       builder: (context) => Dialog(
         insetPadding: [20, 0, 20, 0].pad,
+        surfaceTintColor: AppColor.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.r),
         ),
@@ -213,6 +215,7 @@ class ProfileController extends ConsumerState<ProfileScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.r),
         ),
+        surfaceTintColor: AppColor.white,
         child: Padding(
           padding: [16, 21].pad,
           child: Column(

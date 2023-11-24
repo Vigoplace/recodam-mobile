@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:file_previewer/file_previewer.dart';
 import 'package:intl/intl.dart';
+import 'package:pdfx/pdfx.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
@@ -12,9 +12,9 @@ class CreateRecordScreen extends ConsumerStatefulWidget {
 
   final Create create;
   const CreateRecordScreen({
-    Key? key,
+    super.key,
     required this.create,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<CreateRecordScreen> createState() => CreateRecordController();
@@ -41,6 +41,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
   bool submitted = false;
   var formKey = GlobalKey<FormState>();
   late DateTime dateTime;
+  late PdfController pdfController;
 
   void createRecord() async {
     if (file.value == null) {
@@ -97,6 +98,11 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
 
     if (result != null) {
       file.value = File(result.files.single.path!);
+      if (file.value!.path.endsWith('pdf')) {
+        pdfController = PdfController(
+          document: PdfDocument.openFile(file.value!.path),
+        );
+      }
     }
   }
 
@@ -123,6 +129,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
           topRight: Radius.circular(30.r),
         ),
       ),
+      backgroundColor: AppColor.white,
       isScrollControlled: true,
       builder: (context) {
         return Consumer(
@@ -206,6 +213,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
           topRight: Radius.circular(30.r),
         ),
       ),
+      backgroundColor: AppColor.white,
       isScrollControlled: true,
       builder: (context) {
         return Consumer(

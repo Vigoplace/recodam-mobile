@@ -2,8 +2,7 @@ part of 'controller.dart';
 
 class UnConfirmedRecordsView extends StatelessView<UnConfirmedRecordsScreen,
     UnConfirmedRecordsController> {
-  const UnConfirmedRecordsView(UnConfirmedRecordsController state, {Key? key})
-      : super(state, key: key);
+  const UnConfirmedRecordsView(super.state, {super.key});
 
   @override
   Widget build(BuildContext context) {

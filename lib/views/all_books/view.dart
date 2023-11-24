@@ -1,8 +1,7 @@
 part of 'controller.dart';
 
 class AllBooksView extends StatelessView<AllBooksScreen, AllBooksController> {
-  const AllBooksView(AllBooksController state, {Key? key})
-      : super(state, key: key);
+  const AllBooksView(super.state, {super.key});
 
   @override
   Widget build(BuildContext context) {

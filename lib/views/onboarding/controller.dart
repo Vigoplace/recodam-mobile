@@ -5,7 +5,7 @@ part 'view.dart';
 class OnboardingScreen extends StatefulWidget {
   static const path = "/onboarding";
   static const name = "onboarding";
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   State<OnboardingScreen> createState() => OnboardingController();

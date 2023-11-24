@@ -17,7 +17,7 @@ class Pagination {
   int limit;
   DateTime? lastDate;
   String search;
-  String? path;
+  int? id;
   Pagination({
     this.page = 1,
     this.total = 100,
@@ -26,7 +26,7 @@ class Pagination {
     this.search = '',
     this.lastDate,
     this.limit = 4,
-    this.path,
+    this.id,
   });
 }
 

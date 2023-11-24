@@ -6,39 +6,22 @@ class PostRequest extends NetworkService {
   static final PostRequest instance = PostRequest._init();
   PostRequest._init();
 
-  Future<void> test() async {
-    // var path = '';
-    // var _ = await getRequestHandler(path);
-    await Future.delayed(const Duration(seconds: 2));
-    return;
-  }
-
-  Future<void> testSending(WidgetRef ref) async {
-    // var path = '';
-    // var _ = await getRequestHandler(path);
-    ref.read(sendingProvider.notifier).state = true;
-    await Future.delayed(const Duration(seconds: 2));
-    ref.read(sendingProvider.notifier).state = false;
-    await LocalStorage.instance.prefs.clear();
-    return;
-  }
-
   Future<UserModel> createAccount({
     required CreateAccountModel createAccountModel,
+    required CancelToken cancelToken,
   }) async {
     var path = 'auth/create';
     var payload = createAccountModel.toJson();
     var messagingToken = await FirebaseMessaging.instance.getToken();
     payload.addAll({'messaging_token': messagingToken});
-    var user = await postRequestHandler(
-      path,
-      data: payload,
-    );
+    var user =
+        await postRequestHandler(path, data: payload, cancelToken: cancelToken);
     return UserModel.fromJson(user.data);
   }
 
   Future<UserModel> loginToAccount({
     required LoginModel loginModel,
+    required CancelToken cancelToken,
   }) async {
     var path = 'auth/login';
     var payload = loginModel.toJson();
@@ -47,17 +30,37 @@ class PostRequest extends NetworkService {
     var user = await postRequestHandler(
       path,
       data: payload,
+      cancelToken: cancelToken,
     );
     return UserModel.fromJson(user.data);
   }
 
+  Future<String> updatePin({
+    required String oldPassword,
+    required String newPassword,
+    required CancelToken cancelToken,
+  }) async {
+    var path = 'auth/update-pin';
+    var user = await postRequestHandler(
+      path,
+      data: {
+        "new_password": newPassword,
+        "old_password": oldPassword,
+      },
+      cancelToken: cancelToken,
+    );
+    return user.data['message'];
+  }
+
   Future<String> forgotPassword({
     required String email,
+    required CancelToken cancelToken,
   }) async {
     var path = 'auth/forgot-password';
     var user = await postRequestHandler(
       path,
       data: {'email': email},
+      cancelToken: cancelToken,
     );
     return user.data['message'];
   }

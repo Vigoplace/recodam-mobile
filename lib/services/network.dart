@@ -4,7 +4,6 @@ abstract class NetworkService {
   final Dio _dio = Dio();
 
   NetworkService() {
-    debugPrint('Addex');
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {

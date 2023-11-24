@@ -61,6 +61,9 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Manrope',
             colorSchemeSeed: AppColor.red60,
             scaffoldBackgroundColor: AppColor.white,
+            datePickerTheme: DatePickerThemeData(
+              surfaceTintColor: AppColor.white,
+            ),
           ),
         );
       },

@@ -5,7 +5,7 @@ part 'view.dart';
 class UnConfirmedRecordsScreen extends ConsumerStatefulWidget {
   static const path = "confirmed_records";
   static const name = "confirmed_records";
-  const UnConfirmedRecordsScreen({Key? key}) : super(key: key);
+  const UnConfirmedRecordsScreen({super.key});
 
   @override
   ConsumerState<UnConfirmedRecordsScreen> createState() =>

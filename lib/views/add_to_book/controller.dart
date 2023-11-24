@@ -6,9 +6,9 @@ class AddToBookScreen extends ConsumerStatefulWidget {
   static const name = "add_to_book";
   final AddToBookInfo bookInfo;
   const AddToBookScreen({
-    Key? key,
+    super.key,
     required this.bookInfo,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<AddToBookScreen> createState() => AddToBookController();
@@ -24,7 +24,6 @@ class AddToBookController extends ConsumerState<AddToBookScreen> {
   void initState() {
     super.initState();
     search = TextEditingController();
-    pagination.path = 'users/books/${widget.bookInfo.number}';
     info = FutureProvider(
       (ref) => GetRequest.instance.getUserNumber(
         number: widget.bookInfo.number,
@@ -44,6 +43,7 @@ class AddToBookController extends ConsumerState<AddToBookScreen> {
           topRight: Radius.circular(30.r),
         ),
       ),
+      backgroundColor: AppColor.white,
       builder: (context) {
         return Column(
           mainAxisSize: MainAxisSize.min,

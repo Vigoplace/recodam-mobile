@@ -1,3 +1,4 @@
+import 'package:pdfx/pdfx.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
@@ -6,9 +7,9 @@ class RecordScreen extends ConsumerStatefulWidget {
   static const name = "record";
   final ViewRecordInfo info;
   const RecordScreen({
-    Key? key,
+    super.key,
     required this.info,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<RecordScreen> createState() => RecordController();
@@ -21,6 +22,7 @@ class RecordController extends ConsumerState<RecordScreen> {
   int? bookId;
   ValueNotifier<bool> isPost = ValueNotifier(false);
   ValueNotifier<UserData?> user = ValueNotifier(null);
+  late PdfController pdfController;
 
   void createRecord() {
     CreateRecord record = CreateRecord(
@@ -46,7 +48,7 @@ class RecordController extends ConsumerState<RecordScreen> {
     }
     sendRequest(record: record).then((data) {
       buttonState.value = ButtonState(
-        isLoading: false,
+        isLoading: true,
         send: buttonState.value.send,
       );
       ref.invalidate(homeRecordProvider);
@@ -177,7 +179,7 @@ class RecordController extends ConsumerState<RecordScreen> {
               // mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Post to Public book",
+                  "Post to book",
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
@@ -240,7 +242,6 @@ class RecordController extends ConsumerState<RecordScreen> {
             number: number,
           ),
         );
-
         if (bookChoice != null) {
           if (bookChoice.book == null) {
             user.value = bookChoice.user;
@@ -249,6 +250,7 @@ class RecordController extends ConsumerState<RecordScreen> {
             book.clear();
           } else {
             user.value = bookChoice.user;
+            isPost.value = true;
             book.text = (bookChoice.book!).name;
             bookId = (bookChoice.book!).id;
           }
@@ -366,6 +368,11 @@ class RecordController extends ConsumerState<RecordScreen> {
       ..addListener(() {
         confirmSend();
       });
+    if (widget.info.record.file.endsWith('pdf')) {
+      pdfController = PdfController(
+        document: PdfDocument.openFile(widget.info.record.file),
+      );
+    }
     details = TextEditingController(text: widget.info.record.details);
     bookId = widget.info.record.book?.bookId;
   }

@@ -8,9 +8,9 @@ class ViewBookScreen extends ConsumerStatefulWidget {
   static const name = "view_book";
   final Book book;
   const ViewBookScreen({
-    Key? key,
+    super.key,
     required this.book,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<ViewBookScreen> createState() => ViewBookController();

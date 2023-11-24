@@ -2,8 +2,7 @@ part of 'controller.dart';
 
 class ForgotPasswordView
     extends StatelessView<ForgotPasswordScreen, ForgotPasswordController> {
-  const ForgotPasswordView(ForgotPasswordController state, {Key? key})
-      : super(state, key: key);
+  const ForgotPasswordView(super.state, {super.key});
 
   @override
   Widget build(BuildContext context) {

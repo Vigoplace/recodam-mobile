@@ -8,6 +8,7 @@ class Books extends ConsumerStatefulWidget {
   final TextEditingController? searchWord;
   final void Function(Book)? onTap;
   final double? space;
+  final int? id;
   final double? topMargin;
   const Books({
     super.key,
@@ -17,6 +18,7 @@ class Books extends ConsumerStatefulWidget {
     this.searchWord,
     this.space,
     this.topMargin,
+    this.id,
   });
 
   @override
@@ -36,6 +38,7 @@ class _BooksState extends ConsumerState<Books> {
   void initState() {
     super.initState();
     pagination = widget.pagination..page = 1;
+    pagination.id = widget.id;
     booksProvider = FutureProvider.family(
       (ref, Pagination pagination) =>
           GetRequest.instance.getAllBooks(pagination: pagination),
@@ -53,6 +56,7 @@ class _BooksState extends ConsumerState<Books> {
 
   void _onSearchTextChanged(String query, {int seconds = 1}) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
+    if (!mounted) return;
     _debounce = Timer(const Duration(seconds: 1), () {
       pagination
         ..page = 1

@@ -5,7 +5,7 @@ part 'view.dart';
 class HomeScreen extends ConsumerStatefulWidget {
   static const path = "/home";
   static const name = "home";
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   ConsumerState<HomeScreen> createState() => HomeController();

@@ -1,7 +1,7 @@
 part of 'controller.dart';
 
 class LoginView extends StatelessView<LoginScreen, LoginController> {
-  const LoginView(LoginController state, {Key? key}) : super(state, key: key);
+  const LoginView(super.state, {super.key});
 
   @override
   Widget build(BuildContext context) {

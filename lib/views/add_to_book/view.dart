@@ -2,8 +2,7 @@ part of 'controller.dart';
 
 class AddToBookView
     extends StatelessView<AddToBookScreen, AddToBookController> {
-  const AddToBookView(AddToBookController state, {Key? key})
-      : super(state, key: key);
+  const AddToBookView(super.state, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +111,7 @@ class AddToBookView
                           ).animate().scale(),
                           20.horizontalSpace,
                           Text(
-                            'To dasboard',
+                            'To dashboard',
                             style: TextStyle(
                               color: AppColor.grey100,
                               fontWeight: FontWeight.w700,
@@ -128,6 +127,7 @@ class AddToBookView
                       pagination: controller.pagination,
                       searchWord: controller.search,
                       mini: true,
+                      id: data.id,
                       onTap: controller.showConfirmation,
                     ),
                   ),

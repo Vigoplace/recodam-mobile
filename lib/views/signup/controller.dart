@@ -5,7 +5,7 @@ part 'view.dart';
 class SignupScreen extends ConsumerStatefulWidget {
   static const path = "/signup";
   static const name = "signup";
-  const SignupScreen({Key? key}) : super(key: key);
+  const SignupScreen({super.key});
 
   @override
   ConsumerState<SignupScreen> createState() => SignupController();
@@ -31,6 +31,7 @@ class SignupController extends ConsumerState<SignupScreen> {
 
   bool submitted = false;
   var key = GlobalKey<FormState>();
+  var cancelToken = CancelToken();
 
   void create() async {
     if (!acceptedTerms.value) {
@@ -54,21 +55,27 @@ class SignupController extends ConsumerState<SignupScreen> {
           phone: phone.text,
           countryCode: country.value.code,
         ),
+        cancelToken: cancelToken,
       )
           .then((data) {
-        isLoading.value = false;
-        ShowFlushBar.showSuccess(
-          context: context,
-          message: data.message,
-          perform: () async {
-            LocalStorage.instance
-                .saveUserInfo(data.data)
-                .whenComplete(() => context.goNamed(HomeScreen.name));
-          },
-        );
+        if (mounted) {
+          isLoading.value = false;
+
+          ShowFlushBar.showSuccess(
+            context: context,
+            message: data.message,
+            perform: () async {
+              LocalStorage.instance
+                  .saveUserInfo(data.data)
+                  .whenComplete(() => context.goNamed(HomeScreen.name));
+            },
+          );
+        }
       }).catchError((error) {
-        isLoading.value = false;
-        listenError(context: context, error: error);
+        if (mounted) {
+          isLoading.value = false;
+          listenError(context: context, error: error);
+        }
       });
     }
   }
@@ -86,6 +93,7 @@ class SignupController extends ConsumerState<SignupScreen> {
           topRight: Radius.circular(30.r),
         ),
       ),
+      backgroundColor: AppColor.white,
       isScrollControlled: true,
       builder: (context) {
         return Consumer(
@@ -192,6 +200,7 @@ class SignupController extends ConsumerState<SignupScreen> {
     phone.dispose();
     pin.dispose();
     confirm.dispose();
+    cancelToken.cancel();
     super.dispose();
   }
 

@@ -40,6 +40,7 @@ class GetRequest extends NetworkService {
       }).toList();
       groupedBooks[date] = booksList;
     });
+    if (groupedBooks.isEmpty) return {};
     pagination.total = books.data['data']['total'];
     pagination.lastDate = groupedBooks.keys.last;
     return groupedBooks;
@@ -68,19 +69,21 @@ class GetRequest extends NetworkService {
       }).toList();
       groupedBooks[date] = booksList;
     });
+    if (groupedBooks.isEmpty) return {};
     pagination.total = books.data['data']['total'];
     pagination.lastDate = groupedBooks.keys.last;
     return groupedBooks;
   }
 
   Future<List<Book>> getAllBooks({Pagination? pagination}) async {
-    var path = pagination?.path ?? 'book';
+    var path = 'book';
     var books = await getRequestHandler(
       path,
       queryPatameters: {
         'page': pagination?.page,
         'size': pagination?.size,
         'search': pagination?.search,
+        'id': pagination?.id,
       },
     );
     var bookInfo = BookInfo.fromJson(books.data['data']);
@@ -169,14 +172,7 @@ class GetRequest extends NetworkService {
     Pagination? pagination,
   }) async {
     var path = 'users/$number';
-    var user = await getRequestHandler(
-      path,
-      queryPatameters: {
-        'page': pagination?.page,
-        'size': pagination?.size,
-        'search': pagination?.search,
-      },
-    );
+    var user = await getRequestHandler(path);
     return UserData.fromJson(user.data['data']);
   }
 }

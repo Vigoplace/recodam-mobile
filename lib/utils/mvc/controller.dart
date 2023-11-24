@@ -3,7 +3,7 @@ import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
 class MvcScreen extends StatefulWidget {
-  const MvcScreen({Key? key}) : super(key: key);
+  const MvcScreen({super.key});
 
   @override
   State<MvcScreen> createState() => MvcController();

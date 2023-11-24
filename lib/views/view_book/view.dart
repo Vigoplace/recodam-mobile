@@ -1,8 +1,7 @@
 part of 'controller.dart';
 
 class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
-  const ViewBookView(ViewBookController state, {Key? key})
-      : super(state, key: key);
+  const ViewBookView(super.state, {super.key});
 
   @override
   Widget build(BuildContext context) {

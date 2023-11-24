@@ -2,8 +2,7 @@ part of 'controller.dart';
 
 class CreateRecordView
     extends StatelessView<CreateRecordScreen, CreateRecordController> {
-  const CreateRecordView(CreateRecordController state, {Key? key})
-      : super(state, key: key);
+  const CreateRecordView(super.state, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -188,12 +187,14 @@ class CreateRecordView
                                 icon: AppSvg.upload,
                                 onTap: controller.pickImage,
                               )
-                            : FutureBuilder(
-                                future: FilePreview.getThumbnail(value.path),
-                                builder: (context, snapshot) {
-                                  return snapshot.data ?? const CustomLoader();
-                                },
-                              ),
+                            : switch (value.path.endsWith('pdf')) {
+                                true => Center(
+                                    child: PdfView(
+                                      controller: controller.pdfController,
+                                    ),
+                                  ),
+                                _ => Image.file(value)
+                              },
                       ),
                       if (value != null)
                         Align(

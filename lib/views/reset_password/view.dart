@@ -2,8 +2,7 @@ part of 'controller.dart';
 
 class ResetPasswordView
     extends StatelessView<ResetPasswordScreen, ResetPasswordController> {
-  const ResetPasswordView(ResetPasswordController state, {Key? key})
-      : super(state, key: key);
+  const ResetPasswordView(super.state, {super.key});
 
   @override
   Widget build(BuildContext context) {

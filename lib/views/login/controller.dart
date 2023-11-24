@@ -5,7 +5,7 @@ part 'view.dart';
 class LoginScreen extends ConsumerStatefulWidget {
   static const path = "/login";
   static const name = "login";
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   ConsumerState<LoginScreen> createState() => LoginController();
@@ -20,6 +20,7 @@ class LoginController extends ConsumerState<LoginScreen> {
 
   bool submitted = false;
   var key = GlobalKey<FormState>();
+  var cancelToken = CancelToken();
 
   void login() async {
     submitted = true;
@@ -32,21 +33,27 @@ class LoginController extends ConsumerState<LoginScreen> {
           password: pin.text,
           phone: phone.text,
         ),
+        cancelToken: cancelToken,
       )
           .then((data) {
-        isLoading.value = false;
-        ShowFlushBar.showSuccess(
-          context: context,
-          message: data.message,
-          perform: () async {
-            LocalStorage.instance
-                .saveUserInfo(data.data)
-                .whenComplete(() => context.goNamed(HomeScreen.name));
-          },
-        );
+        if (mounted) {
+          isLoading.value = false;
+
+          ShowFlushBar.showSuccess(
+            context: context,
+            message: data.message,
+            perform: () async {
+              LocalStorage.instance
+                  .saveUserInfo(data.data)
+                  .whenComplete(() => context.goNamed(HomeScreen.name));
+            },
+          );
+        }
       }).catchError((error) {
-        isLoading.value = false;
-        listenError(context: context, error: error);
+        if (mounted) {
+          isLoading.value = false;
+          listenError(context: context, error: error);
+        }
       });
     }
   }
@@ -62,6 +69,7 @@ class LoginController extends ConsumerState<LoginScreen> {
   void dispose() {
     phone.dispose();
     pin.dispose();
+    cancelToken.cancel();
     super.dispose();
   }
 

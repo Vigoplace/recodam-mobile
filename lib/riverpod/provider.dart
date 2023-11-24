@@ -1,7 +1,5 @@
 import 'package:recordam/utils/utils.dart';
 
-final testProvider =
-    FutureProvider.autoDispose((ref) => PostRequest.instance.test());
 final nameProvider = StateProvider((ref) => '');
 StateProvider<String?> profilePhotoProvider = StateProvider((ref) => '');
 final homeBookProvider =

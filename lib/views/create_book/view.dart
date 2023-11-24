@@ -2,8 +2,7 @@ part of 'controller.dart';
 
 class CreateBookView
     extends StatelessView<CreateBookScreen, CreateBookController> {
-  const CreateBookView(CreateBookController state, {Key? key})
-      : super(state, key: key);
+  const CreateBookView(super.state, {super.key});
 
   @override
   Widget build(BuildContext context) {

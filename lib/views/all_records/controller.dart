@@ -5,7 +5,7 @@ part 'view.dart';
 class AllRecordsScreen extends ConsumerStatefulWidget {
   static const path = "all_records";
   static const name = "all_records";
-  const AllRecordsScreen({Key? key}) : super(key: key);
+  const AllRecordsScreen({super.key});
 
   @override
   ConsumerState<AllRecordsScreen> createState() => AllRecordsController();

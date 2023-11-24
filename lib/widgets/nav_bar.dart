@@ -39,6 +39,7 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.r),
         ),
+        surfaceTintColor: AppColor.white,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -108,6 +109,7 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
       showDragHandle: true,
       isScrollControlled: true,
       context: context,
+      backgroundColor: AppColor.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30.r),
@@ -159,6 +161,7 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.r),
         ),
+        surfaceTintColor: AppColor.white,
         child: Padding(
           padding: [16, 21].pad,
           child: Column(
@@ -231,6 +234,7 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
           topRight: Radius.circular(30.r),
         ),
       ),
+      backgroundColor: AppColor.white,
       builder: (contex) => SizedBox(
         height: MediaQuery.sizeOf(context).height * 0.5,
         child: Column(
@@ -457,6 +461,7 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
           topRight: Radius.circular(30.r),
         ),
       ),
+      backgroundColor: AppColor.white,
       builder: (context) => SizedBox(
         height: MediaQuery.sizeOf(context).height * 0.8,
         child: Column(

@@ -2,8 +2,7 @@ part of 'controller.dart';
 
 class AllRecordsView
     extends StatelessView<AllRecordsScreen, AllRecordsController> {
-  const AllRecordsView(AllRecordsController state, {Key? key})
-      : super(state, key: key);
+  const AllRecordsView(super.state, {super.key});
 
   @override
   Widget build(BuildContext context) {

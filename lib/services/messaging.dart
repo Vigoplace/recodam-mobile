@@ -2,8 +2,9 @@ import 'package:recordam/services/local_notification.dart';
 import 'package:recordam/utils/utils.dart';
 
 class RecodamFirebaseService {
-  static void initNotification(BuildContext context) {
+  static void initNotification(BuildContext context) async {
     LocalNotificationService.initilize(context);
+    await FirebaseMessaging.instance.requestPermission();
     // Terminated State
     FirebaseMessaging.instance.getInitialMessage().then((event) {
       if (event != null) {

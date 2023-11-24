@@ -32,7 +32,7 @@ class CustomTextInput extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
 
   const CustomTextInput({
-    Key? key,
+    super.key,
     this.focusNode,
     this.keyboardType,
     this.textInputAction,
@@ -62,7 +62,7 @@ class CustomTextInput extends StatelessWidget {
     this.style,
     this.autovalidateMode,
     this.inputFormatters,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

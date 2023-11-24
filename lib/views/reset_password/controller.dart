@@ -6,7 +6,7 @@ part 'view.dart';
 class ResetPasswordScreen extends ConsumerStatefulWidget {
   static const path = "reset_passeord";
   static const name = "reset_passeord";
-  const ResetPasswordScreen({Key? key}) : super(key: key);
+  const ResetPasswordScreen({super.key});
 
   @override
   ConsumerState<ResetPasswordScreen> createState() => ResetPasswordController();
@@ -24,6 +24,7 @@ class ResetPasswordController extends ConsumerState<ResetPasswordScreen> {
 
   bool submitted = false;
   var key = GlobalKey<FormState>();
+  var cancelToken = CancelToken();
 
   void login() async {
     submitted = true;
@@ -55,17 +56,22 @@ class ResetPasswordController extends ConsumerState<ResetPasswordScreen> {
     PostRequest.instance
         .forgotPassword(
       email: email,
+      cancelToken: cancelToken,
     )
         .then((value) {
-      startTimer();
-      isLoading.value = false;
-      ShowFlushBar.showSuccess(
-        context: context,
-        message: value,
-      );
+      if (mounted) {
+        startTimer();
+        isLoading.value = false;
+        ShowFlushBar.showSuccess(
+          context: context,
+          message: value,
+        );
+      }
     }).catchError((error) {
-      isLoading.value = false;
-      listenError(context: context, error: error);
+      if (mounted) {
+        isLoading.value = false;
+        listenError(context: context, error: error);
+      }
     });
   }
 
@@ -75,6 +81,7 @@ class ResetPasswordController extends ConsumerState<ResetPasswordScreen> {
     pin = TextEditingController();
     confirmPin = TextEditingController();
     otp = TextEditingController();
+    cancelToken.cancel();
     startTimer();
   }
 

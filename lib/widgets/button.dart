@@ -113,7 +113,14 @@ class _AppButtonState extends State<AppButton> {
             widget.icon!,
             8.horizontalSpace,
           ],
-          Text(widget.text),
+          Text(
+            widget.text,
+            style: TextStyle(
+              color: AppColor.white,
+              fontWeight: FontWeight.w700,
+              fontSize: 16.sp,
+            ),
+          ),
         ],
       ),
     ).animate().scale();

@@ -1,8 +1,7 @@
 part of 'controller.dart';
 
 class ProfileView extends StatelessView<ProfileScreen, ProfileController> {
-  const ProfileView(ProfileController state, {Key? key})
-      : super(state, key: key);
+  const ProfileView(super.state, {super.key});
 
   @override
   Widget build(BuildContext context) {

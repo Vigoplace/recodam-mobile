@@ -4,7 +4,7 @@ part 'view.dart';
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   static const path = "forgot_password";
   static const name = "forgot_password";
-  const ForgotPasswordScreen({Key? key}) : super(key: key);
+  const ForgotPasswordScreen({super.key});
 
   @override
   ConsumerState<ForgotPasswordScreen> createState() =>
@@ -17,6 +17,7 @@ class ForgotPasswordController extends ConsumerState<ForgotPasswordScreen> {
 
   bool submitted = false;
   var key = GlobalKey<FormState>();
+  var cancelToken = CancelToken();
 
   void login() async {
     submitted = true;
@@ -26,20 +27,26 @@ class ForgotPasswordController extends ConsumerState<ForgotPasswordScreen> {
       PostRequest.instance
           .forgotPassword(
         email: email.text,
+        cancelToken: cancelToken,
       )
           .then((value) {
-        isLoading.value = false;
-        ShowFlushBar.showSuccess(
-          context: context,
-          message: value,
-          perform: () async {
-            LocalStorage.instance.setEmail(email.text).whenComplete(
-                () => context.replaceNamed(ResetPasswordScreen.name));
-          },
-        );
+        if (mounted) {
+          isLoading.value = false;
+
+          ShowFlushBar.showSuccess(
+            context: context,
+            message: value,
+            perform: () async {
+              LocalStorage.instance.setEmail(email.text).whenComplete(
+                  () => context.replaceNamed(ResetPasswordScreen.name));
+            },
+          );
+        }
       }).catchError((error) {
-        isLoading.value = false;
-        listenError(context: context, error: error);
+        if (mounted) {
+          isLoading.value = false;
+          listenError(context: context, error: error);
+        }
       });
     }
   }
@@ -53,6 +60,7 @@ class ForgotPasswordController extends ConsumerState<ForgotPasswordScreen> {
   @override
   void dispose() {
     email.dispose();
+    cancelToken.cancel();
     super.dispose();
   }
 

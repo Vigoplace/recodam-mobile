@@ -7,7 +7,7 @@ class CreateBookScreen extends ConsumerStatefulWidget {
   static const path = "create_book";
   static const name = "create_book";
 
-  const CreateBookScreen({Key? key}) : super(key: key);
+  const CreateBookScreen({super.key});
 
   @override
   ConsumerState<CreateBookScreen> createState() => CreateBookController();
@@ -84,6 +84,7 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
           topRight: Radius.circular(30.r),
         ),
       ),
+      backgroundColor: AppColor.white,
       isScrollControlled: true,
       builder: (context) {
         return Consumer(

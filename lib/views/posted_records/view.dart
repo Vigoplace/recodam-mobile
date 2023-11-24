@@ -2,8 +2,7 @@ part of 'controller.dart';
 
 class PostedRecordsView
     extends StatelessView<PostedRecordsScreen, PostedRecordsController> {
-  const PostedRecordsView(PostedRecordsController state, {Key? key})
-      : super(state, key: key);
+  const PostedRecordsView(super.state, {super.key});
 
   @override
   Widget build(BuildContext context) {

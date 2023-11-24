@@ -11,14 +11,14 @@ class ImageLoader extends StatelessWidget {
   final BoxFit? boxFit;
   final BoxShape? boxShape;
   const ImageLoader({
-    Key? key,
+    super.key,
     required this.image,
     this.width,
     this.height,
     this.boxFit,
     this.boxShape,
     this.radius,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     return ExtendedImage.network(

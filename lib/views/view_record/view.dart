@@ -1,7 +1,7 @@
 part of 'controller.dart';
 
 class RecordView extends StatelessView<RecordScreen, RecordController> {
-  const RecordView(RecordController state, {Key? key}) : super(state, key: key);
+  const RecordView(super.state, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +25,20 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                 children: [
                   Positioned.fill(
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.r),
-                      child: widget.info.record.isDatabase
-                          ? ImageLoader(
-                              image: widget.info.record.file,
-                              boxFit: BoxFit.cover,
-                            )
-                          : widget.info.record.file.endsWith('pdf')
-                              ? Image.asset(AppImages.pdf)
-                              : Image.file(
-                                  File(widget.info.record.file),
-                                  fit: BoxFit.cover,
-                                ),
-                    ),
+                        borderRadius: BorderRadius.circular(8.r),
+                        child: widget.info.record.isDatabase
+                            ? ImageLoader(
+                                image: widget.info.record.file,
+                                boxFit: BoxFit.cover,
+                              )
+                            : switch (widget.info.record.file.endsWith('pdf')) {
+                                true => Center(
+                                    child: PdfView(
+                                      controller: controller.pdfController,
+                                    ),
+                                  ),
+                                _ => Image.file(File(widget.info.record.file))
+                              }),
                   ),
                   Align(
                     alignment: Alignment.bottomRight,
@@ -136,6 +137,7 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                             controller: controller.book,
                             onTap: controller.chooseBook,
                           ),
+                          30.verticalSpace,
                         ],
                       );
               }),
@@ -145,13 +147,19 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
               return user != null
                   ? Column(
                       children: [
-                        15.verticalSpace,
-                        Center(
-                          child: Text(
-                            'Post this book to ${user.name}\'s ${controller.bookId == null ? 'Dashboard' : controller.book.text}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20.sp,
+                        8.verticalSpace,
+                        Align(
+                          alignment: Alignment.center,
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Post this book to ${user.name}\'s ${controller.bookId == null ? 'Dashboard' : '${controller.book.text} book'}',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -175,6 +183,7 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                             if (isPost) {
                               controller.isPost.value = false;
                               controller.user.value = null;
+                              controller.book.clear();
                             } else {
                               controller.onPublicBookSelection();
                             }
