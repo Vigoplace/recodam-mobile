@@ -3,19 +3,6 @@ import 'package:recordam/utils/utils.dart';
 class GetRequest extends NetworkService {
   static final GetRequest instance = GetRequest._init();
   GetRequest._init();
-  Future<String> test() async {
-    // var path = '';
-    // var _ = await getRequestHandler(path);
-    var _ = await Future.delayed(const Duration(seconds: 3), () => 'Hello');
-    return _;
-  }
-
-  Future<List<int>> testPagination({Pagination? pagination}) async {
-    // var path = '';
-    // var _ = await getRequestHandler(path);
-    var _ = await Future.delayed(const Duration(seconds: 3), () => 'Hello');
-    return List.generate(10, (index) => index += 1);
-  }
 
   Future<Map<DateTime, List<Book>>> getGroupedBooks({
     required Pagination pagination,
@@ -155,14 +142,12 @@ class GetRequest extends NetworkService {
         .toList();
   }
 
-  Future<String> logout({required WidgetRef ref}) async {
+  Future<String> logout() async {
     var path = 'auth/logout';
-    ref.read(sendingProvider.notifier).state = true;
     var user = await getRequestHandler(
       path,
     );
     await LocalStorage.instance.prefs.clear();
-    ref.read(sendingProvider.notifier).state = false;
     return user.data['message'];
   }
 
@@ -174,5 +159,11 @@ class GetRequest extends NetworkService {
     var path = 'users/$number';
     var user = await getRequestHandler(path);
     return UserData.fromJson(user.data['data']);
+  }
+
+  Future<RecordsDetails> getRecordsDetails() async {
+    var path = 'record/details';
+    var user = await getRequestHandler(path);
+    return RecordsDetails.fromJson(user.data['data']);
   }
 }

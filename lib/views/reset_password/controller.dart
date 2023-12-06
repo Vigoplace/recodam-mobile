@@ -37,15 +37,16 @@ class ResetPasswordController extends ConsumerState<ResetPasswordScreen> {
         pin: pin.text,
       )
           .then((data) {
-        isLoading.value = false;
-        ShowFlushBar.showSuccess(
-          context: context,
-          message: data,
-          perform: () => context.goNamed(LoginScreen.name),
-        );
+        if (mounted) {
+          isLoading.value = false;
+          ShowFlushBar.showSuccess(
+            message: data,
+            perform: () => context.goNamed(LoginScreen.name),
+          );
+        }
       }).catchError((error) {
         isLoading.value = false;
-        listenError(context: context, error: error);
+        listenError(error: error);
       });
     }
   }
@@ -62,16 +63,11 @@ class ResetPasswordController extends ConsumerState<ResetPasswordScreen> {
       if (mounted) {
         startTimer();
         isLoading.value = false;
-        ShowFlushBar.showSuccess(
-          context: context,
-          message: value,
-        );
+        ShowFlushBar.showSuccess(message: value);
       }
     }).catchError((error) {
-      if (mounted) {
-        isLoading.value = false;
-        listenError(context: context, error: error);
-      }
+      isLoading.value = false;
+      listenError(error: error);
     });
   }
 

@@ -141,6 +141,7 @@ class CreateRecord {
   String? bankName;
   String? accountNumber;
   String? accountName;
+  String? editDetails;
   String details;
   DateTime date;
   String file;
@@ -164,6 +165,7 @@ class CreateRecord {
     this.id,
     this.newBookId,
     this.newOwnerId,
+    this.editDetails,
   });
 }
 
@@ -349,15 +351,15 @@ class RecordInfo {
 
 class RecordBook {
   int bookId;
-  String? bookName;
+  String bookName;
   RecordBook({
     required this.bookId,
-    this.bookName,
+    required this.bookName,
   });
 
   factory RecordBook.fromJson(Map<String, dynamic> data) {
     return RecordBook(
-      bookId: data['book_id'],
+      bookId: data['id'],
       bookName: data['name'],
     );
   }
@@ -373,6 +375,26 @@ class ViewRecordInfo {
   });
 }
 
+class RecordOwner {
+  int id;
+  String name;
+  String email;
+
+  RecordOwner({
+    required this.id,
+    required this.name,
+    required this.email,
+  });
+
+  factory RecordOwner.fromJson(Map<String, dynamic> json) {
+    return RecordOwner(
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+    );
+  }
+}
+
 class Record {
   int id;
   DateTime date;
@@ -386,8 +408,7 @@ class Record {
   String recordType;
   String file;
   String symbol;
-  int ownerId;
-  bool isDatabase;
+  RecordOwner? owner;
   RecordBook? book;
   bool myRecord;
 
@@ -402,12 +423,11 @@ class Record {
     required this.details,
     required this.recordType,
     required this.file,
-    required this.ownerId,
     required this.symbol,
     this.book,
     this.viewed,
-    this.isDatabase = true,
     required this.myRecord,
+    required this.owner,
   });
 
   factory Record.fromJson(Map<String, dynamic> data) {
@@ -424,9 +444,9 @@ class Record {
       details: data['details'],
       recordType: data['record_type'],
       file: data['file'],
-      ownerId: data['owner_id'],
+      owner: RecordOwner.fromJson(data['owner']),
       symbol: data['symbol'],
-      book: data['book_id'] != null ? RecordBook.fromJson(data) : null,
+      book: data['book'] != null ? RecordBook.fromJson(data['book']) : null,
       myRecord: myId == data['owner_id'] ? true : false,
     );
   }
@@ -461,40 +481,6 @@ class Either<L, R> {
 
   bool get isLeft => left != null;
   bool get isRight => right != null;
-}
-
-class Right<L, R> extends Either<L, R> {
-  final R _r;
-  const Right(this._r) : super(null, _r);
-  R get value => _r;
-
-  @override
-  bool operator ==(other) {
-    if (other is Either<L, R>) {
-      return (other).isRight == _r;
-    }
-    return false;
-  }
-
-  @override
-  int get hashCode => _r.hashCode;
-}
-
-class Left<L, R> extends Either<L, R> {
-  final L _l;
-  const Left(this._l) : super(_l, null);
-  L get value => _l;
-
-  @override
-  bool operator ==(other) {
-    if (other is Either<L, R>) {
-      return other.isRight == _l;
-    }
-    return false;
-  }
-
-  @override
-  int get hashCode => _l.hashCode;
 }
 
 class PostBookInfo {

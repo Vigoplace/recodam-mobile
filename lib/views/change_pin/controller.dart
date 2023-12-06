@@ -32,18 +32,11 @@ class ChangePinController extends State<ChangePinScreen> {
         cancelToken: cancelToken,
       )
           .then((data) {
-        if (mounted) {
-          isLoading.value = false;
-          ShowFlushBar.showSuccess(
-            context: context,
-            message: data,
-          );
-        }
+        isLoading.value = false;
+        ShowFlushBar.showSuccess(message: data);
       }).catchError((error) {
-        if (mounted) {
-          isLoading.value = false;
-          listenError(context: context, error: error);
-        }
+        isLoading.value = false;
+        listenError(error: error);
       });
     }
   }

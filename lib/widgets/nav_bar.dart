@@ -218,12 +218,10 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
   }
 
   void showMenuModal() {
-    var unconfirmed = FutureProvider<int>((ref) async {
-      return await Future.delayed(const Duration(seconds: 2), () => 2);
+    var details = FutureProvider<RecordsDetails>((ref) async {
+      return GetRequest.instance.getRecordsDetails();
     });
-    var posted = FutureProvider<int>((ref) async {
-      return await Future.delayed(const Duration(seconds: 2), () => 2);
-    });
+
     showModalBottomSheet(
       showDragHandle: true,
       isScrollControlled: true,
@@ -323,10 +321,10 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
                             ),
                           ),
                           Consumer(builder: (context, ref, _) {
-                            var count = ref.watch(unconfirmed);
+                            var count = ref.watch(details);
                             return Text(
                               count.when(
-                                data: (data) => '$data',
+                                data: (data) => '${data.confirmed}',
                                 error: (error, trace) => '...',
                                 loading: () => '...',
                               ),
@@ -366,10 +364,10 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
                             ),
                           ),
                           Consumer(builder: (context, ref, _) {
-                            var count = ref.watch(posted);
+                            var count = ref.watch(details);
                             return Text(
                               count.when(
-                                data: (data) => '$data',
+                                data: (data) => '${data.posted}',
                                 error: (error, trace) => '...',
                                 loading: () => '...',
                               ),

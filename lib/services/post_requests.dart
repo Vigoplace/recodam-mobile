@@ -107,7 +107,7 @@ class PostRequest extends NetworkService {
       MapEntry('sender_name', record.senderName),
       MapEntry('amount', record.amount.toString()),
       MapEntry('bank_name', record.bankName ?? ''),
-      MapEntry('account_number', record.accountName ?? ''),
+      MapEntry('account_number', record.accountNumber ?? ''),
       MapEntry('account_name', record.accountName ?? ''),
       MapEntry('details', record.details),
       MapEntry('date', record.date.toIso8601String()),
@@ -143,6 +143,7 @@ class PostRequest extends NetworkService {
       'book_id': record.newBookId,
       'owner_id': record.newOwnerId,
       'details': record.details,
+      'edit_details': record.editDetails,
     };
     var user = await postRequestHandler(
       path,
@@ -152,16 +153,13 @@ class PostRequest extends NetworkService {
   }
 
   Future<String> updateProfile({
-    required WidgetRef ref,
     String? name,
   }) async {
     var path = 'auth/update';
-    ref.read(sendingProvider.notifier).state = true;
     var user = await postRequestHandler(
       path,
       data: {'name': name},
     );
-    ref.read(sendingProvider.notifier).state = false;
     return user.data['message'];
   }
 
@@ -183,12 +181,8 @@ class PostRequest extends NetworkService {
     return user.data['message'];
   }
 
-  Future<String> uploadPhoto({
-    required WidgetRef ref,
-    required File file,
-  }) async {
+  Future<String> uploadPhoto({required File file}) async {
     var path = 'misc/upload';
-    ref.read(sendingProvider.notifier).state = true;
     FormData data = FormData();
     String mimeType = mime(file.path) ?? '';
     String type = mimeType.split('/')[0];
@@ -212,7 +206,6 @@ class PostRequest extends NetworkService {
         },
       ),
     );
-    ref.read(sendingProvider.notifier).state = false;
     return user.data['data']['url'];
   }
 }

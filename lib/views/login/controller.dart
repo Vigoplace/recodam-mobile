@@ -38,9 +38,7 @@ class LoginController extends ConsumerState<LoginScreen> {
           .then((data) {
         if (mounted) {
           isLoading.value = false;
-
           ShowFlushBar.showSuccess(
-            context: context,
             message: data.message,
             perform: () async {
               LocalStorage.instance
@@ -52,7 +50,7 @@ class LoginController extends ConsumerState<LoginScreen> {
       }).catchError((error) {
         if (mounted) {
           isLoading.value = false;
-          listenError(context: context, error: error);
+          listenError(error: error);
         }
       });
     }

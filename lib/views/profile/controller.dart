@@ -94,21 +94,24 @@ class ProfileController extends ConsumerState<ProfileScreen> {
     Navigator.of(context, rootNavigator: true).pop();
     final ImagePicker picker = ImagePicker();
     var xFile = await picker.pickImage(source: source);
+    final sendingNotifier = ref.read(sendingProvider.notifier);
     if (xFile != null) {
-      PostRequest.instance.uploadPhoto(ref: ref, file: File(xFile.path)).then(
+      final profileNotifier = ref.read(profilePhotoProvider.notifier);
+      sendingNotifier.state = true;
+      PostRequest.instance.uploadPhoto(file: File(xFile.path)).then(
         (file) {
-          LocalStorage.instance.setProfilePhoto(file).then(
-              (value) => ref.read(profilePhotoProvider.notifier).state = value);
+          sendingNotifier.state = false;
+          LocalStorage.instance
+              .setProfilePhoto(file)
+              .then((value) => profileNotifier.state = value);
           ShowFlushBar.showSuccess(
-            context: context,
             message: 'Successfully uploaded',
           );
         },
       ).catchError(
         (onError) {
-          nameController.clear();
-          ref.read(sendingProvider.notifier).state = false;
-          listenError(context: context, error: onError);
+          sendingNotifier.state = false;
+          listenError(error: onError);
         },
       );
     }
@@ -179,28 +182,30 @@ class ProfileController extends ConsumerState<ProfileScreen> {
       ).animate().moveY(),
     );
     if (decision == true) {
+      final nameNotifier = ref.read(nameProvider.notifier);
+      final sendingNotifier = ref.read(sendingProvider.notifier);
       if (nameController.text.isNotEmpty) {
         PostRequest.instance
             .updateProfile(
-          ref: ref,
           name: nameController.text,
         )
             .then(
           (message) {
             LocalStorage.instance
                 .setName(nameController.text)
-                .then((value) => ref.read(nameProvider.notifier).state = value);
-            nameController.clear();
-            ShowFlushBar.showSuccess(
-              context: context,
-              message: message,
-            );
+                .then((value) => nameNotifier.state = value);
+            if (mounted) {
+              nameController.clear();
+            }
+            ShowFlushBar.showSuccess(message: message);
           },
         ).catchError(
           (onError) {
-            nameController.clear();
-            ref.read(sendingProvider.notifier).state = false;
-            listenError(context: context, error: onError);
+            if (mounted) {
+              nameController.clear();
+            }
+            sendingNotifier.state = false;
+            listenError(error: onError);
           },
         );
       }
@@ -275,20 +280,24 @@ class ProfileController extends ConsumerState<ProfileScreen> {
       ).animate().moveY(),
     );
     if (decision == true) {
-      GetRequest.instance.logout(ref: ref).then(
+      final sendingNotifier = ref.read(sendingProvider.notifier);
+      sendingNotifier.state = true;
+      GetRequest.instance.logout().then(
         (message) {
           SocketServices.instance.disconnect();
+          sendingNotifier.state = false;
           ShowFlushBar.showSuccess(
-            context: context,
             message: message,
             perform: () => context.goNamed(LoginScreen.name),
           );
         },
       ).catchError(
         (onError) {
-          nameController.clear();
-          ref.read(sendingProvider.notifier).state = false;
-          listenError(context: context, error: onError);
+          if (mounted) {
+            nameController.clear();
+          }
+          sendingNotifier.state = false;
+          listenError(error: onError);
         },
       );
     }

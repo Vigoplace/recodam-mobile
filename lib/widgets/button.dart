@@ -4,6 +4,7 @@ import '../utils/utils.dart';
 
 class LoadingButton extends StatelessWidget {
   final AppButton normal;
+  final Widget? loading;
   final bool isLoading;
   final double? width;
 
@@ -12,40 +13,26 @@ class LoadingButton extends StatelessWidget {
     required this.normal,
     this.width,
     required this.isLoading,
+    this.loading,
   });
 
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? SizedBox(
-            height: 50.h,
-            width: width ?? 205.w,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100.r),
-                ),
-                textStyle: TextStyle(
-                  color: AppColor.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16.sp,
-                ),
-                padding: [28, 12].pad,
-                backgroundColor: AppColor.red60,
-                minimumSize: Size(width ?? 205.w, 20.h),
+        ? loading ??
+            Container(
+              height: 50.h,
+              width: width ?? 205.w,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100.r),
+                color: AppColor.red60,
               ),
-              child: Center(
-                child: SizedBox(
-                  width: 25.h,
-                  child: CircularProgressIndicator.adaptive(
-                    backgroundColor: AppColor.white,
-                    valueColor: AlwaysStoppedAnimation(AppColor.red30),
-                  ),
-                ),
+              alignment: Alignment.center,
+              child: CircularProgressIndicator.adaptive(
+                backgroundColor: AppColor.white,
+                valueColor: AlwaysStoppedAnimation(AppColor.red30),
               ),
-            ),
-          )
+            )
         : normal;
   }
 }

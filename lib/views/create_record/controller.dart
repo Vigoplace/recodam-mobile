@@ -40,12 +40,12 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
 
   bool submitted = false;
   var formKey = GlobalKey<FormState>();
-  late DateTime dateTime;
+  DateTime dateTime = DateTime.now();
   late PdfController pdfController;
 
   void createRecord() async {
     if (file.value == null) {
-      ShowFlushBar.showError('Select a payment proof', context: context);
+      ShowFlushBar.showError('Select a payment proof');
       return;
     }
     setState(() => submitted = true);
@@ -69,12 +69,11 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
                 details: details.text,
                 recordType: recordType.name,
                 file: file.value!.path,
-                ownerId: 0,
-                isDatabase: false,
+                owner: null,
                 book: widget.create.bookId != null
                     ? RecordBook(
                         bookId: widget.create.bookId!.id!,
-                        bookName: widget.create.bookId!.name,
+                        bookName: widget.create.bookId!.name!,
                       )
                     : null,
               ),
@@ -83,10 +82,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
         ),
       );
     } else {
-      ShowFlushBar.showError(
-        'One or more required field is missing',
-        context: context,
-      );
+      ShowFlushBar.showError('One or more required field is missing');
     }
   }
 
@@ -110,7 +106,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
     var choiceDate = await showDatePicker(
       context: context,
       firstDate: DateTime(2020),
-      initialDate: DateTime.now(),
+      initialDate: dateTime,
       lastDate: DateTime.now(),
     );
     if (choiceDate != null) {
@@ -303,13 +299,16 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
   @override
   void initState() {
     super.initState();
-    senderName = TextEditingController();
+    senderName = TextEditingController(
+      text: LocalStorage.instance.getName(),
+    );
     amount = TextEditingController();
     bankName = TextEditingController();
     accountNumber = TextEditingController();
     accountName = TextEditingController();
     details = TextEditingController();
     date = TextEditingController();
+    date.text = DateFormat('EEE-dd-MMM-yyyy').format(dateTime);
     if (widget.create.media.isNotEmpty &&
         widget.create.media.first.value != null) {
       file.value = File(widget.create.media.first.value!);

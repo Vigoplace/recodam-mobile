@@ -35,10 +35,7 @@ class SignupController extends ConsumerState<SignupScreen> {
 
   void create() async {
     if (!acceptedTerms.value) {
-      ShowFlushBar.showError(
-        'You need to accept our policy',
-        context: context,
-      );
+      ShowFlushBar.showError('You need to accept our policy');
       return;
     }
     submitted = true;
@@ -60,9 +57,7 @@ class SignupController extends ConsumerState<SignupScreen> {
           .then((data) {
         if (mounted) {
           isLoading.value = false;
-
           ShowFlushBar.showSuccess(
-            context: context,
             message: data.message,
             perform: () async {
               LocalStorage.instance
@@ -72,10 +67,8 @@ class SignupController extends ConsumerState<SignupScreen> {
           );
         }
       }).catchError((error) {
-        if (mounted) {
-          isLoading.value = false;
-          listenError(context: context, error: error);
-        }
+        isLoading.value = false;
+        listenError(error: error);
       });
     }
   }

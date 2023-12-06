@@ -98,6 +98,23 @@ class UserData {
   }
 }
 
+class RecordsDetails {
+  final int posted;
+  final int confirmed;
+
+  RecordsDetails({
+    required this.posted,
+    required this.confirmed,
+  });
+
+  factory RecordsDetails.fromJson(Map<String, dynamic> data) {
+    return RecordsDetails(
+      posted: data['posted'],
+      confirmed: data['confirmed'],
+    );
+  }
+}
+
 class CustomError {
   final bool status;
   final String message;

@@ -46,7 +46,8 @@ class SocketServices {
     switch (data['action']) {
       case 'deactivate':
         LocalStorage.instance.setLoggedIn(false);
-        AppConstant.key.currentContext!.goNamed(LoginScreen.name);
+        routes.routerDelegate.navigatorKey.currentContext!
+            .goNamed(LoginScreen.name);
         break;
       default:
     }

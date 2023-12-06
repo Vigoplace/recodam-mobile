@@ -4,7 +4,6 @@ import 'package:recordam/utils/utils.dart';
 class ShowFlushBar {
   static void showError(
     String? error, {
-    required BuildContext context,
     Duration? duration,
     void Function()? perform,
   }) async {
@@ -26,7 +25,7 @@ class ShowFlushBar {
       positionOffset: kBottomNavigationBarHeight.h,
       duration: duration ?? const Duration(seconds: 3),
     );
-    flushBar.show(context);
+    flushBar.show(routes.routerDelegate.navigatorKey.currentContext!);
     await Future.delayed(const Duration(seconds: 1));
     flushBar.dismiss();
     if (perform != null) {
@@ -36,7 +35,6 @@ class ShowFlushBar {
 
   static void showSuccess({
     String? message,
-    required BuildContext context,
     Duration? duration,
     void Function()? perform,
   }) async {
@@ -58,7 +56,7 @@ class ShowFlushBar {
       positionOffset: kBottomNavigationBarHeight.h,
       duration: duration ?? const Duration(seconds: 3),
     );
-    flushBar.show(context);
+    flushBar.show(routes.routerDelegate.navigatorKey.currentContext!);
     await Future.delayed(const Duration(seconds: 1));
     flushBar.dismiss();
     if (perform != null) {

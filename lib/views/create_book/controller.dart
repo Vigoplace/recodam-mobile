@@ -43,15 +43,10 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
         access: access.value.name,
         symbol: currency.value.symbol,
       );
-      PostRequest.instance
-          .createBook(
-        book: book,
-      )
-          .then((value) {
+      PostRequest.instance.createBook(book: book).then((value) {
         isLoading.value = false;
         ref.invalidate(homeBookProvider);
         ShowFlushBar.showSuccess(
-          context: context,
           message: value,
           perform: () {
             context.pop();
@@ -60,17 +55,11 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
       }).catchError(
         (error) {
           isLoading.value = false;
-          listenError(
-            error: error,
-            context: context,
-          );
+          listenError(error: error);
         },
       );
     } else {
-      ShowFlushBar.showError(
-        'One or more required field is missing',
-        context: context,
-      );
+      ShowFlushBar.showError('One or more required field is missing');
     }
   }
 

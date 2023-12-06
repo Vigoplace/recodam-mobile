@@ -6,7 +6,6 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: AppConstant.key,
       backgroundColor: AppColor.grey,
       body: Stack(
         children: [

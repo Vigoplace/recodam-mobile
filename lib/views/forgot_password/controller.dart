@@ -32,9 +32,7 @@ class ForgotPasswordController extends ConsumerState<ForgotPasswordScreen> {
           .then((value) {
         if (mounted) {
           isLoading.value = false;
-
           ShowFlushBar.showSuccess(
-            context: context,
             message: value,
             perform: () async {
               LocalStorage.instance.setEmail(email.text).whenComplete(
@@ -43,10 +41,8 @@ class ForgotPasswordController extends ConsumerState<ForgotPasswordScreen> {
           );
         }
       }).catchError((error) {
-        if (mounted) {
-          isLoading.value = false;
-          listenError(context: context, error: error);
-        }
+        isLoading.value = false;
+        listenError(error: error);
       });
     }
   }

@@ -20,7 +20,6 @@ class RecordController extends ConsumerState<RecordScreen> {
   late TextEditingController details;
   late TextEditingController book;
   int? bookId;
-  ValueNotifier<bool> isPost = ValueNotifier(false);
   ValueNotifier<UserData?> user = ValueNotifier(null);
   late PdfController pdfController;
 
@@ -28,7 +27,7 @@ class RecordController extends ConsumerState<RecordScreen> {
     CreateRecord record = CreateRecord(
       senderName: widget.info.record.senderName,
       amount: widget.info.record.amount,
-      details: details.text.isEmpty ? widget.info.record.details : details.text,
+      details: widget.info.record.details,
       date: widget.info.record.date,
       file: widget.info.record.file,
       recordType: widget.info.record.recordType,
@@ -39,22 +38,26 @@ class RecordController extends ConsumerState<RecordScreen> {
       accountName: widget.info.record.accountName,
       accountNumber: widget.info.record.accountNumber,
       symbol: widget.info.record.symbol,
+      editDetails: details.text,
     );
     late Future<String> Function({required CreateRecord record}) sendRequest;
-    if (widget.info.record.isDatabase) {
+    if ([DetailType.view].contains(widget.info.type)) {
       sendRequest = PostRequest.instance.updateRecord;
-    } else {
+    } else if ([DetailType.create].contains(widget.info.type)) {
       sendRequest = PostRequest.instance.createRecord;
     }
+    buttonState.value = ButtonState(
+      isLoading: true,
+      send: buttonState.value.send,
+    );
     sendRequest(record: record).then((data) {
       buttonState.value = ButtonState(
-        isLoading: true,
+        isLoading: false,
         send: buttonState.value.send,
       );
       ref.invalidate(homeRecordProvider);
       ref.invalidate(homeBookProvider);
       ShowFlushBar.showSuccess(
-        context: context,
         message: data,
         perform: () {
           if ([DetailType.create].contains(widget.info.type)) {
@@ -72,10 +75,7 @@ class RecordController extends ConsumerState<RecordScreen> {
         isLoading: false,
         send: buttonState.value.send,
       );
-      listenError(
-        error: error,
-        context: context,
-      );
+      listenError(error: error);
     });
   }
 
@@ -178,18 +178,10 @@ class RecordController extends ConsumerState<RecordScreen> {
             child: Column(
               // mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  "Post to book",
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w700,
-                    color: AppColor.grey100,
-                  ),
-                ),
-                30.verticalSpace,
+                15.verticalSpace,
                 CustomTextInput(
                   controller: controller,
-                  titleText: 'Enter the owner’s number',
+                  titleText: 'Search with phone number',
                   keyboardType: TextInputType.phone,
                   textInputAction: TextInputAction.done,
                   onChanged: (p0) => refresh(() => number = p0),
@@ -245,12 +237,18 @@ class RecordController extends ConsumerState<RecordScreen> {
         if (bookChoice != null) {
           if (bookChoice.book == null) {
             user.value = bookChoice.user;
-            isPost.value = true;
+            buttonState.value = ButtonState(
+              isLoading: true,
+              send: buttonState.value.send,
+            );
             bookId = null;
             book.clear();
           } else {
             user.value = bookChoice.user;
-            isPost.value = true;
+            buttonState.value = ButtonState(
+              isLoading: true,
+              send: buttonState.value.send,
+            );
             book.text = (bookChoice.book!).name;
             bookId = (bookChoice.book!).id;
           }
@@ -288,12 +286,29 @@ class RecordController extends ConsumerState<RecordScreen> {
               ),
             ),
             20.verticalSpace,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  onPublicBookSelection();
+                },
+                child: Text(
+                  'Send to another user',
+                  style: TextStyle(
+                    color: AppColor.red100,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ),
+            ),
             InkWell(
               overlayColor: MaterialStateColor.resolveWith(
                 (states) => Colors.transparent,
               ),
               onTap: () {
-                book.text = 'Dashboard';
+                book.text = 'My Dashboard';
                 bookId = null;
                 context.pop();
               },
@@ -354,10 +369,37 @@ class RecordController extends ConsumerState<RecordScreen> {
         send: false,
       );
     } else {
-      buttonState.value = ButtonState(
-        isLoading: buttonState.value.isLoading,
-        send: true,
-      );
+      if (widget.info.type == DetailType.view) {
+        if (details.text == widget.info.record.details) {
+          buttonState.value = ButtonState(
+            isLoading: buttonState.value.isLoading,
+            send: false,
+          );
+        } else {
+          buttonState.value = ButtonState(
+            isLoading: buttonState.value.isLoading,
+            send: true,
+          );
+          return;
+        }
+        if (book.text == widget.info.record.book?.bookName) {
+          buttonState.value = ButtonState(
+            isLoading: buttonState.value.isLoading,
+            send: false,
+          );
+        } else {
+          buttonState.value = ButtonState(
+            isLoading: buttonState.value.isLoading,
+            send: true,
+          );
+          return;
+        }
+      } else {
+        buttonState.value = ButtonState(
+          isLoading: buttonState.value.isLoading,
+          send: true,
+        );
+      }
     }
   }
 
@@ -373,8 +415,19 @@ class RecordController extends ConsumerState<RecordScreen> {
         document: PdfDocument.openFile(widget.info.record.file),
       );
     }
-    details = TextEditingController(text: widget.info.record.details);
+    if (widget.info.type == DetailType.create) {
+      book.text = 'My dashboard';
+    } else if (widget.info.type == DetailType.view) {
+      if (widget.info.record.book != null) {
+        book.text = widget.info.record.book!.bookName;
+      }
+    }
+    details = TextEditingController(text: widget.info.record.details)
+      ..addListener(() {
+        confirmSend();
+      });
     bookId = widget.info.record.book?.bookId;
+    confirmSend();
   }
 
   @override

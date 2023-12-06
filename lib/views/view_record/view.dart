@@ -8,7 +8,13 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
     return Scaffold(
       appBar: CustomAppbar(
         centerTitle: false,
-        title: widget.info.record.isDatabase ? null : 'Confirm Record',
+        title: switch (widget.info.type) {
+          DetailType.add => null,
+          DetailType.create => 'Create Record',
+          DetailType.posted => 'Confirm Record',
+          DetailType.unconfirmed => null,
+          DetailType.view => null,
+        },
       ),
       body: ListView(
         padding: [16, 22, 16, 0].pad,
@@ -26,7 +32,7 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                   Positioned.fill(
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.r),
-                        child: widget.info.record.isDatabase
+                        child: widget.info.type == DetailType.view
                             ? ImageLoader(
                                 image: widget.info.record.file,
                                 boxFit: BoxFit.cover,
@@ -89,58 +95,61 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
             hintText: widget.info.record.details,
             readOnly: true,
           ),
-          32.verticalSpace,
-          Builder(builder: (context) {
-            String accountName = '';
-            String bankName = '';
-            String accountNumber = '';
-            if (widget.info.record.accountName != null) {
-              accountName = widget.info.record.accountName!;
-            }
-            if (widget.info.record.bankName != null) {
-              bankName = widget.info.record.bankName!;
-            }
-            if (widget.info.record.accountNumber != null) {
-              accountNumber = widget.info.record.accountNumber!;
-            }
-            return CustomTextInput(
-              titleText: "Bank details",
-              fillColor: AppColor.grey1,
-              hintText: '$accountName $bankName $accountNumber',
-              readOnly: true,
-            );
-          }),
+          Builder(
+            builder: (context) {
+              String accountName = '';
+              String bankName = '';
+              String accountNumber = '';
+              if (widget.info.record.accountName != null) {
+                accountName = widget.info.record.accountName!;
+              }
+              if (widget.info.record.bankName != null) {
+                bankName = widget.info.record.bankName!;
+              }
+              if (widget.info.record.accountNumber != null) {
+                accountNumber = widget.info.record.accountNumber!;
+              }
+              return ((accountNumber + bankName + accountName).isEmpty)
+                  ? const SizedBox.shrink()
+                  : Column(
+                      children: [
+                        32.verticalSpace,
+                        CustomTextInput(
+                          titleText: "Bank details",
+                          fillColor: AppColor.grey1,
+                          hintText: '$accountName $bankName $accountNumber',
+                          readOnly: true,
+                          maxLines: 2,
+                        ),
+                      ],
+                    );
+            },
+          ),
           if ([DetailType.view].contains(widget.info.type)) ...[
             32.verticalSpace,
             CustomTextInput(
               titleText: "Add more details",
               hintText: "Money for maryland school donation",
               controller: controller.details,
-            )
+            ),
           ],
-          ValueListenableBuilder(
-              valueListenable: controller.isPost,
-              builder: (context, post, _) {
-                return post
-                    ? const SizedBox.shrink()
-                    : Column(
-                        children: [
-                          32.verticalSpace,
-                          CustomTextInput(
-                            titleText:
-                                "${widget.info.record.isDatabase ? "Update" : "Add to"} book",
-                            hintText: "Choose book",
-                            suffixIcon: const SvgButton(
-                              icon: AppSvg.chevronDown,
-                            ),
-                            readOnly: true,
-                            controller: controller.book,
-                            onTap: controller.chooseBook,
-                          ),
-                          30.verticalSpace,
-                        ],
-                      );
-              }),
+          32.verticalSpace,
+          CustomTextInput(
+            titleText: switch (widget.info.type) {
+              DetailType.add => 'Update location',
+              DetailType.create => 'Select location',
+              DetailType.posted => 'Update location',
+              DetailType.unconfirmed => 'Update location',
+              DetailType.view => 'Update location',
+            },
+            suffixIcon: const SvgButton(
+              icon: AppSvg.chevronDown,
+            ),
+            readOnly: true,
+            controller: controller.book,
+            onTap: controller.chooseBook,
+          ),
+          30.verticalSpace,
           ValueListenableBuilder(
             valueListenable: controller.user,
             builder: (context, user, _) {
@@ -154,7 +163,7 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'Post this book to ${user.name}\'s ${controller.bookId == null ? 'Dashboard' : '${controller.book.text} book'}',
+                                'Post this record to ${user.name}\'s ${controller.bookId == null ? 'Dashboard' : '${controller.book.text} book'}',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontSize: 16.sp,
@@ -169,82 +178,41 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                   : const SizedBox.shrink();
             },
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if ([DetailType.view].contains(widget.info.type))
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: ValueListenableBuilder(
-                      valueListenable: controller.isPost,
-                      builder: (context, isPost, _) {
-                        return TextButton(
-                          onPressed: () {
-                            if (isPost) {
-                              controller.isPost.value = false;
-                              controller.user.value = null;
-                              controller.book.clear();
-                            } else {
-                              controller.onPublicBookSelection();
-                            }
-                          },
-                          child: Text(
-                            isPost ? 'Cancel' : 'Post',
-                            style: TextStyle(
-                              color: AppColor.red100,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16.sp,
-                            ),
-                          ),
-                        );
-                      }),
-                ),
-              const Spacer(),
-              ValueListenableBuilder(
-                valueListenable: controller.buttonState,
-                builder: (context, state, _) {
-                  return ValueListenableBuilder(
-                    valueListenable: controller.isPost,
-                    builder: (context, post, _) {
-                      return post
-                          ? LoadingButton(
-                              isLoading: state.isLoading,
-                              width: 100.w,
-                              normal: AppButton(
-                                width: 100.w,
-                                text: "Update",
-                                onTap: controller.createRecord,
-                              ),
-                            )
-                          : LoadingButton(
-                              isLoading: state.isLoading,
-                              width: 100.w,
-                              normal: AppButton(
-                                width: 100.w,
-                                enable: state.send,
-                                text: widget.info.record.isDatabase
-                                    ? "Update"
-                                    : "Save",
-                                onTap: controller.createRecord,
-                              ),
-                            );
+          Align(
+            alignment: Alignment.centerRight,
+            child: ValueListenableBuilder(
+              valueListenable: controller.buttonState,
+              builder: (context, state, _) {
+                return LoadingButton(
+                  isLoading: state.isLoading,
+                  width: 100.w,
+                  normal: AppButton(
+                    width: 100.w,
+                    enable: state.send,
+                    text: switch (widget.info.type) {
+                      DetailType.add => 'Update',
+                      DetailType.create => 'Save',
+                      DetailType.posted => 'Update',
+                      DetailType.unconfirmed => 'Update',
+                      DetailType.view => 'Update',
                     },
-                  );
-                },
-              ),
-              if ([DetailType.posted].contains(widget.info.type)) ...[
-                16.horizontalSpace,
-                Text(
-                  'Delete',
-                  style: TextStyle(
-                    color: AppColor.red100,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16.sp,
+                    onTap: controller.createRecord,
                   ),
-                ),
-              ]
-            ],
+                );
+              },
+            ),
           ),
+          if ([DetailType.posted].contains(widget.info.type)) ...[
+            16.horizontalSpace,
+            Text(
+              'Delete',
+              style: TextStyle(
+                color: AppColor.red100,
+                fontWeight: FontWeight.w700,
+                fontSize: 16.sp,
+              ),
+            ),
+          ],
           50.verticalSpace,
         ],
       ),
