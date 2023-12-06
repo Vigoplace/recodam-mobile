@@ -139,7 +139,7 @@ class PostRequest extends NetworkService {
   }) async {
     var path = 'record/update';
     var data = {
-      'id': record.id,
+      'record_id': record.id,
       'book_id': record.newBookId,
       'owner_id': record.newOwnerId,
       'details': record.details,

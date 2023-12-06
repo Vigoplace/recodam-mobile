@@ -112,15 +112,36 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
               return ((accountNumber + bankName + accountName).isEmpty)
                   ? const SizedBox.shrink()
                   : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         32.verticalSpace,
-                        CustomTextInput(
-                          titleText: "Bank details",
-                          fillColor: AppColor.grey1,
-                          hintText: '$accountName $bankName $accountNumber',
-                          readOnly: true,
-                          maxLines: 2,
+                        Text(
+                          'Bank details',
+                          style: TextStyle(
+                            color: AppColor.grey100,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14.sp,
+                          ),
                         ),
+                        8.verticalSpace,
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: AppColor.dark20,
+                              ),
+                              color: AppColor.grey1,
+                              borderRadius: BorderRadius.circular(100.r)),
+                          alignment: Alignment.centerLeft,
+                          padding: [8, 10].pad,
+                          child: Text(
+                            '$accountName $bankName $accountNumber',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        )
                       ],
                     );
             },
@@ -134,50 +155,55 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
             ),
           ],
           32.verticalSpace,
-          CustomTextInput(
-            titleText: switch (widget.info.type) {
-              DetailType.add => 'Update location',
-              DetailType.create => 'Select location',
-              DetailType.posted => 'Update location',
-              DetailType.unconfirmed => 'Update location',
-              DetailType.view => 'Update location',
-            },
-            suffixIcon: const SvgButton(
-              icon: AppSvg.chevronDown,
-            ),
-            readOnly: true,
-            controller: controller.book,
-            onTap: controller.chooseBook,
-          ),
-          30.verticalSpace,
           ValueListenableBuilder(
             valueListenable: controller.user,
             builder: (context, user, _) {
               return user != null
-                  ? Column(
-                      children: [
-                        8.verticalSpace,
-                        Align(
-                          alignment: Alignment.center,
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Post this record to ${user.name}\'s ${controller.bookId == null ? 'Dashboard' : '${controller.book.text} book'}',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
+                  ? Align(
+                      alignment: Alignment.center,
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              10.horizontalSpace,
+                              Expanded(
+                                child: Text(
+                                  'Post this record to ${user.name}\'s ${controller.bookId == null ? 'Dashboard' : '${controller.book.text} book'}',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                  ),
                                 ),
                               ),
-                            ),
+                              SvgButton(
+                                icon: AppSvg.remove,
+                                onTap: () => controller.user.value = null,
+                              ),
+                              10.horizontalSpace,
+                            ],
                           ),
                         ),
-                        30.verticalSpace,
-                      ],
+                      ),
                     )
-                  : const SizedBox.shrink();
+                  : CustomTextInput(
+                      titleText: switch (widget.info.type) {
+                        DetailType.add => 'Update location',
+                        DetailType.create => 'Select location',
+                        DetailType.posted => 'Update location',
+                        DetailType.unconfirmed => 'Update location',
+                        DetailType.view => 'Update location',
+                      },
+                      suffixIcon: const SvgButton(
+                        icon: AppSvg.chevronDown,
+                      ),
+                      readOnly: true,
+                      controller: controller.book,
+                      onTap: controller.chooseBook,
+                    );
             },
           ),
+          30.verticalSpace,
           Align(
             alignment: Alignment.centerRight,
             child: ValueListenableBuilder(
