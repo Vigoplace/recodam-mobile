@@ -100,17 +100,17 @@ class UserData {
 
 class RecordsDetails {
   final int posted;
-  final int confirmed;
+  final int unconfirmed;
 
   RecordsDetails({
     required this.posted,
-    required this.confirmed,
+    required this.unconfirmed,
   });
 
   factory RecordsDetails.fromJson(Map<String, dynamic> data) {
     return RecordsDetails(
       posted: data['posted'],
-      confirmed: data['confirmed'],
+      unconfirmed: data['unconfirmed'],
     );
   }
 }

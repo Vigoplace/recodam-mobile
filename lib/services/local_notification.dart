@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:recordam/utils/utils.dart';
 
@@ -11,10 +13,17 @@ class LocalNotificationService {
       android: AndroidInitializationSettings("ic_notification"),
       iOS: DarwinInitializationSettings(),
     );
-
     _notificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse: (NotificationResponse details) {},
+      onDidReceiveNotificationResponse: (NotificationResponse details) {
+        if (details.payload != null) {
+          var notification =
+              NotificationPayload.fromJson(jsonDecode(details.payload!));
+          if (notification.type == NotificationType.recordConfirmation) {
+            context.pushNamed(UnConfirmedRecordsScreen.name);
+          }
+        }
+      },
     );
   }
 
@@ -31,13 +40,14 @@ class LocalNotificationService {
         icon: '@drawable/ic_notification',
       ),
     );
-    // var payload = NotificationPayload.fromJson(message.data);
+
+    var payload = NotificationPayload.fromJson(message.data);
     await _notificationsPlugin.show(
       DateTime.now().microsecond,
       message.notification?.title,
       message.notification?.body,
       notificationDetail,
-      // payload: payload.toString(),
+      payload: '$payload',
     );
   }
 }

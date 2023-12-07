@@ -11,3 +11,5 @@ enum DetailType {
   posted,
   add,
 }
+
+enum NotificationType { recordConfirmation, none }

@@ -98,6 +98,24 @@ class GetRequest extends NetworkService {
     return bookInfo.book;
   }
 
+  Future<List<Record>> getPostedRecords({Pagination? pagination}) async {
+    var path = 'record/posted';
+
+    var books = await getRequestHandler(
+      path,
+      queryPatameters: {
+        'page': pagination?.page,
+        'size': pagination?.size,
+        'search': pagination?.search,
+        'receiver': pagination?.receiver,
+      },
+    );
+    var bookInfo = RecordInfo.fromJson(books.data['data']);
+    pagination?.total = bookInfo.total;
+    pagination?.page += 1;
+    return bookInfo.book;
+  }
+
   Future<List<Record>> getHomeRecords({Pagination? pagination}) async {
     var path = 'record';
     if (pagination?.book != null) {

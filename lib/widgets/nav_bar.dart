@@ -324,7 +324,7 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
                             var count = ref.watch(details);
                             return Text(
                               count.when(
-                                data: (data) => '${data.confirmed}',
+                                data: (data) => '${data.unconfirmed}',
                                 error: (error, trace) => '...',
                                 loading: () => '...',
                               ),

@@ -22,9 +22,10 @@ class UnConfirmedRecordsController
   @override
   void initState() {
     super.initState();
+    pagination.receiver = true;
     booksProvider = FutureProvider.family(
       (ref, Pagination pagination) =>
-          GetRequest.instance.getRecords(pagination: pagination),
+          GetRequest.instance.getPostedRecords(pagination: pagination),
     );
     refreshController = RefreshController();
   }

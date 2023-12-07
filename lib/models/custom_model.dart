@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:recordam/utils/utils.dart';
 
 class ActivityModel {
@@ -18,6 +20,7 @@ class Pagination {
   DateTime? lastDate;
   String search;
   int? id;
+  bool? receiver;
   Pagination({
     this.page = 1,
     this.total = 100,
@@ -27,6 +30,7 @@ class Pagination {
     this.lastDate,
     this.limit = 4,
     this.id,
+    this.receiver,
   });
 }
 
@@ -411,6 +415,7 @@ class Record {
   RecordOwner? owner;
   RecordBook? book;
   bool myRecord;
+  bool? receiverConfirmed;
 
   Record({
     required this.id,
@@ -428,6 +433,7 @@ class Record {
     this.viewed,
     required this.myRecord,
     required this.owner,
+    this.receiverConfirmed,
   });
 
   factory Record.fromJson(Map<String, dynamic> data) {
@@ -446,6 +452,7 @@ class Record {
       file: data['file'],
       owner: RecordOwner.fromJson(data['owner']),
       symbol: data['symbol'],
+      receiverConfirmed: data['receiver_confirmed'],
       book: data['book'] != null ? RecordBook.fromJson(data['book']) : null,
       myRecord: myId == data['owner_id'] ? true : false,
     );
@@ -471,18 +478,6 @@ class ButtonState {
   });
 }
 
-class Either<L, R> {
-  final L? left;
-  final R? right;
-  const Either(this.left, this.right);
-
-  Either.left(L value, this.left) : right = null;
-  Either.right(R value, this.right) : left = null;
-
-  bool get isLeft => left != null;
-  bool get isRight => right != null;
-}
-
 class PostBookInfo {
   UserData user;
   Book? book;
@@ -490,4 +485,28 @@ class PostBookInfo {
     required this.book,
     required this.user,
   });
+}
+
+class NotificationPayload {
+  NotificationType type;
+  NotificationPayload({
+    required this.type,
+  });
+
+  factory NotificationPayload.fromJson(Map<String, dynamic> data) {
+    return NotificationPayload(
+      type: '${data['type']}'.toNotificationType(),
+    );
+  }
+  
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type.name, // Assuming you want the enum value as a string
+    };
+  }
+
+  @override
+  String toString() {
+    return jsonEncode(toJson());
+  }
 }

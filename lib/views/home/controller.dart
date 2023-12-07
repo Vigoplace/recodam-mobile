@@ -41,7 +41,6 @@ class HomeController extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    homeRefresh = RefreshController();
     return HomeView(this);
   }
 }

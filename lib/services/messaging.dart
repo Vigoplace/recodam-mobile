@@ -9,6 +9,10 @@ class RecodamFirebaseService {
     FirebaseMessaging.instance.getInitialMessage().then((event) {
       if (event != null) {
         debugPrint('GABBYGREAT TERMINATED');
+        var payload = NotificationPayload.fromJson(event.data);
+        if (payload.type == NotificationType.recordConfirmation) {
+          context.push(UnConfirmedRecordsScreen.name);
+        }
       }
     });
     // Foreground State
