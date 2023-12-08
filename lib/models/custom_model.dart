@@ -153,7 +153,7 @@ class CreateRecord {
   String symbol;
   int? id;
   int? newBookId;
-  int? newOwnerId;
+  int? receiverId;
 
   CreateRecord({
     required this.senderName,
@@ -168,7 +168,7 @@ class CreateRecord {
     required this.recordType,
     this.id,
     this.newBookId,
-    this.newOwnerId,
+    this.receiverId,
     this.editDetails,
   });
 }
@@ -353,6 +353,24 @@ class RecordInfo {
   }
 }
 
+class NotificationInfo {
+  List<NotificationMessage> book;
+  int total;
+  NotificationInfo({
+    required this.book,
+    required this.total,
+  });
+
+  factory NotificationInfo.fromJson(Map<String, dynamic> data) {
+    return NotificationInfo(
+      book: (data['notifications'] as List)
+          .map((e) => NotificationMessage.fromJson(e))
+          .toList(),
+      total: data['total'],
+    );
+  }
+}
+
 class RecordBook {
   int bookId;
   String bookName;
@@ -498,7 +516,7 @@ class NotificationPayload {
       type: '${data['type']}'.toNotificationType(),
     );
   }
-  
+
   Map<String, dynamic> toJson() {
     return {
       'type': type.name, // Assuming you want the enum value as a string
@@ -508,5 +526,43 @@ class NotificationPayload {
   @override
   String toString() {
     return jsonEncode(toJson());
+  }
+}
+
+class NotificationMessage {
+  int id;
+  bool isRead;
+  String message;
+  int senderId;
+  int receiverId;
+  int recordId;
+  int? bookId; // Make it nullable if it can be null
+  String createdAt;
+  String updatedAt;
+
+  NotificationMessage({
+    required this.id,
+    required this.isRead,
+    required this.message,
+    required this.senderId,
+    required this.receiverId,
+    required this.recordId,
+    required this.bookId,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory NotificationMessage.fromJson(Map<String, dynamic> json) {
+    return NotificationMessage(
+      id: json['id'],
+      isRead: json['is_read'],
+      message: json['message'],
+      senderId: json['sender_id'],
+      receiverId: json['receiver_id'],
+      recordId: json['record_id'],
+      bookId: json['book_id'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+    );
   }
 }

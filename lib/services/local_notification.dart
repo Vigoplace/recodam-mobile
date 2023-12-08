@@ -40,14 +40,13 @@ class LocalNotificationService {
         icon: '@drawable/ic_notification',
       ),
     );
-
-    var payload = NotificationPayload.fromJson(message.data);
+    
     await _notificationsPlugin.show(
       DateTime.now().microsecond,
       message.notification?.title,
       message.notification?.body,
       notificationDetail,
-      payload: '$payload',
+      payload: jsonEncode(message.data),
     );
   }
 }

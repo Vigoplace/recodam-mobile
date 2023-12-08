@@ -33,7 +33,7 @@ class RecordController extends ConsumerState<RecordScreen> {
       recordType: widget.info.record.recordType,
       id: widget.info.record.id,
       newBookId: bookId,
-      newOwnerId: user.value?.id,
+      receiverId: user.value?.id,
       bankName: widget.info.record.bankName,
       accountName: widget.info.record.accountName,
       accountNumber: widget.info.record.accountNumber,
@@ -285,6 +285,13 @@ class RecordController extends ConsumerState<RecordScreen> {
       );
     } else {
       if (widget.info.type == DetailType.view) {
+        if (user.value == null) {
+          buttonState.value = ButtonState(
+            isLoading: buttonState.value.isLoading,
+            send: false,
+          );
+          return;
+        }
         if (details.text == widget.info.record.details) {
           buttonState.value = ButtonState(
             isLoading: buttonState.value.isLoading,

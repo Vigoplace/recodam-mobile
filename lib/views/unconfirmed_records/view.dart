@@ -23,7 +23,7 @@ class UnConfirmedRecordsView extends StatelessView<UnConfirmedRecordsScreen,
             onLoading: () async {
               if (data.length != controller.pagination.total) {
                 try {
-                  var a = await GetRequest.instance.getRecords(
+                  var a = await GetRequest.instance.getPostedRecords(
                     pagination: controller.pagination,
                   );
                   data.addAll(a);
@@ -42,7 +42,7 @@ class UnConfirmedRecordsView extends StatelessView<UnConfirmedRecordsScreen,
               controller.pagination.page = 1;
               try {
                 var a = await GetRequest.instance
-                    .getRecords(pagination: controller.pagination);
+                    .getPostedRecords(pagination: controller.pagination);
                 data.addAll(a);
                 controller.reload();
                 controller.refreshController

@@ -1,4 +1,4 @@
-import 'package:grouped_list/grouped_list.dart';
+import 'package:recordam/widgets/notifications.dart';
 import '../utils/utils.dart';
 
 class CustomBottomNavbar extends ConsumerStatefulWidget {
@@ -492,65 +492,8 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
               color: AppColor.dark20,
               thickness: 1,
             ),
-            Expanded(
-              child: GroupedListView<int, DateTime>(
-                padding: [16, 10, 16, 0].pad,
-                elements: List.generate(20, (index) => index += 1),
-                groupHeaderBuilder: (element) => Padding(
-                  padding: [0, 0, 0, 16].pad,
-                  child: Text(
-                    "New",
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.grey100,
-                    ),
-                  ),
-                ),
-                itemBuilder: (context, element) => SizedBox(
-                  height: 80.h,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset(AppImages.image).animate().scale(),
-                      10.horizontalSpace,
-                      Expanded(
-                        child: Text(
-                          "Rachel added a new record to shopping list.",
-                          maxLines: 2,
-                          softWrap: false,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                            color: AppColor.grey100,
-                          ),
-                        ),
-                      ),
-                      30.horizontalSpace,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            "Just now",
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w700,
-                              color: AppColor.red100,
-                            ),
-                          ),
-                          8.verticalSpace,
-                          CircleAvatar(
-                            radius: 4.r,
-                            backgroundColor: AppColor.red60,
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                groupBy: (groupBy) => DateTime.now(),
-              ),
+            const Expanded(
+              child: Notifications(),
             ),
             40.verticalSpace,
           ],

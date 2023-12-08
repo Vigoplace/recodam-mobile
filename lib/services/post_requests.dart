@@ -141,7 +141,7 @@ class PostRequest extends NetworkService {
     var data = {
       'record_id': record.id,
       'book_id': record.newBookId,
-      'owner_id': record.newOwnerId,
+      'receiver_id': record.receiverId,
       'details': record.details,
       'edit_details': record.editDetails,
     };

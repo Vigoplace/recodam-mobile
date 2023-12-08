@@ -184,4 +184,20 @@ class GetRequest extends NetworkService {
     var user = await getRequestHandler(path);
     return RecordsDetails.fromJson(user.data['data']);
   }
+
+  Future<List<NotificationMessage>> getNotifications(
+      {Pagination? pagination}) async {
+    var path = 'notification';
+    var books = await getRequestHandler(
+      path,
+      queryPatameters: {
+        'page': pagination?.page,
+        'size': pagination?.size,
+      },
+    );
+    var bookInfo = NotificationInfo.fromJson(books.data['data']);
+    pagination?.total = bookInfo.total;
+    pagination?.page += 1;
+    return bookInfo.book;
+  }
 }
