@@ -163,12 +163,20 @@ class CreateRecordView
                 fontSize: 14.sp,
               ),
             ),
-            32.verticalSpace,
+            Text(
+              '* max size is 100Kb',
+              style: TextStyle(
+                color: AppColor.grey100,
+                fontWeight: FontWeight.w700,
+                fontSize: 10.sp,
+              ),
+            ),
+            10.verticalSpace,
             ValueListenableBuilder(
               valueListenable: controller.file,
               builder: (context, value, _) {
                 return Container(
-                  height: 150.h,
+                  height: 300.h,
                   decoration: BoxDecoration(
                     color: AppColor.grey1,
                     borderRadius: BorderRadius.circular(8.r),
@@ -187,14 +195,18 @@ class CreateRecordView
                                 icon: AppSvg.upload,
                                 onTap: controller.pickImage,
                               )
-                            : switch (value.path.endsWith('pdf')) {
-                                true => Center(
-                                    child: PdfView(
-                                      controller: controller.pdfController,
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(8.r),
+                                child: switch (value.path.endsWith('pdf')) {
+                                  true => PdfView(
+                                      path: value.path,
+                                      gestureRecognizers: {
+                                        Factory(() => EagerGestureRecognizer()),
+                                      },
                                     ),
-                                  ),
-                                _ => Image.file(value)
-                              },
+                                  _ => Image.file(value)
+                                },
+                              ),
                       ),
                       if (value != null)
                         Align(
@@ -225,9 +237,24 @@ class CreateRecordView
             ),
             16.verticalSpace,
             GroupedSelection<RecordType>(
-              initialIndex: RecordType.debit,
-              content: const ['Debit', 'Credit'],
-              type: const [RecordType.debit, RecordType.credit],
+              initialIndex:
+                  widget.create.bookId?.recordType ?? RecordType.debit,
+              content: [
+                if (widget.create.bookId?.recordType == null ||
+                    widget.create.bookId?.recordType == RecordType.debit)
+                  'Debit',
+                if (widget.create.bookId?.recordType == null ||
+                    widget.create.bookId?.recordType == RecordType.credit)
+                  'Credit',
+              ],
+              type: [
+                if (widget.create.bookId?.recordType == null ||
+                    widget.create.bookId?.recordType == RecordType.debit)
+                  RecordType.debit,
+                if (widget.create.bookId?.recordType == null ||
+                    widget.create.bookId?.recordType == RecordType.credit)
+                  RecordType.credit,
+              ],
               onTap: <RecordType>(position) => controller.recordType = position,
             ),
             65.verticalSpace,

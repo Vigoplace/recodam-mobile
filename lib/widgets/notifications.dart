@@ -4,9 +4,11 @@ import 'package:recordam/widgets/notification_card.dart';
 
 class Notifications extends ConsumerStatefulWidget {
   final void Function(Book)? onTap;
+  final RefreshController refreshController;
   const Notifications({
     super.key,
     this.onTap,
+    required this.refreshController,
   });
 
   @override
@@ -26,13 +28,7 @@ class _BooksState extends ConsumerState<Notifications> {
     notificationsProvider = FutureProvider.family(
         (ref, Pagination pagination) =>
             GetRequest.instance.getNotifications(pagination: pagination));
-    refreshController = RefreshController();
-  }
-
-  @override
-  void dispose() {
-    refreshController.dispose();
-    super.dispose();
+    refreshController = widget.refreshController;
   }
 
   @override

@@ -98,6 +98,16 @@ class GetRequest extends NetworkService {
     return bookInfo.book;
   }
 
+  Future<Record> getRecord({required int id}) async {
+    var path = 'record/$id';
+
+    var books = await getRequestHandler(
+      path,
+    );
+    var record = Record.fromJson(books.data['data']);
+    return record;
+  }
+
   Future<List<Record>> getPostedRecords({Pagination? pagination}) async {
     var path = 'record/posted';
 
@@ -121,18 +131,20 @@ class GetRequest extends NetworkService {
     if (pagination?.book != null) {
       path = 'book/${pagination!.book}';
     }
+
+    pagination ??= Pagination(size: 8);
     var books = await getRequestHandler(
       path,
       queryPatameters: {
-        'page': pagination?.page,
-        'size': pagination?.size,
-        'search': pagination?.search,
+        'page': pagination.page,
+        'size': pagination.size,
+        'search': pagination.search,
         'type': 'no-book', // Two kinds, NO-BOOK AND ALL
       },
     );
     var bookInfo = RecordInfo.fromJson(books.data['data']);
-    pagination?.total = bookInfo.total;
-    pagination?.page += 1;
+    pagination.total = bookInfo.total;
+    pagination.page += 1;
     return bookInfo.book;
   }
 

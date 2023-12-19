@@ -1,6 +1,9 @@
-import 'package:pdfx/pdfx.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
+part 'view_id.dart';
 
 class RecordScreen extends ConsumerStatefulWidget {
   static const path = "record";
@@ -21,7 +24,7 @@ class RecordController extends ConsumerState<RecordScreen> {
   late TextEditingController book;
   int? bookId;
   ValueNotifier<UserData?> user = ValueNotifier(null);
-  late PdfController pdfController;
+  // late PdfController pdfController;
 
   void createRecord() {
     CreateRecord record = CreateRecord(
@@ -41,10 +44,20 @@ class RecordController extends ConsumerState<RecordScreen> {
       editDetails: details.text,
     );
     late Future<String> Function({required CreateRecord record}) sendRequest;
-    if ([DetailType.view].contains(widget.info.type)) {
+    if ([
+      DetailType.view,
+    ].contains(widget.info.type)) {
       sendRequest = PostRequest.instance.updateRecord;
-    } else if ([DetailType.create].contains(widget.info.type)) {
+    } else if ([
+      DetailType.create,
+      DetailType.add,
+    ].contains(widget.info.type)) {
       sendRequest = PostRequest.instance.createRecord;
+    } else if ([
+      DetailType.unconfirmed,
+      DetailType.posted,
+    ].contains(widget.info.type)) {
+      sendRequest = PostRequest.instance.confirmRecord;
     }
     buttonState.value = ButtonState(
       isLoading: true,
@@ -60,11 +73,18 @@ class RecordController extends ConsumerState<RecordScreen> {
       ShowFlushBar.showSuccess(
         message: data,
         perform: () {
-          if ([DetailType.create].contains(widget.info.type)) {
+          if ([
+            DetailType.create,
+          ].contains(widget.info.type)) {
             context.goNamed(HomeScreen.name);
-          } else if ([DetailType.view].contains(widget.info.type)) {
+          } else if ([
+            DetailType.view,
+          ].contains(widget.info.type)) {
             context.pop(record);
-          } else if ([DetailType.add].contains(widget.info.type)) {
+          } else if ([
+            DetailType.add,
+            DetailType.unconfirmed,
+          ].contains(widget.info.type)) {
             context.pop(record);
             context.pop(record);
           }
@@ -333,15 +353,17 @@ class RecordController extends ConsumerState<RecordScreen> {
         confirmSend();
       });
     if (widget.info.record.file.endsWith('pdf')) {
-      pdfController = PdfController(
-        document: PdfDocument.openFile(widget.info.record.file),
-      );
+      // pdfController = PdfController(
+      //   document: PdfDocument.openFile(widget.info.record.file),
+      // );
     }
     if (widget.info.type == DetailType.create) {
       book.text = 'My dashboard';
     } else if (widget.info.type == DetailType.view) {
       if (widget.info.record.book != null) {
         book.text = widget.info.record.book!.bookName;
+      } else {
+        book.text = 'My dashboard';
       }
     }
     details = TextEditingController(text: widget.info.record.details)

@@ -178,7 +178,10 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                               )
                             : Column(
                                 children: data
-                                    .map((e) => RecordCard(record: e))
+                                    .map((e) => RecordCard(
+                                          record: e,
+                                          detailType: DetailType.view,
+                                        ))
                                     .toList(),
                               ),
                         error: (error, trace) => ErrorScreen(

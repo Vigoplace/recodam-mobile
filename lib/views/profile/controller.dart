@@ -1,3 +1,4 @@
+import 'package:recordam/extension/context_extension.dart';
 import 'package:recordam/utils/utils.dart';
 import 'package:recordam/views/profile/widget.dart';
 part 'view.dart';
@@ -94,27 +95,101 @@ class ProfileController extends ConsumerState<ProfileScreen> {
     Navigator.of(context, rootNavigator: true).pop();
     final ImagePicker picker = ImagePicker();
     var xFile = await picker.pickImage(source: source);
-    final sendingNotifier = ref.read(sendingProvider.notifier);
     if (xFile != null) {
-      final profileNotifier = ref.read(profilePhotoProvider.notifier);
-      sendingNotifier.state = true;
-      PostRequest.instance.uploadPhoto(file: File(xFile.path)).then(
-        (file) {
-          sendingNotifier.state = false;
-          LocalStorage.instance
-              .setProfilePhoto(file)
-              .then((value) => profileNotifier.state = value);
-          ShowFlushBar.showSuccess(
-            message: 'Successfully uploaded',
-          );
-        },
-      ).catchError(
-        (onError) {
-          sendingNotifier.state = false;
-          listenError(error: onError);
-        },
-      );
+      var confirm = await confirmUpload();
+      if (confirm == true) {
+        uploadImage(File(xFile.path));
+      }
     }
+  }
+
+  Future<bool?> confirmUpload() async {
+    return showDialog<bool?>(
+      context: context,
+      builder: (context) => Dialog(
+        insetPadding: [20, 0, 20, 0].pad,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        surfaceTintColor: AppColor.white,
+        child: Padding(
+          padding: [16, 21].pad,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Upload picture",
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              25.verticalSpace,
+              Text(
+                "This will be your new profile picture. Other people can see it.",
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: AppColor.light100,
+                ),
+              ),
+              40.verticalSpace,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () => context.popTo(),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.grey20,
+                      ),
+                    ),
+                  ),
+                  40.horizontalSpace,
+                  GestureDetector(
+                    onTap: () => context.popTo(true),
+                    child: Text(
+                      "Upload",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.red60,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void uploadImage(File file) {
+    final sendingNotifier = ref.read(sendingProvider.notifier);
+    final profileNotifier = ref.read(profilePhotoProvider.notifier);
+    sendingNotifier.state = true;
+    PostRequest.instance.uploadPhoto(file: file).then(
+      (file) {
+        sendingNotifier.state = false;
+        LocalStorage.instance
+            .setProfilePhoto(file)
+            .then((value) => profileNotifier.state = value);
+        ShowFlushBar.showSuccess(
+          message: 'Successfully uploaded',
+        );
+      },
+    ).catchError(
+      (onError) {
+        sendingNotifier.state = false;
+        listenError(error: onError);
+      },
+    );
   }
 
   void changeName() async {

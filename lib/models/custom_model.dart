@@ -103,17 +103,19 @@ class CreateRecordModel {
   String? name;
   int? id;
   DetailType? type;
+  RecordType? recordType;
   CreateRecordModel({
     required this.name,
     required this.id,
     this.type,
+    this.recordType,
   });
 }
 
 class CreateBook {
   String name;
   String description;
-  int openingBalance;
+  int? openingBalance;
   String type;
   String access;
   String symbol;
@@ -194,8 +196,8 @@ class Book {
   String name;
   num sum;
   String description;
-  int openingBalance;
-  String type;
+  int? openingBalance;
+  RecordType type;
   String access;
   String symbol;
   int userId;
@@ -226,7 +228,7 @@ class Book {
       name: data['name'],
       description: data['description'],
       openingBalance: data['opening_balance'],
-      type: data['type'],
+      type: '${data['type']}'.toRecordType(),
       access: data['access'],
       userId: data['user_id'],
       symbol: data['symbol'],
@@ -401,18 +403,22 @@ class RecordOwner {
   int id;
   String name;
   String email;
+  bool myRecord;
 
   RecordOwner({
     required this.id,
     required this.name,
     required this.email,
+    required this.myRecord,
   });
 
   factory RecordOwner.fromJson(Map<String, dynamic> json) {
+    int myId = LocalStorage.instance.getId();
     return RecordOwner(
       id: json['id'],
       name: json['name'],
       email: json['email'],
+      myRecord: myId == json['id'],
     );
   }
 }
@@ -432,8 +438,6 @@ class Record {
   String symbol;
   RecordOwner? owner;
   RecordBook? book;
-  bool myRecord;
-  bool? receiverConfirmed;
 
   Record({
     required this.id,
@@ -449,13 +453,10 @@ class Record {
     required this.symbol,
     this.book,
     this.viewed,
-    required this.myRecord,
     required this.owner,
-    this.receiverConfirmed,
   });
 
   factory Record.fromJson(Map<String, dynamic> data) {
-    int myId = LocalStorage.instance.getId();
     return Record(
       id: data['id'] as int,
       date: DateTime.parse(data['date']),
@@ -470,9 +471,7 @@ class Record {
       file: data['file'],
       owner: RecordOwner.fromJson(data['owner']),
       symbol: data['symbol'],
-      receiverConfirmed: data['receiver_confirmed'],
       book: data['book'] != null ? RecordBook.fromJson(data['book']) : null,
-      myRecord: myId == data['owner_id'] ? true : false,
     );
   }
 }
@@ -537,8 +536,9 @@ class NotificationMessage {
   int receiverId;
   int recordId;
   int? bookId; // Make it nullable if it can be null
-  String createdAt;
-  String updatedAt;
+  String? profilePhoto;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   NotificationMessage({
     required this.id,
@@ -549,6 +549,7 @@ class NotificationMessage {
     required this.recordId,
     required this.bookId,
     required this.createdAt,
+    required this.profilePhoto,
     required this.updatedAt,
   });
 
@@ -559,10 +560,11 @@ class NotificationMessage {
       message: json['message'],
       senderId: json['sender_id'],
       receiverId: json['receiver_id'],
+      profilePhoto: json['profile_photo'],
       recordId: json['record_id'],
       bookId: json['book_id'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
+      createdAt: DateTime.parse(json['created_at']),
+      updatedAt: DateTime.parse(json['updated_at']),
     );
   }
 }

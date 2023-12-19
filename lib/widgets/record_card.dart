@@ -1,12 +1,15 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:recordam/extension/context_extension.dart';
 import 'package:recordam/utils/utils.dart';
 
 class RecordCard extends ConsumerWidget {
   final Record record;
+  final DetailType detailType;
   final RefreshController? refreshController;
   const RecordCard({
     super.key,
     required this.record,
+    required this.detailType,
     this.refreshController,
   });
 
@@ -14,14 +17,12 @@ class RecordCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () async {
-        PostRequest.instance
-            .updateRecordView(bookId: record.id)
-            .catchError((error) => '');
-        var rec = await context.pushNamed<CreateRecord?>(
-          RecordScreen.name,
-          extra: ViewRecordInfo(
-            record: record,
-            type: DetailType.view,
+        var rec = await context.pushTo(
+          RecordScreen(
+            info: ViewRecordInfo(
+              record: record,
+              type: detailType,
+            ),
           ),
         );
         if (rec != null && refreshController != null) {
@@ -46,7 +47,7 @@ class RecordCard extends ConsumerWidget {
               children: [
                 Builder(
                   builder: (context) {
-                    bool isSender = record.myRecord;
+                    bool isSender = record.owner?.myRecord == true;
                     return Text(
                       'From: ${isSender ? 'Me' : record.senderName}',
                       style: TextStyle(
@@ -80,7 +81,7 @@ class RecordCard extends ConsumerWidget {
               ),
             ),
             10.verticalSpace,
-            if (!record.myRecord)
+            if (record.owner?.myRecord == false)
               Builder(builder: (context) {
                 return Text(
                   'To: ${record.senderName}',

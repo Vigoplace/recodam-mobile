@@ -14,7 +14,6 @@ class AllBooksScreen extends ConsumerStatefulWidget {
 class AllBooksController extends ConsumerState<AllBooksScreen> {
   var pagination = Pagination(limit: 10);
   late TextEditingController search;
-  late FutureProvider<Map<DateTime, List<Book>>> allBooks;
   late RefreshController refreshController;
 
   final Map<DateTime, List<Book>> holder = {};
@@ -23,9 +22,6 @@ class AllBooksController extends ConsumerState<AllBooksScreen> {
   void initState() {
     super.initState();
     search = TextEditingController();
-    allBooks = FutureProvider((ref) => GetRequest.instance.getGroupedBooks(
-          pagination: pagination,
-        ));
     refreshController = RefreshController();
   }
 

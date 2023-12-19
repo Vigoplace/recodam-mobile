@@ -1,3 +1,4 @@
+import 'package:recordam/extension/context_extension.dart';
 import 'package:recordam/utils/utils.dart';
 
 class NotificationCard extends StatefulWidget {
@@ -27,19 +28,38 @@ class _NotificationCardState extends State<NotificationCard> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      // onTap: () {
-      //   PostRequest.instance
-      //       .updateBookView(bookId: widget.book.id)
-      //       .catchError((error) => '');
-      //   context.pushNamed(ViewBookScreen.name, extra: widget.book);
-      // },
+    isRead.value = widget.notification.isRead;
+
+    return InkWell(
+      overlayColor: MaterialStateColor.resolveWith(
+        (states) => Colors.transparent,
+      ),
+      onTap: () {
+        if (!widget.notification.isRead) {
+          PatchRequest.instance
+              .markAsRead(id: widget.notification.id)
+              .catchError((error) => '');
+          widget.notification.isRead = true;
+          isRead.value = true;
+        }
+        context.pushTo(ViewRecordById(recordId: widget.notification.recordId));
+      },
       child: SizedBox(
         height: 80.h,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(AppImages.image).animate().scale(),
+            (widget.notification.profilePhoto == null)
+                ? Image.asset(
+                    AppImages.image,
+                  )
+                : ImageLoader(
+                    width: 40,
+                    height: 40,
+                    image: widget.notification.profilePhoto!,
+                    boxShape: BoxShape.circle,
+                    boxFit: BoxFit.cover,
+                  ),
             10.horizontalSpace,
             Expanded(
               child: Text(
@@ -59,7 +79,7 @@ class _NotificationCardState extends State<NotificationCard> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  "Just now",
+                  widget.notification.createdAt.timeCalculator(),
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w700,

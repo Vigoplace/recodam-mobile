@@ -60,7 +60,10 @@ class PostedRecordsView
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       var record = data[index];
-                      return RecordCard(record: record);
+                      return RecordCard(
+                        record: record,
+                        detailType: DetailType.posted,
+                      );
                     },
                   ),
           );

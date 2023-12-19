@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
-import 'package:pdfx/pdfx.dart';
+import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
@@ -41,7 +43,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
   bool submitted = false;
   var formKey = GlobalKey<FormState>();
   DateTime dateTime = DateTime.now();
-  late PdfController pdfController;
+  // late PdfController pdfController;
 
   void createRecord() async {
     if (file.value == null) {
@@ -58,7 +60,6 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
               record: Record(
                 id: 0,
                 date: dateTime,
-                myRecord: true,
                 symbol: currency.value.symbol,
                 senderName: senderName.text,
                 amount: num.tryParse(amount.text) ?? 0,
@@ -93,12 +94,11 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
     );
 
     if (result != null) {
-      file.value = File(result.files.single.path!);
-      if (file.value!.path.endsWith('pdf')) {
-        pdfController = PdfController(
-          document: PdfDocument.openFile(file.value!.path),
-        );
+      if (result.files.single.size > 115000) {
+        ShowFlushBar.showError('File is too large');
+        return;
       }
+      file.value = File(result.files.single.path!);
     }
   }
 
@@ -312,6 +312,9 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
     if (widget.create.media.isNotEmpty &&
         widget.create.media.first.value != null) {
       file.value = File(widget.create.media.first.value!);
+    }
+    if (widget.create.bookId?.recordType != null) {
+      recordType = widget.create.bookId?.recordType ?? recordType;
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(shareIntentProvider.notifier).state.clear();

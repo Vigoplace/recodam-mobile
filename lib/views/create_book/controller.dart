@@ -19,7 +19,7 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
   late TextEditingController bookName;
   late TextEditingController description;
   late TextEditingController balance;
-  var recordType = RecordType.debit;
+  var recordType = ValueNotifier(RecordType.debit);
   var access = ValueNotifier(ManageAcess.public);
   bool submitted = false;
   var key = GlobalKey<FormState>();
@@ -38,8 +38,8 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
       CreateBook book = CreateBook(
         name: bookName.text,
         description: description.text,
-        openingBalance: int.parse(balance.text),
-        type: recordType.name,
+        openingBalance: int.tryParse(balance.text),
+        type: recordType.value.name,
         access: access.value.name,
         symbol: currency.value.symbol,
       );
@@ -48,9 +48,7 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
         ref.invalidate(homeBookProvider);
         ShowFlushBar.showSuccess(
           message: value,
-          perform: () {
-            context.pop();
-          },
+          perform: () => context.pop(),
         );
       }).catchError(
         (error) {

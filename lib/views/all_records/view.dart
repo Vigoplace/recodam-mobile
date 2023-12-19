@@ -6,101 +6,50 @@ class AllRecordsView
 
   @override
   Widget build(BuildContext context) {
-    var records = controller.ref.watch(controller.allRecords);
     return Scaffold(
       backgroundColor: AppColor.grey,
-      appBar: const CustomAppbar(
-        title: 'All records',
-      ),
-      body: records.when(
-        data: (data) {
-          controller.holder.addAll(data);
-          return controller.holder.keys.toList().isNotEmpty
-              ? SmartRefresher(
-                  controller: controller.refreshController,
-                  enablePullUp: true,
-                  onLoading: () async {
-                    if (controller.holder.values
-                            .expand((innerList) => innerList)
-                            .length !=
-                        controller.pagination.total) {
-                      try {
-                        var a = await GetRequest.instance.getGroupedRecords(
-                          pagination: controller.pagination,
-                        );
-                        controller.holder.addAll(a);
-                        controller.refreshController.loadComplete();
-                        controller.reload();
-                      } catch (_) {
-                        controller.refreshController.refreshFailed();
-                      }
-                    } else {
-                      controller.refreshController.loadNoData();
-                      return;
-                    }
-                  },
-                  onRefresh: () async {
-                    controller.holder.clear();
-                    controller.pagination.lastDate = null;
-                    try {
-                      var a = await GetRequest.instance.getGroupedRecords(
-                        pagination: controller.pagination,
-                      );
-                      controller.holder.addAll(a);
-                      controller.reload();
-                      controller.refreshController
-                          .refreshCompleted(resetFooterState: true);
-                    } catch (_) {
-                      controller.refreshController.refreshFailed();
-                    }
-                  },
-                  child: ListView.builder(
-                    padding: [0, 20, 0, 0].pad,
-                    itemCount: controller.holder.keys.length,
-                    itemBuilder: (context, index) {
-                      var x = (controller.holder.keys.toList()[index]);
-                      var record = controller.holder[x]!;
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              10.verticalSpace,
-                              Padding(
-                                padding: EdgeInsets.only(left: 20.w),
-                                child: Text(
-                                  x.formattedDate(),
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColor.grey100,
-                                  ),
-                                ),
-                              ),
-                              20.verticalSpace,
-                            ],
-                          ),
-                          Column(
-                            children: record
-                                .map((e) => RecordCard(record: e))
-                                .toList(),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                )
-              : const EmptyWidget(
-                  text: 'Nothing to see here',
-                );
+      body: NestedScrollView(
+        headerSliverBuilder: (context, isHead) {
+          return [
+            SliverAppBar(
+              backgroundColor: AppColor.white,
+              leading: RoundIconButton(
+                icon: AppSvg.directionRight,
+                onTap: () => context.pop(),
+                paddingLeft: 16,
+              ),
+              centerTitle: true,
+              leadingWidth: 80.w,
+              title: Text(
+                'All records',
+                style: TextStyle(
+                  color: AppColor.grey100,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18.sp,
+                ),
+              ),
+            ),
+          ];
         },
-        error: (error, trace) => ErrorScreen(
-          error: error,
-          trace: trace,
-          reload: () => controller.ref.invalidate(controller.allRecords),
+        body: Column(
+          children: [
+            50.verticalSpace,
+            Padding(
+              padding: [15].pad,
+              child: CustomTextInput(
+                controller: controller.search,
+                hintText: 'Seach for records',
+              ),
+            ),
+            Expanded(
+              child: Records(
+                pagination: controller.pagination,
+                searchWord: controller.search,
+                recordSearchType: RecordSearchType.noBook,
+              ),
+            ),
+          ],
         ),
-        loading: () => const CustomLoader(),
       ),
     );
   }

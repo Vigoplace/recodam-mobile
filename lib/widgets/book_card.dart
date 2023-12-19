@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get_time_ago/get_time_ago.dart';
+import 'package:recordam/extension/context_extension.dart';
 import 'package:recordam/utils/utils.dart';
 
 class BookCard extends StatefulWidget {
@@ -36,12 +37,11 @@ class _BookCardState extends State<BookCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        PostRequest.instance
-            .updateBookView(bookId: widget.book.id)
-            .catchError((error) => '');
-        context.pushNamed(ViewBookScreen.name, extra: widget.book);
-      },
+      onTap: () => context.pushTo(
+        ViewBookScreen(
+          book: widget.book,
+        ),
+      ),
       child: Container(
         padding: [0, 0, 0, 1.5].pad,
         decoration: BoxDecoration(
@@ -81,24 +81,6 @@ class _BookCardState extends State<BookCard> {
               Row(
                 children: [
                   SvgPicture.asset(
-                    AppSvg.rect,
-                  ),
-                  16.horizontalSpace,
-                  Text(
-                    '${widget.book.symbol}${widget.book.openingBalance}',
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      color: AppColor.grey100,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14.sp,
-                    ),
-                  )
-                ],
-              ),
-              16.verticalSpace,
-              Row(
-                children: [
-                  SvgPicture.asset(
                     AppSvg.clock,
                   ),
                   16.horizontalSpace,
@@ -116,6 +98,27 @@ class _BookCardState extends State<BookCard> {
                       }),
                 ],
               ),
+              if (widget.book.type == RecordType.debit &&
+                  widget.book.openingBalance != null) ...[
+                16.verticalSpace,
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      AppSvg.rect,
+                    ),
+                    16.horizontalSpace,
+                    Text(
+                      '${widget.book.symbol}${widget.book.openingBalance}',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        color: AppColor.grey100,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14.sp,
+                      ),
+                    )
+                  ],
+                ),
+              ],
               const Spacer(),
               Row(
                 children: [
@@ -133,10 +136,12 @@ class _BookCardState extends State<BookCard> {
                   ),
                   const Spacer(),
                   Text(
-                    '${widget.book.symbol}${widget.book.sum}',
+                    '${widget.book.type == RecordType.debit ? '-' : ''}${widget.book.symbol}${widget.book.sum}',
                     style: TextStyle(
                       fontFamily: 'Roboto',
-                      color: AppColor.grey100,
+                      color: widget.book.type == RecordType.debit
+                          ? AppColor.red60
+                          : AppColor.grey100,
                       fontWeight: FontWeight.w400,
                       fontSize: 12.sp,
                     ),
@@ -195,15 +200,18 @@ class _HorizBookCardState extends State<HorizBookCard> {
       child: GestureDetector(
         onTap: () {
           if (widget.onTap == null) {
-            PostRequest.instance
-                .updateBookView(bookId: widget.book.id)
-                .catchError((error) => '');
-            context.pushNamed(ViewBookScreen.name, extra: widget.book);
+            context.pushTo(
+              ViewBookScreen(
+                book: widget.book,
+              ),
+            );
           } else {
             widget.onTap!(widget.book);
           }
         },
         child: Card(
+          color: AppColor.white,
+          surfaceTintColor: AppColor.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.r),
           ),
@@ -222,24 +230,27 @@ class _HorizBookCardState extends State<HorizBookCard> {
                   ),
                 ),
                 21.verticalSpace,
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      AppSvg.rect,
-                    ),
-                    16.horizontalSpace,
-                    Text(
-                      '${widget.book.symbol}${widget.book.openingBalance}',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        color: AppColor.grey100,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14.sp,
+                if (widget.book.type == RecordType.debit &&
+                    widget.book.openingBalance != null) ...[
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        AppSvg.rect,
                       ),
-                    )
-                  ],
-                ),
-                16.verticalSpace,
+                      16.horizontalSpace,
+                      Text(
+                        '${widget.book.symbol}${widget.book.openingBalance}',
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                        ),
+                      )
+                    ],
+                  ),
+                  16.verticalSpace,
+                ],
                 Row(
                   children: [
                     SvgPicture.asset(
@@ -263,19 +274,35 @@ class _HorizBookCardState extends State<HorizBookCard> {
                 ),
                 const Spacer(),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SvgPicture.asset(
-                      AppSvg.card,
-                    ).animate().scale(),
-                    6.horizontalSpace,
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          AppSvg.card,
+                        ).animate().scale(),
+                        6.horizontalSpace,
+                        Text(
+                          '${widget.book.totalRecords}',
+                          style: TextStyle(
+                            color: AppColor.grey100,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12.sp,
+                          ),
+                        )
+                      ],
+                    ),
                     Text(
-                      '${widget.book.totalRecords}',
+                      '${widget.book.type == RecordType.debit ? '-' : ''}${widget.book.symbol}${widget.book.sum}',
                       style: TextStyle(
-                        color: AppColor.grey100,
+                        fontFamily: 'Roboto',
+                        color: widget.book.type == RecordType.debit
+                            ? AppColor.red60
+                            : AppColor.grey100,
                         fontWeight: FontWeight.w400,
                         fontSize: 12.sp,
                       ),
-                    )
+                    ),
                   ],
                 )
               ],
@@ -304,10 +331,11 @@ class BookCardMini extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (onTap == null) {
-          PostRequest.instance
-              .updateBookView(bookId: book.id)
-              .catchError((error) => '');
-          context.pushNamed(ViewBookScreen.name, extra: book);
+          context.pushTo(
+            ViewBookScreen(
+              book: book,
+            ),
+          );
         } else {
           onTap!(book);
         }

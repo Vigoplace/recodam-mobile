@@ -46,51 +46,68 @@ class CreateBookView
               },
             ),
             32.verticalSpace,
-            CustomTextInput(
-              titleText: 'Opening balance',
-              textInputAction: TextInputAction.next,
-              controller: controller.balance,
-              keyboardType: TextInputType.number,
-              autovalidateMode: controller.submitted
-                  ? AutovalidateMode.onUserInteraction
-                  : AutovalidateMode.disabled,
-              prefix: InkWell(
-                onTap: controller.showCurrencyList,
-                overlayColor: MaterialStateColor.resolveWith(
-                  (states) => Colors.transparent,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    10.horizontalSpace,
-                    ValueListenableBuilder(
-                      valueListenable: controller.currency,
-                      builder: (context, value, _) {
-                        return Text(
-                          value.symbol,
-                          style: const TextStyle(
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 23,
+            ValueListenableBuilder(
+              valueListenable: controller.recordType,
+              builder: (context, recordType, _) {
+                return AnimatedContainer(
+                  duration: const Duration(seconds: 1),
+                  height: recordType == RecordType.debit ? null : 0,
+                  child: Column(
+                    children: [
+                      CustomTextInput(
+                        titleText: 'Opening balance',
+                        textInputAction: TextInputAction.next,
+                        controller: controller.balance,
+                        keyboardType: TextInputType.number,
+                        autovalidateMode: controller.submitted
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        prefix: InkWell(
+                          onTap: controller.showCurrencyList,
+                          overlayColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.transparent,
                           ),
-                        );
-                      },
-                    ),
-                    3.horizontalSpace,
-                    const SvgButton(
-                      icon: AppSvg.chevronDown,
-                    ),
-                  ],
-                ),
-              ),
-              validator: (p0) {
-                if (p0 == null || p0.isEmpty || double.tryParse(p0) == null) {
-                  return 'Please, enter a valid opening balance';
-                }
-                return null;
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              10.horizontalSpace,
+                              ValueListenableBuilder(
+                                valueListenable: controller.currency,
+                                builder: (context, value, _) {
+                                  return Text(
+                                    value.symbol,
+                                    style: const TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 23,
+                                    ),
+                                  );
+                                },
+                              ),
+                              3.horizontalSpace,
+                              const SvgButton(
+                                icon: AppSvg.chevronDown,
+                              ),
+                            ],
+                          ),
+                        ),
+                        validator: (p0) {
+                          if (controller.recordType.value == RecordType.debit) {
+                            if (p0 == null ||
+                                p0.isEmpty ||
+                                double.tryParse(p0) == null) {
+                              return 'Please, enter a valid opening balance';
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                      32.verticalSpace,
+                    ],
+                  ),
+                );
               },
             ),
-            32.verticalSpace,
             Text(
               'Type of record',
               style: TextStyle(
@@ -101,20 +118,18 @@ class CreateBookView
             ),
             16.verticalSpace,
             GroupedSelection<RecordType>(
-              initialIndex: controller.recordType,
+              initialIndex: controller.recordType.value,
               content: const [
                 'Debit',
                 'Credit',
-                'Both',
                 'List',
               ],
               type: const [
                 RecordType.debit,
                 RecordType.credit,
-                RecordType.both,
                 RecordType.list,
               ],
-              onTap: (position) => controller.recordType = position,
+              onTap: (position) => controller.recordType.value = position,
             ),
             52.verticalSpace,
             Text(

@@ -60,8 +60,10 @@ class UnConfirmedRecordsView extends StatelessView<UnConfirmedRecordsScreen,
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       var record = data[index];
-
-                      return RecordCard(record: record);
+                      return RecordCard(
+                        record: record,
+                        detailType: DetailType.unconfirmed,
+                      );
                     },
                   ),
           );

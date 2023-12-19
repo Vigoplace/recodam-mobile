@@ -1,3 +1,4 @@
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:recordam/widgets/notifications.dart';
 import '../utils/utils.dart';
 
@@ -13,10 +14,12 @@ class CustomBottomNavbar extends ConsumerStatefulWidget {
 class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
+  late RefreshController refreshController;
 
   @override
   void initState() {
     super.initState();
+    refreshController = RefreshController();
     controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 100),
@@ -477,14 +480,26 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
                       color: AppColor.grey100,
                     ),
                   ),
-                  Text(
-                    "Mark all as read",
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                      color: AppColor.red60,
+                  TextButton(
+                    onPressed: () {
+                      PostRequest.instance
+                          .markAllAsRead()
+                          .then((value) =>
+                              ShowFlushBar.showSuccess(message: value))
+                          .catchError((error) {
+                        listenError(error: error);
+                      });
+                      refreshController.requestRefresh();
+                    },
+                    child: Text(
+                      "Mark all as read",
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.red60,
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -492,8 +507,10 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
               color: AppColor.dark20,
               thickness: 1,
             ),
-            const Expanded(
-              child: Notifications(),
+            Expanded(
+              child: Notifications(
+                refreshController: refreshController,
+              ),
             ),
             40.verticalSpace,
           ],
@@ -505,6 +522,7 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
   @override
   void dispose() {
     controller.dispose();
+    refreshController.dispose();
     super.dispose();
   }
 

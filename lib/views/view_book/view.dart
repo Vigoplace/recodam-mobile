@@ -47,13 +47,15 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
       floatingActionButton: AppButton(
         text: 'Add record',
         onTap: () async {
-          var a = await context.pushNamed<CreateRecord?>(
-            CreateRecordScreen.name,
-            extra: Create(
-              bookId: CreateRecordModel(
-                id: widget.book.id,
-                name: widget.book.name,
-                type: DetailType.add,
+          var a = await context.pushTo<CreateRecord?>(
+            CreateRecordScreen(
+              create: Create(
+                bookId: CreateRecordModel(
+                  id: widget.book.id,
+                  name: widget.book.name,
+                  type: DetailType.add,
+                  recordType: widget.book.type,
+                ),
               ),
             ),
           );

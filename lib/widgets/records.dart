@@ -139,6 +139,7 @@ class _BooksState extends ConsumerState<Records> {
                         var book = list[index];
                         return RecordCard(
                           record: book,
+                          detailType: DetailType.view,
                           refreshController: refreshController,
                         );
                       },

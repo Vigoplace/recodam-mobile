@@ -14,18 +14,12 @@ class AllRecordsScreen extends ConsumerStatefulWidget {
 class AllRecordsController extends ConsumerState<AllRecordsScreen> {
   var pagination = Pagination(limit: 10);
   late TextEditingController search;
-  late FutureProvider<Map<DateTime, List<Record>>> allRecords;
   late RefreshController refreshController;
-
-  final Map<DateTime, List<Record>> holder = {};
 
   @override
   void initState() {
     super.initState();
     search = TextEditingController();
-    allRecords = FutureProvider((ref) => GetRequest.instance.getGroupedRecords(
-          pagination: pagination,
-        ));
     refreshController = RefreshController();
   }
 

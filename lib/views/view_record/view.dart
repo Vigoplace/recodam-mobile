@@ -32,16 +32,25 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                   Positioned.fill(
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.r),
-                        child: widget.info.type == DetailType.view
+                        child: (widget.info.type == DetailType.view ||
+                                widget.info.type == DetailType.unconfirmed ||
+                                widget.info.type == DetailType.posted)
                             ? ImageLoader(
                                 image: widget.info.record.file,
                                 boxFit: BoxFit.cover,
                               )
                             : switch (widget.info.record.file.endsWith('pdf')) {
                                 true => Center(
-                                    child: PdfView(
-                                      controller: controller.pdfController,
-                                    ),
+                                    child: Builder(builder: (context) {
+                                      return PdfView(
+                                        path: widget.info.record.file,
+                                        gestureRecognizers: {
+                                          Factory(
+                                            () => EagerGestureRecognizer(),
+                                          ),
+                                        },
+                                      );
+                                    }),
                                   ),
                                 _ => Image.file(File(widget.info.record.file))
                               }),
@@ -57,6 +66,7 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                             builder: (context) => ViewImage(
                               image: widget.info.record.file,
                               appBarText: 'Payment proof',
+                              detailType: widget.info.type,
                             ),
                           ),
                         ),
@@ -132,7 +142,7 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                               color: AppColor.grey1,
                               borderRadius: BorderRadius.circular(100.r)),
                           alignment: Alignment.centerLeft,
-                          padding: [8, 10].pad,
+                          padding: [15, 18].pad,
                           child: Text(
                             '$accountName $bankName $accountNumber',
                             style: TextStyle(
@@ -216,10 +226,10 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                     width: 100.w,
                     enable: state.send,
                     text: switch (widget.info.type) {
-                      DetailType.add => 'Update',
+                      DetailType.add => 'Add to book',
                       DetailType.create => 'Save',
                       DetailType.posted => 'Update',
-                      DetailType.unconfirmed => 'Update',
+                      DetailType.unconfirmed => 'Confirm',
                       DetailType.view => 'Update',
                     },
                     onTap: controller.createRecord,

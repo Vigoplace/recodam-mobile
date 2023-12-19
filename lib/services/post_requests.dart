@@ -152,6 +152,21 @@ class PostRequest extends NetworkService {
     return user.data['message'];
   }
 
+  Future<String> confirmRecord({
+    required CreateRecord record,
+  }) async {
+    var path = 'record/confirm';
+    var data = {
+      'record_id': record.id,
+      'book_id': record.newBookId,
+    };
+    var user = await postRequestHandler(
+      path,
+      data: data,
+    );
+    return user.data['message'];
+  }
+
   Future<String> updateProfile({
     String? name,
   }) async {
@@ -163,23 +178,29 @@ class PostRequest extends NetworkService {
     return user.data['message'];
   }
 
-  Future<String> updateBookView({required int bookId}) async {
-    var path = 'book/view';
-    var user = await postRequestHandler(
-      path,
-      data: {'id': bookId},
-    );
+  // Future<String> updateBookView({required int bookId}) async {
+  //   var path = 'book/view';
+  //   var user = await postRequestHandler(
+  //     path,
+  //     data: {'id': bookId},
+  //   );
+  //   return user.data['message'];
+  // }
+
+  Future<String> markAllAsRead() async {
+    var path = 'notification/mark-all-as-read';
+    var user = await postRequestHandler(path);
     return user.data['message'];
   }
 
-  Future<String> updateRecordView({required int bookId}) async {
-    var path = 'record/view';
-    var user = await postRequestHandler(
-      path,
-      data: {'id': bookId},
-    );
-    return user.data['message'];
-  }
+  // Future<String> updateRecordView({required int bookId}) async {
+  //   var path = 'record/view';
+  //   var user = await postRequestHandler(
+  //     path,
+  //     data: {'id': bookId},
+  //   );
+  //   return user.data['message'];
+  // }
 
   Future<String> uploadPhoto({required File file}) async {
     var path = 'misc/upload';

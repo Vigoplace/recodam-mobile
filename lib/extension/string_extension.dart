@@ -12,4 +12,14 @@ extension NumberSplitter on String {
     }
     return NotificationType.none;
   }
+
+  RecordType toRecordType() {
+    switch (this) {
+      case 'credit':
+        return RecordType.credit;
+      case 'debit':
+        return RecordType.debit;
+    }
+    return RecordType.list;
+  }
 }
