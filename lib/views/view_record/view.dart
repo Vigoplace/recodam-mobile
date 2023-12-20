@@ -10,9 +10,9 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
         centerTitle: false,
         title: switch (widget.info.type) {
           DetailType.add => null,
-          DetailType.create => 'Create Record',
-          DetailType.posted => 'Confirm Record',
-          DetailType.unconfirmed => null,
+          DetailType.create => 'Create record',
+          DetailType.posted => 'Posted record',
+          DetailType.unconfirmed => 'Unconfirmed Record',
           DetailType.view => null,
         },
       ),
@@ -165,79 +165,81 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
             ),
           ],
           32.verticalSpace,
-          ValueListenableBuilder(
-            valueListenable: controller.user,
-            builder: (context, user, _) {
-              return user != null
-                  ? Align(
-                      alignment: Alignment.center,
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              10.horizontalSpace,
-                              Expanded(
-                                child: Text(
-                                  'Post this record to ${user.name}\'s ${controller.bookId == null ? 'Dashboard' : '${controller.book.text} book'}',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
+          if (![DetailType.posted].contains(widget.info.type)) ...[
+            ValueListenableBuilder(
+              valueListenable: controller.user,
+              builder: (context, user, _) {
+                return user != null
+                    ? Align(
+                        alignment: Alignment.center,
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                10.horizontalSpace,
+                                Expanded(
+                                  child: Text(
+                                    'Post this record to ${user.name}\'s ${controller.bookId == null ? 'Dashboard' : '${controller.book.text} book'}',
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SvgButton(
-                                icon: AppSvg.remove,
-                                onTap: () => controller.user.value = null,
-                              ),
-                              10.horizontalSpace,
-                            ],
+                                SvgButton(
+                                  icon: AppSvg.remove,
+                                  onTap: () => controller.user.value = null,
+                                ),
+                                10.horizontalSpace,
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  : CustomTextInput(
-                      titleText: switch (widget.info.type) {
-                        DetailType.add => 'Update location',
-                        DetailType.create => 'Select location',
-                        DetailType.posted => 'Update location',
-                        DetailType.unconfirmed => 'Update location',
-                        DetailType.view => 'Update location',
-                      },
-                      suffixIcon: const SvgButton(
-                        icon: AppSvg.chevronDown,
-                      ),
-                      readOnly: true,
-                      controller: controller.book,
-                      onTap: controller.chooseBook,
-                    );
-            },
-          ),
-          30.verticalSpace,
-          Align(
-            alignment: Alignment.centerRight,
-            child: ValueListenableBuilder(
-              valueListenable: controller.buttonState,
-              builder: (context, state, _) {
-                return LoadingButton(
-                  isLoading: state.isLoading,
-                  width: 100.w,
-                  normal: AppButton(
-                    width: 100.w,
-                    enable: state.send,
-                    text: switch (widget.info.type) {
-                      DetailType.add => 'Add to book',
-                      DetailType.create => 'Save',
-                      DetailType.posted => 'Update',
-                      DetailType.unconfirmed => 'Confirm',
-                      DetailType.view => 'Update',
-                    },
-                    onTap: controller.createRecord,
-                  ),
-                );
+                      )
+                    : CustomTextInput(
+                        titleText: switch (widget.info.type) {
+                          DetailType.add => 'Update location',
+                          DetailType.create => 'Select location',
+                          DetailType.posted => 'Update location',
+                          DetailType.unconfirmed => 'Update location',
+                          DetailType.view => 'Update location',
+                        },
+                        suffixIcon: const SvgButton(
+                          icon: AppSvg.chevronDown,
+                        ),
+                        readOnly: true,
+                        controller: controller.book,
+                        onTap: controller.chooseBook,
+                      );
               },
             ),
-          ),
+            30.verticalSpace,
+            Align(
+              alignment: Alignment.centerRight,
+              child: ValueListenableBuilder(
+                valueListenable: controller.buttonState,
+                builder: (context, state, _) {
+                  return LoadingButton(
+                    isLoading: state.isLoading,
+                    width: 100.w,
+                    normal: AppButton(
+                      width: 100.w,
+                      enable: state.send,
+                      text: switch (widget.info.type) {
+                        DetailType.add => 'Add to book',
+                        DetailType.create => 'Save',
+                        DetailType.posted => 'Update',
+                        DetailType.unconfirmed => 'Confirm',
+                        DetailType.view => 'Update',
+                      },
+                      onTap: controller.createRecord,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
           if ([DetailType.posted].contains(widget.info.type)) ...[
             16.horizontalSpace,
             Text(

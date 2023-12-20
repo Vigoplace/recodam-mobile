@@ -12,4 +12,8 @@ enum DetailType {
   add, // Addding directly to a book
 }
 
-enum NotificationType { recordConfirmation, none }
+enum NotificationType {
+  recordConfirmation,
+  postedRecordConfirmation,
+  none,
+}

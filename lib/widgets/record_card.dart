@@ -71,9 +71,7 @@ class RecordCard extends ConsumerWidget {
             ),
             4.verticalSpace,
             Text(
-              (record.bankName == null || record.bankName!.isEmpty)
-                  ? 'Cash'
-                  : record.bankName!,
+              record.bankName ?? '',
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,

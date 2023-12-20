@@ -174,8 +174,10 @@ class GetRequest extends NetworkService {
 
   Future<String> logout() async {
     var path = 'auth/logout';
+    var messagingToken = await FirebaseMessaging.instance.getToken();
     var user = await getRequestHandler(
       path,
+      data: {'messaging_token': messagingToken},
     );
     await LocalStorage.instance.prefs.clear();
     return user.data['message'];

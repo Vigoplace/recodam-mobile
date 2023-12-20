@@ -9,6 +9,8 @@ extension NumberSplitter on String {
     switch (this) {
       case 'record_confirmation':
         return NotificationType.recordConfirmation;
+      case 'posted_record_confirmation':
+        return NotificationType.postedRecordConfirmation;
     }
     return NotificationType.none;
   }

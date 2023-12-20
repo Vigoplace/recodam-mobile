@@ -113,6 +113,8 @@ class PostRequest extends NetworkService {
       MapEntry('date', record.date.toIso8601String()),
       MapEntry('record_type', record.recordType),
       MapEntry('symbol', record.symbol),
+      if (record.receiverId != null)
+        MapEntry('owner_id', '${record.receiverId}'),
     ]);
     if (record.newBookId != null) {
       data.fields.add(MapEntry('book_id', '${record.newBookId}'));
@@ -141,7 +143,7 @@ class PostRequest extends NetworkService {
     var data = {
       'record_id': record.id,
       'book_id': record.newBookId,
-      'receiver_id': record.receiverId,
+      'receiver_id': record.receiverId ?? LocalStorage.instance.getId(),
       'details': record.details,
       'edit_details': record.editDetails,
     };

@@ -308,7 +308,7 @@ class RecordController extends ConsumerState<RecordScreen> {
         if (user.value == null) {
           buttonState.value = ButtonState(
             isLoading: buttonState.value.isLoading,
-            send: false,
+            send: true,
           );
           return;
         }
@@ -360,6 +360,12 @@ class RecordController extends ConsumerState<RecordScreen> {
     if (widget.info.type == DetailType.create) {
       book.text = 'My dashboard';
     } else if (widget.info.type == DetailType.view) {
+      if (widget.info.record.book != null) {
+        book.text = widget.info.record.book!.bookName;
+      } else {
+        book.text = 'My dashboard';
+      }
+    } else if (widget.info.type == DetailType.unconfirmed) {
       if (widget.info.record.book != null) {
         book.text = widget.info.record.book!.bookName;
       } else {
