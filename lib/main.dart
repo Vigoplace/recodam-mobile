@@ -9,9 +9,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  if (Platform.isIOS) {
-    await FirebaseMessaging.instance.requestPermission();
-  }
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -23,6 +21,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(393, 852),
       minTextAdapt: true,
+      useInheritedMediaQuery: true,
       // splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp.router(
@@ -58,6 +57,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           theme: ThemeData(
+            useMaterial3: false,
             fontFamily: 'Manrope',
             colorSchemeSeed: AppColor.red60,
             scaffoldBackgroundColor: AppColor.white,

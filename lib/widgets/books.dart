@@ -9,6 +9,7 @@ class Books extends ConsumerStatefulWidget {
   final void Function(Book)? onTap;
   final double? space;
   final int? id;
+  final int? filterBook;
   final double? topMargin;
   const Books({
     super.key,
@@ -19,6 +20,7 @@ class Books extends ConsumerStatefulWidget {
     this.space,
     this.topMargin,
     this.id,
+    this.filterBook,
   });
 
   @override
@@ -84,6 +86,14 @@ class _BooksState extends ConsumerState<Books> {
       data: (data) {
         if (!_loaded) {
           bookList.value = data.toList();
+        }
+
+        /// Do not include a particular book
+
+        if (widget.filterBook != null) {
+          bookList.value = bookList.value
+              .where((element) => element.id != widget.filterBook)
+              .toList();
         }
         _loaded = true;
         return ValueListenableBuilder(

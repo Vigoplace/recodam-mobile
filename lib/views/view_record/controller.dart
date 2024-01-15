@@ -280,6 +280,7 @@ class RecordController extends ConsumerState<RecordScreen> {
                 pagination: pagination,
                 space: 2,
                 mini: true,
+                filterBook: widget.info.record.book?.bookId,
                 topMargin: 0,
                 searchWord: search,
                 onTap: (p0) {
