@@ -92,7 +92,7 @@ class WebViewModel {
 
 class Create {
   final CreateRecordModel? bookId;
-  final List<SharedFile> media;
+  final List<SharedMediaFile> media;
   Create({
     this.bookId,
     this.media = const [],

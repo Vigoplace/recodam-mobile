@@ -6,8 +6,9 @@ class FileSharing {
 
   static void initialise(WidgetRef ref) {
     // For sharing images coming from outside the app while the app is in the memory
-    intentDataStreamSubscription = FlutterSharingIntent.instance.getMediaStream().listen(
-        (List<SharedFile> value) {
+    intentDataStreamSubscription = ReceiveSharingIntent.instance
+        .getMediaStream()
+        .listen((List<SharedMediaFile> value) {
       ref.read(shareIntentProvider.notifier).state = value;
       debugPrint('$value');
     }, onError: (err) {
@@ -15,7 +16,8 @@ class FileSharing {
     });
 
     // For sharing images coming from outside the app while the app is closed
-    FlutterSharingIntent.instance.getInitialSharing().then((List<SharedFile> value) {
+    ReceiveSharingIntent.instance.getInitialMedia().then(
+        (List<SharedMediaFile> value) {
       debugPrint('$value');
       if (value.isNotEmpty) {
         ref.read(shareIntentProvider.notifier).state = value;

@@ -309,9 +309,8 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
     details = TextEditingController();
     date = TextEditingController();
     date.text = DateFormat('EEE-dd-MMM-yyyy').format(dateTime);
-    if (widget.create.media.isNotEmpty &&
-        widget.create.media.first.value != null) {
-      file.value = File(widget.create.media.first.value!);
+    if (widget.create.media.isNotEmpty) {
+      file.value = File(widget.create.media.first.path);
     }
     if (widget.create.bookId?.recordType != null) {
       recordType = widget.create.bookId?.recordType ?? recordType;

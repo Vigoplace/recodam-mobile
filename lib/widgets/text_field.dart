@@ -103,6 +103,7 @@ class CustomTextInput extends StatelessWidget {
           onChanged: onChanged,
           onEditingComplete: onEditingComplete,
           onTap: onTap,
+          onTapOutside: (event) => FocusScope.of(context).unfocus(),
           autovalidateMode: autovalidateMode,
           onFieldSubmitted: onSubmitted,
           enabled: enabled,

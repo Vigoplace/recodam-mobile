@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'firebase_options.dart';
 import 'utils/utils.dart';
 
@@ -27,34 +26,28 @@ class MyApp extends StatelessWidget {
         return MaterialApp.router(
           title: 'Recodam',
           routerConfig: routes,
-          builder: (context, child) => KeyboardDismisser(
-            gestures: const [
-              GestureType.onTap,
-              GestureType.onVerticalDragDown,
+          builder: (context, child) => Column(
+            children: [
+              Consumer(
+                builder: (context, ref, _) {
+                  final sending = ref.watch(sendingProvider);
+                  return Visibility(
+                    visible: sending,
+                    child: LinearProgressIndicator(
+                      minHeight: 50.h,
+                      color: AppColor.red30,
+                      backgroundColor: AppColor.red60,
+                    ),
+                  );
+                },
+              ),
+              Expanded(
+                child: ScrollConfiguration(
+                  behavior: MyBehavior(),
+                  child: child!,
+                ),
+              ),
             ],
-            child: Column(
-              children: [
-                Consumer(
-                  builder: (context, ref, _) {
-                    final sending = ref.watch(sendingProvider);
-                    return Visibility(
-                      visible: sending,
-                      child: LinearProgressIndicator(
-                        minHeight: 50.h,
-                        color: AppColor.red30,
-                        backgroundColor: AppColor.red60,
-                      ),
-                    );
-                  },
-                ),
-                Expanded(
-                  child: ScrollConfiguration(
-                    behavior: MyBehavior(),
-                    child: child!,
-                  ),
-                ),
-              ],
-            ),
           ),
           theme: ThemeData(
             useMaterial3: false,

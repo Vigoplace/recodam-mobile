@@ -46,6 +46,7 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                   titleText: 'Enter pin*',
                   keyboardType: TextInputType.number,
                   hintText: '123456',
+                  textInputAction: TextInputAction.done,
                   obscureText: state,
                   suffixIcon: SvgButton(
                     icon: state ? AppSvg.eye : AppSvg.eyeOpen,

@@ -13,7 +13,6 @@ export 'package:flutter_animate/flutter_animate.dart';
 export 'package:text_scroll/text_scroll.dart';
 export 'package:dio/dio.dart';
 export 'package:image_picker/image_picker.dart';
-export 'package:flutter_sharing_intent/flutter_sharing_intent.dart';
-export 'package:flutter_sharing_intent/model/sharing_file.dart';
+export 'package:receive_sharing_intent/receive_sharing_intent.dart';
 export 'package:firebase_messaging/firebase_messaging.dart';
 export 'dart:io';
