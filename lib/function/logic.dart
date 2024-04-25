@@ -1,19 +1,29 @@
 import 'package:recordam/utils/utils.dart';
 
-void listenError({required Object error}) {
-  debugPrint('$error');
+String getError({required Object error}) {
   if (error is DioException) {
     if (error.response != null && error.response?.data is Map) {
       var err = CustomError.fromJson(error.response?.data);
-      ShowFlushBar.showError(err.message);
+      return err.message ?? 'Something went wrong';
     } else {
       if (error.type == DioExceptionType.connectionError) {
-        ShowFlushBar.showError('Check your internet connection');
+        return 'Check your internet connection';
+      } else if (error.type == DioExceptionType.connectionTimeout ||
+          error.type == DioExceptionType.sendTimeout ||
+          error.type == DioExceptionType.receiveTimeout) {
+        return 'Request took too long';
+      } else if (error.type == DioExceptionType.cancel) {
+        return 'Request was cancelled';
       } else {
-        ShowFlushBar.showError('Something went wrong');
+        return 'An unexpected error occurred.';
       }
     }
-  } else {
-    ShowFlushBar.showError('Something went wrong');
   }
+  return 'Something went wrong';
+}
+
+void listenError({required Object error}) {
+  debugPrint('$error');
+  var message = getError(error: error);
+  ShowFlushBar.showError(message);
 }

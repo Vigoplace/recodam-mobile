@@ -40,6 +40,22 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<!-- Sharing Begin -->
+	<key>AppGroupId</key>
+	<string>$(CUSTOM_GROUP_ID)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>ShareMedia</string>
+			</array>
+		</dict>
+		<dict/>
+	</array>
+	<!-- Sharing End -->
 	<key>NSCameraUsageDescription</key>
 	<string>Recodam requires your permission to access your camera so pictures or videos taken files can be selected as a media for the sole purpose of creating records</string>
 	<key>NSMicrophoneUsageDescription</key>

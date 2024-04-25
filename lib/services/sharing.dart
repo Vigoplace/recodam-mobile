@@ -21,6 +21,7 @@ class FileSharing {
       debugPrint('$value');
       if (value.isNotEmpty) {
         ref.read(shareIntentProvider.notifier).state = value;
+        ReceiveSharingIntent.instance.reset();
       }
     }, onError: (err) {
       debugPrint("getIntentDataStream error: $err");

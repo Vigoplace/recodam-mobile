@@ -117,7 +117,7 @@ class RecordsDetails {
 
 class CustomError {
   final bool status;
-  final String message;
+  final String? message;
 
   CustomError({
     required this.status,

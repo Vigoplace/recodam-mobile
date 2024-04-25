@@ -17,19 +17,20 @@ class FadeTransitionPage extends CustomTransitionPage {
         child: child,
       );
 }
+
 final GoRouter routes = GoRouter(
   initialLocation: OnboardingScreen.path,
   debugLogDiagnostics: true,
   redirect: (context, state) async {
-    // if (state.matchedLocation ==reco OnboardingScreen.path) {
-    //   if (LocalStorage.instance.getLoggedIn()) {
-    //     return HomeScreen.path;
-    //   } else if (LocalStorage.instance.getFirstTime()) {
-    //     return OnboardingScreen.path;
-    //   } else {
-    //     return LoginScreen.path;
-    //   }
-    // }
+    if (state.matchedLocation == OnboardingScreen.path) {
+      if (LocalStorage.instance.getLoggedIn()) {
+        return HomeScreen.path;
+      } else if (LocalStorage.instance.getFirstTime()) {
+        return OnboardingScreen.path;
+      } else {
+        return LoginScreen.path;
+      }
+    }
     return null;
   },
   routes: [
