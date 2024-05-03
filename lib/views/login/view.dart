@@ -82,7 +82,14 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                 ),
               ),
             ),
-            324.verticalSpace,
+          ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: [16].pad,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
             ValueListenableBuilder(
               valueListenable: controller.isLoading,
               builder: (context, state, _) {

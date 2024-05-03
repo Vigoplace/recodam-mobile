@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:recordam/utils/utils.dart';
 
 String getError({required Object error}) {
@@ -18,6 +19,8 @@ String getError({required Object error}) {
         return 'An unexpected error occurred.';
       }
     }
+  } else if (error is FirebaseException) {
+    return error.message ?? 'Something went wrong';
   }
   return 'Something went wrong';
 }
