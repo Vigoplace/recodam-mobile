@@ -63,4 +63,40 @@ class ShowFlushBar {
       perform();
     }
   }
+
+  static void showDialogError(String message) async {
+    showDialog(
+      context: routes.routerDelegate.navigatorKey.currentContext!,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+          child: Padding(
+            padding: [10].pad,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                20.verticalSpace,
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15.sp,
+                  ),
+                ),
+                10.verticalSpace,
+                AppButton(
+                  text: 'Close',
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+                20.verticalSpace,
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 }

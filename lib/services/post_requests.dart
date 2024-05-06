@@ -32,7 +32,9 @@ class PostRequest extends NetworkService {
       data: payload,
       cancelToken: cancelToken,
     );
-    return UserModel.fromJson(user.data);
+    UserModel userModel = UserModel.fromJson(user.data);
+    await LocalStorage.instance.saveUserInfo(userModel.data);
+    return userModel;
   }
 
   Future<String> updatePin({

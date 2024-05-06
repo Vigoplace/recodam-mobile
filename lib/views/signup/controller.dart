@@ -35,7 +35,7 @@ class SignupController extends ConsumerState<SignupScreen> {
 
   void create() async {
     if (!acceptedTerms.value) {
-      ShowFlushBar.showError('You need to accept our policy');
+      ShowFlushBar.showDialogError('You need to accept our policy');
       return;
     }
     submitted = true;

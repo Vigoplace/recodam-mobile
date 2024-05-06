@@ -28,5 +28,5 @@ String getError({required Object error}) {
 void listenError({required Object error}) {
   debugPrint('$error');
   var message = getError(error: error);
-  ShowFlushBar.showError(message);
+  ShowFlushBar.showDialogError(message);
 }

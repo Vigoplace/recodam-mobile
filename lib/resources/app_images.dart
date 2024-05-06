@@ -3,6 +3,7 @@ part of 'resources.dart';
 class AppImages {
   AppImages._();
 
+  static const String error = 'assets/images/error.png';
   static const String iconLogo = 'assets/images/icon_logo.png';
   static const String image = 'assets/images/image.png';
   static const String network = 'assets/images/network.png';

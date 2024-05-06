@@ -110,7 +110,7 @@ class _AppButtonState extends State<AppButton> {
           ),
         ],
       ),
-    ).animate().scale();
+    );
   }
 }
 

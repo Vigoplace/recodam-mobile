@@ -41,9 +41,7 @@ class LoginController extends ConsumerState<LoginScreen> {
           ShowFlushBar.showSuccess(
             message: data.message,
             perform: () async {
-              LocalStorage.instance
-                  .saveUserInfo(data.data)
-                  .whenComplete(() => context.goNamed(HomeScreen.name));
+              context.goNamed(HomeScreen.name);
             },
           );
         }
