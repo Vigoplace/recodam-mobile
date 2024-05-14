@@ -99,6 +99,9 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 }
                 return null;
               },
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
             ),
             32.verticalSpace,
             ValueListenableBuilder(
@@ -126,6 +129,9 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                     }
                     return null;
                   },
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                 );
               },
             ),
@@ -156,6 +162,9 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                     }
                     return null;
                   },
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                 );
               },
             ),

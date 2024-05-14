@@ -176,20 +176,18 @@ class ProfileController extends ConsumerState<ProfileScreen> {
     sendingNotifier.state = true;
     PostRequest.instance.uploadPhoto(file: file).then(
       (file) {
-        sendingNotifier.state = false;
-        LocalStorage.instance
-            .setProfilePhoto(file)
-            .then((value) => profileNotifier.state = value);
+        profileNotifier.state = file;
         ShowFlushBar.showSuccess(
           message: 'Successfully uploaded',
         );
       },
     ).catchError(
       (onError) {
-        sendingNotifier.state = false;
         listenError(error: onError);
       },
-    );
+    ).whenComplete(() {
+      sendingNotifier.state = false;
+    });
   }
 
   void changeName() async {
@@ -260,11 +258,7 @@ class ProfileController extends ConsumerState<ProfileScreen> {
       final nameNotifier = ref.read(nameProvider.notifier);
       final sendingNotifier = ref.read(sendingProvider.notifier);
       if (nameController.text.isNotEmpty) {
-        PostRequest.instance
-            .updateProfile(
-          name: nameController.text,
-        )
-            .then(
+        PostRequest.instance.updateProfile(name: nameController.text).then(
           (message) {
             LocalStorage.instance
                 .setName(nameController.text)

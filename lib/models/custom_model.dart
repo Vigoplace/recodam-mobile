@@ -437,6 +437,7 @@ class Record {
   String file;
   String symbol;
   RecordOwner? owner;
+  RecordOwner? receiver;
   RecordBook? book;
 
   Record({
@@ -454,6 +455,7 @@ class Record {
     this.book,
     this.viewed,
     required this.owner,
+    this.receiver,
   });
 
   factory Record.fromJson(Map<String, dynamic> data) {
@@ -470,6 +472,9 @@ class Record {
       recordType: data['record_type'],
       file: data['file'],
       owner: RecordOwner.fromJson(data['owner']),
+      receiver: data['receiver'] != null
+          ? RecordOwner.fromJson(data['receiver'])
+          : null,
       symbol: data['symbol'],
       book: data['book'] != null ? RecordBook.fromJson(data['book']) : null,
     );

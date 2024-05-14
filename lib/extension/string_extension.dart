@@ -1,6 +1,10 @@
 import 'package:recordam/utils/utils.dart';
 
 extension NumberSplitter on String {
+  String get amount {
+    return replaceAll(',', '');
+  }
+
   String capitalize() {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:recordam/helper/input_formatter.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
@@ -38,7 +39,7 @@ class CreateBookController extends ConsumerState<CreateBookScreen> {
       CreateBook book = CreateBook(
         name: bookName.text,
         description: description.text,
-        openingBalance: int.tryParse(balance.text),
+        openingBalance: int.tryParse(balance.text.amount),
         type: recordType.value.name,
         access: access.value.name,
         symbol: currency.value.symbol,

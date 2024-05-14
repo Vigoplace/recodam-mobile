@@ -2,15 +2,17 @@ import 'dart:async';
 import 'package:recordam/utils/utils.dart';
 
 class FileSharing {
-  static late StreamSubscription intentDataStreamSubscription;
+  static final FileSharing instance = FileSharing._init();
+  FileSharing._init();
 
-  static void initialise(WidgetRef ref) {
+  StreamSubscription? intentDataStreamSubscription;
+
+  void initialise(WidgetRef ref) {
     // For sharing images coming from outside the app while the app is in the memory
     intentDataStreamSubscription = ReceiveSharingIntent.instance
         .getMediaStream()
         .listen((List<SharedMediaFile> value) {
       ref.read(shareIntentProvider.notifier).state = value;
-      debugPrint('$value');
     }, onError: (err) {
       debugPrint("getIntentDataStream error: $err");
     });
@@ -18,7 +20,7 @@ class FileSharing {
     // For sharing images coming from outside the app while the app is closed
     ReceiveSharingIntent.instance.getInitialMedia().then(
         (List<SharedMediaFile> value) {
-      debugPrint('$value');
+      debugPrint('Camcv closed ${value.map((e) => e.toMap())}');
       if (value.isNotEmpty) {
         ref.read(shareIntentProvider.notifier).state = value;
         ReceiveSharingIntent.instance.reset();
@@ -26,5 +28,9 @@ class FileSharing {
     }, onError: (err) {
       debugPrint("getIntentDataStream error: $err");
     });
+  }
+
+  void dispose() {
+    intentDataStreamSubscription?.cancel();
   }
 }

@@ -1,6 +1,6 @@
 export '../config/config.dart';
 export '../extension/extensions.dart';
-export '../function/function.dart';
+export '../helper/function.dart';
 export '../models/models.dart';
 export '../riverpod/riverpod.dart';
 export '../services/services.dart';

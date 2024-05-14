@@ -37,6 +37,9 @@ class ResetPasswordView
                 }
                 return null;
               },
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
             ),
             32.verticalSpace,
             CustomTextInput(
@@ -54,6 +57,9 @@ class ResetPasswordView
                 }
                 return null;
               },
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
             ),
             32.verticalSpace,
             CustomTextInput(
@@ -74,6 +80,9 @@ class ResetPasswordView
                 }
                 return null;
               },
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
             ),
             23.verticalSpace,
             Align(

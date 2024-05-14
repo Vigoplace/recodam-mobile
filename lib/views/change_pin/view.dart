@@ -33,6 +33,9 @@ class ChangePinView
                 }
                 return null;
               },
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
             ),
             24.verticalSpace,
             CustomTextInput(
@@ -53,6 +56,9 @@ class ChangePinView
                 }
                 return null;
               },
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
             ),
             24.verticalSpace,
             CustomTextInput(
@@ -75,6 +81,9 @@ class ChangePinView
                 }
                 return null;
               },
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
             ),
             100.verticalSpace,
             Center(

@@ -228,7 +228,7 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                       enable: state.send,
                       text: switch (widget.info.type) {
                         DetailType.add => 'Add to book',
-                        DetailType.create => 'Save',
+                        DetailType.create => 'Post',
                         DetailType.posted => 'Update',
                         DetailType.unconfirmed => 'Confirm',
                         DetailType.view => 'Update',

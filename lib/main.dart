@@ -12,8 +12,25 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
+
+  @override
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    FileSharing.instance.initialise(ref);
+  }
+
+  @override
+  void dispose() {
+    FileSharing.instance.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

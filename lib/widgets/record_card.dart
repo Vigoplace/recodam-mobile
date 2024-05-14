@@ -45,19 +45,23 @@ class RecordCard extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Builder(
-                  builder: (context) {
-                    bool isSender = record.owner?.myRecord == true;
-                    return Text(
-                      'From: ${isSender ? 'Me' : record.senderName}',
-                      style: TextStyle(
-                        color: AppColor.grey100,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 14.sp,
-                      ),
-                    );
-                  },
+                Expanded(
+                  child: Builder(
+                    builder: (context) {
+                      bool isSender = record.owner?.myRecord == true;
+                      return TextScroll(
+                        'From: ${isSender ? 'Me' : record.owner?.name}',
+                        velocity: AppConstant.velocity,
+                        style: TextStyle(
+                          color: AppColor.grey100,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14.sp,
+                        ),
+                      );
+                    },
+                  ),
                 ),
+                10.horizontalSpace,
                 Text(
                   '${record.symbol}${record.amount}',
                   style: TextStyle(
@@ -70,29 +74,35 @@ class RecordCard extends ConsumerWidget {
               ],
             ),
             4.verticalSpace,
-            Text(
-              record.bankName ?? '',
-              style: TextStyle(
-                color: AppColor.grey100,
-                fontWeight: FontWeight.w700,
-                fontSize: 11.sp,
-              ),
-            ),
-            10.verticalSpace,
-            if (record.owner?.myRecord == false)
-              Builder(builder: (context) {
-                return Text(
-                  'To: ${record.senderName}',
-                  style: TextStyle(
-                    color: AppColor.grey100,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14.sp,
+            if (record.receiver != null)
+              Row(
+                children: [
+                  Text(
+                    'To: ',
+                    style: TextStyle(
+                      color: AppColor.grey100,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14.sp,
+                    ),
                   ),
-                );
-              }),
+                  5.horizontalSpace,
+                  Expanded(
+                    child: TextScroll(
+                      record.receiver!.name,
+                      velocity: AppConstant.velocity,
+                      style: TextStyle(
+                        color: AppColor.grey100,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             23.verticalSpace,
-            Text(
+            TextScroll(
               record.details,
+              velocity: AppConstant.velocity,
               style: TextStyle(
                 color: AppColor.grey40,
                 fontWeight: FontWeight.w400,

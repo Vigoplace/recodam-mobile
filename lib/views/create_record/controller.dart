@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
+import 'package:recordam/helper/input_formatter.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 
@@ -62,7 +63,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
                 date: dateTime,
                 symbol: currency.value.symbol,
                 senderName: senderName.text,
-                amount: num.tryParse(amount.text) ?? 0,
+                amount: num.tryParse(amount.text.amount) ?? 0,
                 bankName: bankName.text.isEmpty ? null : bankName.text,
                 accountNumber:
                     accountNumber.text.isEmpty ? null : accountNumber.text,
@@ -94,7 +95,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
     );
 
     if (result != null) {
-      if (result.files.single.size > 115000) {
+      if (result.files.single.size > 3000000) {
         ShowFlushBar.showError('File is too large');
         return;
       }

@@ -116,7 +116,7 @@ class PostRequest extends NetworkService {
       MapEntry('record_type', record.recordType),
       MapEntry('symbol', record.symbol),
       if (record.receiverId != null)
-        MapEntry('owner_id', '${record.receiverId}'),
+        MapEntry('receiver_id', '${record.receiverId}'),
     ]);
     if (record.newBookId != null) {
       data.fields.add(MapEntry('book_id', '${record.newBookId}'));
@@ -231,6 +231,8 @@ class PostRequest extends NetworkService {
         },
       ),
     );
-    return user.data['data']['url'];
+    var url = user.data['data']['url'];
+    await LocalStorage.instance.setProfilePhoto(url);
+    return url;
   }
 }

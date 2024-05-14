@@ -23,7 +23,6 @@ class HomeController extends ConsumerState<HomeScreen> {
     refreshController = RefreshController();
     homeRefresh = RefreshController();
     SocketServices.instance.connectAndListen();
-    FileSharing.initialise(ref);
     RecodamFirebaseService.initNotification(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(nameProvider.notifier).state = LocalStorage.instance.getName();

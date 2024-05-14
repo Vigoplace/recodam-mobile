@@ -58,10 +58,14 @@ class CreateBookView
                         titleText: 'Opening balance',
                         textInputAction: TextInputAction.next,
                         controller: controller.balance,
-                        keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
                         autovalidateMode: controller.submitted
                             ? AutovalidateMode.onUserInteraction
                             : AutovalidateMode.disabled,
+                        inputFormatters: [
+                          ThousandsSeparatorInputFormatter(),
+                        ],
                         prefix: InkWell(
                           onTap: controller.showCurrencyList,
                           overlayColor: MaterialStateColor.resolveWith(

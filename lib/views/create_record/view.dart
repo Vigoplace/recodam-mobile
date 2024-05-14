@@ -64,7 +64,11 @@ class CreateRecordView
                   ],
                 ),
               ),
-              keyboardType: TextInputType.number,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: [
+                ThousandsSeparatorInputFormatter(),
+              ],
               autovalidateMode: controller.submitted
                   ? AutovalidateMode.onUserInteraction
                   : AutovalidateMode.disabled,
@@ -109,6 +113,9 @@ class CreateRecordView
                 }
                 return null;
               },
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
             ),
             32.verticalSpace,
             CustomTextInput(
@@ -124,6 +131,7 @@ class CreateRecordView
               controller: controller.details,
               titleText: 'Detail / Purpose*',
               textInputAction: TextInputAction.next,
+              textCapitalization: TextCapitalization.sentences,
               autovalidateMode: controller.submitted
                   ? AutovalidateMode.onUserInteraction
                   : AutovalidateMode.disabled,
@@ -164,7 +172,7 @@ class CreateRecordView
               ),
             ),
             Text(
-              '* max size is 100Kb',
+              '* max size is 3MB',
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,

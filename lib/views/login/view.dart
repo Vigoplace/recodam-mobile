@@ -36,6 +36,9 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                 }
                 return null;
               },
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
             ),
             32.verticalSpace,
             ValueListenableBuilder(
@@ -61,6 +64,9 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                     }
                     return null;
                   },
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                 );
               },
             ),
