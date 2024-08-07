@@ -1,0 +1,339 @@
+import 'dart:convert';
+
+import 'package:file_picker/file_picker.dart';
+
+import 'package:intl/intl.dart';
+import 'package:recordam/helper/input_formatter.dart';
+import 'package:recordam/utils/utils.dart';
+part 'view.dart';
+
+class CreateListScreen extends ConsumerStatefulWidget {
+  static const path = "create-list";
+  static const name = "create-list";
+
+  final Create create;
+
+  const CreateListScreen({
+    super.key,
+    required this.create,
+  });
+
+  @override
+  ConsumerState<CreateListScreen> createState() => CreateListController();
+}
+
+class CreateListController extends ConsumerState<CreateListScreen> {
+  ValueNotifier<File?> file = ValueNotifier(null);
+  late TextEditingController senderName;
+  late TextEditingController amount;
+  late TextEditingController bankName;
+  late TextEditingController accountNumber;
+  late TextEditingController accountName;
+  late TextEditingController details;
+  late TextEditingController date;
+  RecordType recordType = RecordType.debit;
+  var currency = ValueNotifier(CurrencyModel(
+    symbol: '₦',
+    short: 'NGN',
+    name: 'Naira',
+    image: '',
+  ));
+  BankModel? bank;
+
+  bool submitted = false;
+  var formKey = GlobalKey<FormState>();
+  DateTime dateTime = DateTime.now();
+  // late PdfController pdfController;
+
+  void createRecord() async {
+    if (file.value == null) {
+      ShowFlushBar.showError('Select a payment proof');
+      return;
+    }
+    setState(() => submitted = true);
+    if (formKey.currentState!.validate()) {
+      Navigator.of(context).push<CreateRecord?>(
+        MaterialPageRoute(
+          builder: (context) => RecordScreen(
+            info: ViewRecordInfo(
+              type: widget.create.bookId?.type ?? DetailType.create,
+              record: Record(
+                id: 0,
+                date: dateTime,
+                symbol: currency.value.symbol,
+                senderName: senderName.text,
+                amount: num.tryParse(amount.text.amount) ?? 0,
+                bankName: bankName.text.isEmpty ? null : bankName.text,
+                accountNumber:
+                    accountNumber.text.isEmpty ? null : accountNumber.text,
+                accountName: accountName.text.isEmpty ? null : accountName.text,
+                details: details.text,
+                recordType: recordType.name,
+                file: file.value!.path,
+                owner: null,
+                book: widget.create.bookId != null
+                    ? RecordBook(
+                        bookId: widget.create.bookId!.id!,
+                        bookName: widget.create.bookId!.name!,
+                      )
+                    : null,
+              ),
+            ),
+          ),
+        ),
+      );
+    } else {
+      ShowFlushBar.showError('One or more required field is missing');
+    }
+  }
+
+  void pickImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowedExtensions: ['pdf', 'png', 'jpeg', 'jpg'],
+      type: FileType.custom,
+    );
+
+    if (result != null) {
+      if (result.files.single.size > 3000000) {
+        ShowFlushBar.showError('File is too large');
+        return;
+      }
+      file.value = File(result.files.single.path!);
+    }
+  }
+
+  void selectDate() async {
+    var choiceDate = await showDatePicker(
+      context: context,
+      firstDate: DateTime(2020),
+      initialDate: dateTime,
+      lastDate: DateTime.now(),
+    );
+    if (choiceDate != null) {
+      dateTime = choiceDate;
+      date.text = DateFormat('EEE-dd-MMM-yyyy').format(choiceDate);
+    }
+  }
+
+  Future showCurrencyList() async {
+    var choice = await showModalBottomSheet<CurrencyModel?>(
+      context: context,
+      showDragHandle: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.r),
+          topRight: Radius.circular(30.r),
+        ),
+      ),
+      backgroundColor: AppColor.white,
+      isScrollControlled: true,
+      builder: (context) {
+        return Consumer(
+          builder: (context, ref, _) {
+            var country = ref.watch(currencyProvider);
+            return country.when(
+              data: (data) {
+                return SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.4,
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: [0, 0, 20, 0].pad,
+                          child: SvgButton(
+                            icon: AppSvg.remove,
+                            onTap: () => context.pop(),
+                          ),
+                        ),
+                      ),
+                      20.verticalSpace,
+                      Expanded(
+                        child: data.isNotEmpty
+                            ? ListView.builder(
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  var country = data[index];
+                                  return ListTile(
+                                    onTap: () => context.pop(country),
+                                    title: Text(country.name),
+                                    trailing: SvgPicture.memory(
+                                      Uint8List.fromList(
+                                        base64.decode(country.image),
+                                      ),
+                                      width: 20.w,
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                  ).animate().scale();
+                                },
+                              )
+                            : const EmptyWidget(
+                                text: 'No such currency',
+                              ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              error: (error, trace) => SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.5,
+                child: ErrorScreen(
+                  error: error,
+                  trace: trace,
+                  reload: () => ref.invalidate(currencyProvider),
+                ),
+              ),
+              loading: () => SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.5,
+                child: const CustomLoader(),
+              ),
+            );
+          },
+        );
+      },
+    );
+    if (choice != null) {
+      currency.value = choice;
+    }
+  }
+
+  Future showBankList() async {
+    ValueNotifier<List<BankModel>> banks = ValueNotifier([]);
+    bool loaded = false;
+    var choice = await showModalBottomSheet<BankModel?>(
+      context: context,
+      showDragHandle: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.r),
+          topRight: Radius.circular(30.r),
+        ),
+      ),
+      backgroundColor: AppColor.white,
+      isScrollControlled: true,
+      builder: (context) {
+        return Consumer(
+          builder: (context, ref, _) {
+            var country = ref.watch(bankProvider);
+            return country.when(
+              data: (data) {
+                if (!loaded) {
+                  banks.value = data.toList();
+                }
+                loaded = true;
+                return SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.7,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: [20, 0].pad,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: CustomTextInput(
+                                hintText: 'Search for bank',
+                                onChanged: (p0) {
+                                  banks.value = data
+                                      .where((element) => element.name
+                                          .toLowerCase()
+                                          .contains(p0.toLowerCase()))
+                                      .toList();
+                                },
+                              ),
+                            ),
+                            10.horizontalSpace,
+                            SvgButton(
+                              icon: AppSvg.remove,
+                              onTap: () => context.pop(),
+                            )
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: ValueListenableBuilder(
+                          valueListenable: banks,
+                          builder: (context, value, _) {
+                            return value.isNotEmpty
+                                ? ListView.builder(
+                                    itemCount: value.length,
+                                    itemBuilder: (context, index) {
+                                      var country = value[index];
+                                      return ListTile(
+                                        onTap: () => context.pop(country),
+                                        title: Text(country.name),
+                                      ).animate().scale();
+                                    },
+                                  )
+                                : const EmptyWidget(
+                                    text: 'No such currency',
+                                  );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              error: (error, trace) => SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.5,
+                child: ErrorScreen(
+                  error: error,
+                  trace: trace,
+                  reload: () => ref.invalidate(bankProvider),
+                ),
+              ),
+              loading: () => SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.5,
+                child: const CustomLoader(),
+              ),
+            );
+          },
+        );
+      },
+    );
+    if (choice != null) {
+      bankName.text = choice.name;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    senderName = TextEditingController(
+      text: LocalStorage.instance.getName(),
+    );
+    amount = TextEditingController();
+    bankName = TextEditingController();
+    accountNumber = TextEditingController();
+    accountName = TextEditingController();
+    details = TextEditingController();
+    date = TextEditingController();
+    date.text = DateFormat('EEE-dd-MMM-yyyy').format(dateTime);
+    if (widget.create.media.isNotEmpty) {
+      file.value = File(widget.create.media.first.path);
+    }
+    if (widget.create.bookId?.recordType != null) {
+      recordType = widget.create.bookId?.recordType ?? recordType;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(shareIntentProvider.notifier).state.clear();
+    });
+  }
+
+  @override
+  void dispose() {
+    senderName.dispose();
+    amount.dispose();
+    bankName.dispose();
+    accountNumber.dispose();
+    accountName.dispose();
+    details.dispose();
+    date.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CreateListView(this);
+  }
+}

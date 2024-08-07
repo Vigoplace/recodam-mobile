@@ -74,9 +74,7 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
             Align(
               alignment: Alignment.centerRight,
               child: InkWell(
-                overlayColor: MaterialStateColor.resolveWith(
-                  (states) => Colors.transparent,
-                ),
+                overlayColor: WidgetStateColor.transparent,
                 onTap: () => context.pushNamed(ForgotPasswordScreen.name),
                 child: Text(
                   'Forgot Pin ?',

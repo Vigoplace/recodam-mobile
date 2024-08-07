@@ -1,10 +1,7 @@
 import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
-import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
 import 'package:recordam/helper/input_formatter.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';

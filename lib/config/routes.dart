@@ -150,6 +150,19 @@ final GoRouter routes = GoRouter(
           },
         ),
         GoRoute(
+          path: CreateListScreen.path,
+          name: CreateListScreen.name,
+          pageBuilder: (context, state) {
+            Create? create = state.extra as Create?;
+            return FadeTransitionPage(
+              child: CreateListScreen(
+                create: create ?? Create(),
+              ),
+              key: state.pageKey,
+            );
+          },
+        ),
+        GoRoute(
           path: RecordScreen.path,
           name: RecordScreen.name,
           pageBuilder: (context, state) {

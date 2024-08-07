@@ -8,7 +8,7 @@ class CreateRecordView
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppbar(
-        title: 'Create a record',
+        title: 'Create a transaction record',
         centerTitle: false,
       ),
       body: Form(
@@ -36,9 +36,7 @@ class CreateRecordView
               controller: controller.amount,
               titleText: 'Amount*',
               prefix: InkWell(
-                overlayColor: MaterialStateColor.resolveWith(
-                  (states) => Colors.transparent,
-                ),
+                overlayColor: WidgetStateColor.transparent,
                 onTap: controller.showCurrencyList,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -76,7 +74,7 @@ class CreateRecordView
               validator: (p0) {
                 if (p0 == null || p0.isEmpty) {
                   return 'Please, enter an amount';
-                } else if (double.tryParse(p0) == null) {
+                } else if (double.tryParse(p0.amount) == null) {
                   return 'Please, enter a valid amount';
                 }
                 return null;
@@ -108,7 +106,7 @@ class CreateRecordView
               validator: (p0) {
                 if (p0!.isNotEmpty) {
                   if (double.tryParse(p0) == null) {
-                    return 'Please, enter a valid amount';
+                    return 'Please, enter a valid account number';
                   }
                 }
                 return null;
@@ -206,11 +204,9 @@ class CreateRecordView
                             : ClipRRect(
                                 borderRadius: BorderRadius.circular(8.r),
                                 child: switch (value.path.endsWith('pdf')) {
-                                  true => PdfView(
+                                  true => ViewPdf(
                                       path: value.path,
-                                      gestureRecognizers: {
-                                        Factory(() => EagerGestureRecognizer()),
-                                      },
+                                      
                                     ),
                                   _ => Image.file(value)
                                 },

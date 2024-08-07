@@ -1,6 +1,3 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
-import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
 import 'package:recordam/utils/utils.dart';
 
 class ViewImage extends StatelessWidget {
@@ -27,13 +24,8 @@ class ViewImage extends StatelessWidget {
               ? switch (image!.endsWith('pdf')) {
                   true => Center(
                       child: Builder(builder: (context) {
-                        return PdfView(
+                        return ViewPdf(
                           path: image!,
-                          gestureRecognizers: {
-                            Factory(
-                              () => EagerGestureRecognizer(),
-                            ),
-                          },
                         );
                       }),
                     ),

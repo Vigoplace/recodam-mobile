@@ -68,9 +68,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                           ),
                         ),
                         InkWell(
-                          overlayColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.transparent,
-                          ),
+                          overlayColor: WidgetStateColor.transparent,
                           onTap: () => context.pushNamed(AllBooksScreen.name),
                           child: Text(
                             'See all',
@@ -146,9 +144,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                           ),
                         ),
                         InkWell(
-                          overlayColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.transparent,
-                          ),
+                          overlayColor: WidgetStateColor.transparent,
                           onTap: () => context.pushNamed(AllRecordsScreen.name),
                           child: Text(
                             'See all',

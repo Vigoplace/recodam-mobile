@@ -64,9 +64,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               suffixIcon: InkWell(
-                overlayColor: MaterialStateColor.resolveWith(
-                  (states) => Colors.transparent,
-                ),
+                overlayColor: WidgetStateColor.transparent,
                 onTap: controller.showCountryList,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

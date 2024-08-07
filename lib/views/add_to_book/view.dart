@@ -91,9 +91,7 @@ class AddToBookView
                 children: [
                   20.verticalSpace,
                   InkWell(
-                    overlayColor: MaterialStateColor.resolveWith(
-                      (states) => Colors.transparent,
-                    ),
+                    overlayColor: WidgetStateColor.transparent,
                     onTap: () => controller.showConfirmation(null),
                     child: Container(
                       padding: [16, 16].pad,

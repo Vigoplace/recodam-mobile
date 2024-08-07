@@ -29,9 +29,7 @@ class RecordCard extends ConsumerWidget {
           refreshController!.requestRefresh();
         }
       },
-      overlayColor: MaterialStateColor.resolveWith(
-        (states) => Colors.transparent,
-      ),
+      overlayColor: WidgetStateColor.transparent,
       child: Container(
         padding: [20, 22].pad,
         margin: [16, 0, 16, 16].pad,

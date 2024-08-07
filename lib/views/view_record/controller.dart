@@ -1,6 +1,3 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
-import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
 import 'package:recordam/utils/utils.dart';
 part 'view.dart';
 part 'view_id.dart';
@@ -239,9 +236,7 @@ class RecordController extends ConsumerState<RecordScreen> {
               ),
             ),
             InkWell(
-              overlayColor: MaterialStateColor.resolveWith(
-                (states) => Colors.transparent,
-              ),
+              overlayColor: WidgetStateColor.transparent,
               onTap: () {
                 book.text = 'My Dashboard';
                 bookId = null;

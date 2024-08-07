@@ -68,9 +68,7 @@ class CreateBookView
                         ],
                         prefix: InkWell(
                           onTap: controller.showCurrencyList,
-                          overlayColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.transparent,
-                          ),
+                          overlayColor: WidgetStateColor.transparent,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -99,7 +97,7 @@ class CreateBookView
                           if (controller.recordType.value == RecordType.debit) {
                             if (p0 == null ||
                                 p0.isEmpty ||
-                                double.tryParse(p0) == null) {
+                                double.tryParse(p0.amount) == null) {
                               return 'Please, enter a valid opening balance';
                             }
                           }

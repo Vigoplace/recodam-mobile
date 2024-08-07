@@ -91,9 +91,7 @@ class ResetPasswordView
                   valueListenable: controller.showResend,
                   builder: (context, value, _) {
                     return InkWell(
-                      overlayColor: MaterialStateColor.resolveWith(
-                        (states) => Colors.transparent,
-                      ),
+                      overlayColor: WidgetStateColor.transparent,
                       onTap: () {
                         if (value) {
                           controller.showResend.value = false;

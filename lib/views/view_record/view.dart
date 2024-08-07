@@ -42,13 +42,8 @@ class RecordView extends StatelessView<RecordScreen, RecordController> {
                             : switch (widget.info.record.file.endsWith('pdf')) {
                                 true => Center(
                                     child: Builder(builder: (context) {
-                                      return PdfView(
+                                      return ViewPdf(
                                         path: widget.info.record.file,
-                                        gestureRecognizers: {
-                                          Factory(
-                                            () => EagerGestureRecognizer(),
-                                          ),
-                                        },
                                       );
                                     }),
                                   ),

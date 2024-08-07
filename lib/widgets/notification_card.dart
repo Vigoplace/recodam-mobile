@@ -31,9 +31,7 @@ class _NotificationCardState extends State<NotificationCard> {
     isRead.value = widget.notification.isRead;
 
     return InkWell(
-      overlayColor: MaterialStateColor.resolveWith(
-        (states) => Colors.transparent,
-      ),
+      overlayColor: WidgetStateColor.transparent,
       onTap: () {
         if (!widget.notification.isRead) {
           PatchRequest.instance

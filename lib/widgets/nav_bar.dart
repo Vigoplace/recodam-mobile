@@ -66,7 +66,7 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
               ),
               onTap: () {
                 Navigator.of(context, rootNavigator: true).pop();
-                context.pushNamed(CreateRecordScreen.name);
+                showRecordTypeModal();
               },
               title: Text(
                 'Add a Record',
@@ -92,6 +92,77 @@ class _CustomBottomNavbarState extends ConsumerState<CustomBottomNavbar>
               },
               title: Text(
                 'Create a Book',
+                style: TextStyle(
+                  color: AppColor.grey100,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16.sp,
+                ),
+              ),
+            ),
+            38.verticalSpace,
+          ],
+        ),
+      ).animate().move(),
+    ).whenComplete(() => controller.reverse());
+  }
+
+  void showRecordTypeModal() {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        surfaceTintColor: AppColor.white,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            38.verticalSpace,
+            Text(
+              'Select record type',
+              style: TextStyle(
+                color: AppColor.grey100,
+                fontWeight: FontWeight.w700,
+                fontSize: 18.sp,
+              ),
+            ),
+            30.verticalSpace,
+            ListTile(
+              leading: CircleAvatar(
+                backgroundColor: AppColor.red60,
+                radius: 20.w,
+                child: SvgPicture.asset(
+                  AppSvg.record,
+                ),
+              ),
+              onTap: () {
+                Navigator.of(context, rootNavigator: true).pop();
+                context.pushNamed(CreateRecordScreen.name);
+              },
+              title: Text(
+                'Create Transaction',
+                style: TextStyle(
+                  color: AppColor.grey100,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16.sp,
+                ),
+              ),
+            ),
+            32.verticalSpace,
+            ListTile(
+              leading: CircleAvatar(
+                backgroundColor: AppColor.red60,
+                radius: 20.w,
+                child: SvgPicture.asset(
+                  AppSvg.book,
+                ),
+              ),
+              onTap: () {
+                Navigator.of(context, rootNavigator: true).pop();
+                context.pushNamed(CreateListScreen.name);
+              },
+              title: Text(
+                'Create List',
                 style: TextStyle(
                   color: AppColor.grey100,
                   fontWeight: FontWeight.w400,
