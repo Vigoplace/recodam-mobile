@@ -38,7 +38,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       designSize: const Size(393, 852),
       minTextAdapt: true,
       useInheritedMediaQuery: true,
-      // splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp.router(
           title: 'Recodam',
