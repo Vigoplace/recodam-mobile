@@ -18,10 +18,10 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
-                fontSize: 20.sp,
+                fontSize: 20.spMin,
               ),
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.name,
               titleText: 'Full Name*',
@@ -37,7 +37,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 return null;
               },
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.email,
               titleText: 'Email',
@@ -56,7 +56,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 return null;
               },
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.phone,
               titleText: 'Phone number*',
@@ -76,7 +76,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                         return Padding(
                           padding: const [0, 0, 15, 0].pad,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100.r),
+                            borderRadius: BorderRadius.circular(100),
                             child: SvgPicture.network(
                               country.flag,
                               fit: BoxFit.scaleDown,
@@ -101,7 +101,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 FilteringTextInputFormatter.digitsOnly,
               ],
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             ValueListenableBuilder(
               valueListenable: controller.showPin,
               builder: (context, state, _) {
@@ -133,7 +133,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 );
               },
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             ValueListenableBuilder(
               valueListenable: controller.showConfirmPin,
               builder: (context, state, _) {
@@ -166,7 +166,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 );
               },
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -179,7 +179,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                     );
                   },
                 ),
-                8.horizontalSpace,
+                8.horizontalSpacing,
                 Expanded(
                   child: RichText(
                     text: TextSpan(
@@ -189,7 +189,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                           style: TextStyle(
                             color: AppColor.grey100,
                             fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
+                            fontSize: 14.spMin,
                           ),
                         ),
                         TextSpan(
@@ -197,7 +197,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                           style: TextStyle(
                             color: AppColor.grey100,
                             fontWeight: FontWeight.w500,
-                            fontSize: 14.sp,
+                            fontSize: 14.spMin,
                           ),
                         ),
                         TextSpan(
@@ -205,7 +205,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                           style: TextStyle(
                             color: AppColor.grey100,
                             fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
+                            fontSize: 14.spMin,
                           ),
                         ),
                         TextSpan(
@@ -213,7 +213,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                           style: TextStyle(
                             color: AppColor.grey100,
                             fontWeight: FontWeight.w500,
-                            fontSize: 14.sp,
+                            fontSize: 14.spMin,
                           ),
                         ),
                         TextSpan(
@@ -221,7 +221,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                           style: TextStyle(
                             color: AppColor.grey100,
                             fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
+                            fontSize: 14.spMin,
                           ),
                         ),
                         TextSpan(
@@ -229,7 +229,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                           style: TextStyle(
                             color: AppColor.grey100,
                             fontWeight: FontWeight.w500,
-                            fontSize: 14.sp,
+                            fontSize: 14.spMin,
                           ),
                         ),
                       ],
@@ -238,7 +238,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 ),
               ],
             ),
-            43.verticalSpace,
+            43.verticalSpacing,
             ValueListenableBuilder(
               valueListenable: controller.isLoading,
               builder: (context, state, _) {
@@ -253,7 +253,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 );
               },
             ),
-            40.verticalSpace,
+            40.verticalSpacing,
             Center(
               child: RichText(
                 text: TextSpan(
@@ -263,7 +263,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                       style: TextStyle(
                         color: AppColor.grey100,
                         fontWeight: FontWeight.w400,
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                       ),
                     ),
                     TextSpan(
@@ -271,7 +271,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                       style: TextStyle(
                         color: AppColor.red60,
                         fontWeight: FontWeight.w700,
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () =>
@@ -281,7 +281,7 @@ class SignupView extends StatelessView<SignupScreen, SignupController> {
                 ),
               ),
             ),
-            40.verticalSpace,
+            40.verticalSpacing,
           ],
         ),
       ),

@@ -51,7 +51,7 @@ class _MyAppState extends ConsumerState<MyApp> {
                   return Visibility(
                     visible: sending,
                     child: LinearProgressIndicator(
-                      minHeight: 50.h,
+                      minHeight: 50,
                       color: AppColor.red30,
                       backgroundColor: AppColor.red60,
                     ),

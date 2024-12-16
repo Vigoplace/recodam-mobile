@@ -21,10 +21,10 @@ class LoadingButton extends StatelessWidget {
     return isLoading
         ? loading ??
             Container(
-              height: 50.h,
-              width: width ?? 205.w,
+              height: 50,
+              width: width ?? 205,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100.r),
+                borderRadius: BorderRadius.circular(100),
                 color: AppColor.red60,
               ),
               alignment: Alignment.center,
@@ -82,30 +82,30 @@ class _AppButtonState extends State<AppButton> {
       onPressed: enable ? widget.onTap : null,
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100.r),
+          borderRadius: BorderRadius.circular(100),
         ),
         textStyle: TextStyle(
           color: AppColor.white,
           fontWeight: FontWeight.w700,
-          fontSize: 16.sp,
+          fontSize: 16.spMin,
         ),
         padding: [28, 12].pad,
         backgroundColor: AppColor.red60,
-        minimumSize: Size(widget.width ?? 205.w, 48.h),
+        minimumSize: Size(widget.width ?? 205, 48),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           if (widget.icon != null) ...[
             widget.icon!,
-            8.horizontalSpace,
+            8.horizontalSpacing,
           ],
           Text(
             widget.text,
             style: TextStyle(
               color: AppColor.white,
               fontWeight: FontWeight.w700,
-              fontSize: 16.sp,
+              fontSize: 16.spMin,
             ),
           ),
         ],
@@ -134,13 +134,13 @@ class RoundIconButton extends StatelessWidget {
     return Row(
       mainAxisAlignment: mainAxisAlignment,
       children: [
-        paddingLeft.horizontalSpace,
+        paddingLeft.horizontalSpacing,
         InkWell(
-          borderRadius: BorderRadius.circular(100.r),
+          borderRadius: BorderRadius.circular(100),
           onTap: onTap,
           child: Container(
-            height: 40.r,
-            width: 40.r,
+            height: 40,
+            width: 40,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: backgroundColor ?? AppColor.dark10,
@@ -168,7 +168,7 @@ class SvgButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(100.r),
+      borderRadius: BorderRadius.circular(100),
       onTap: onTap,
       child: SvgPicture.asset(
         icon,
@@ -209,11 +209,11 @@ class _GroupedSelectionState<T> extends State<GroupedSelection> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-        spacing: 16.w,
-        runSpacing: 24.h,
+        spacing: 16,
+        runSpacing: 24,
         children: widget.content
             .map((e) => InkWell(
-                  borderRadius: BorderRadius.circular(100.r),
+                  borderRadius: BorderRadius.circular(100),
                   onTap: () {
                     currentChoice =
                         widget.type.elementAt(widget.content.indexOf(e));
@@ -221,11 +221,11 @@ class _GroupedSelectionState<T> extends State<GroupedSelection> {
                     setState(() {});
                   },
                   child: Container(
-                    height: 40.h,
-                    width: 105.w,
+                    height: 40,
+                    width: 105,
                     decoration: BoxDecoration(
                       color: AppColor.grey1,
-                      borderRadius: BorderRadius.circular(100.r),
+                      borderRadius: BorderRadius.circular(100),
                       border:
                           widget.type.elementAt(widget.content.indexOf(e)) ==
                                   currentChoice
@@ -241,7 +241,7 @@ class _GroupedSelectionState<T> extends State<GroupedSelection> {
                         style: TextStyle(
                           color: AppColor.grey100,
                           fontWeight: FontWeight.w400,
-                          fontSize: 16.sp,
+                          fontSize: 16.spMin,
                         ),
                       ),
                     ),

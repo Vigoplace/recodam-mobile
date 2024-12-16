@@ -37,7 +37,7 @@ class ChangePinView
                 FilteringTextInputFormatter.digitsOnly,
               ],
             ),
-            24.verticalSpace,
+            24.verticalSpacing,
             CustomTextInput(
               controller: controller.newPin,
               titleText: 'New Pin',
@@ -60,7 +60,7 @@ class ChangePinView
                 FilteringTextInputFormatter.digitsOnly,
               ],
             ),
-            24.verticalSpace,
+            24.verticalSpacing,
             CustomTextInput(
               controller: controller.confirmPin,
               titleText: 'Confirm New Pin',
@@ -85,7 +85,7 @@ class ChangePinView
                 FilteringTextInputFormatter.digitsOnly,
               ],
             ),
-            100.verticalSpace,
+            100.verticalSpacing,
             Center(
               child: ValueListenableBuilder(
                 valueListenable: controller.isLoading,

@@ -15,8 +15,8 @@ class ProfileView extends StatelessView<ProfileScreen, ProfileController> {
         children: <Widget>[
           Center(
             child: SizedBox(
-              height: 160.w,
-              width: 160.w,
+              height: 160,
+              width: 160,
               child: Stack(
                 children: [
                   Positioned.fill(
@@ -54,7 +54,7 @@ class ProfileView extends StatelessView<ProfileScreen, ProfileController> {
                       child: GestureDetector(
                         onTap: controller.changePhoto,
                         child: CircleAvatar(
-                          radius: 20.r,
+                          radius: 20,
                           backgroundColor: AppColor.red60,
                           child: SvgPicture.asset(AppSvg.camera),
                         ),
@@ -65,7 +65,7 @@ class ProfileView extends StatelessView<ProfileScreen, ProfileController> {
               ),
             ),
           ),
-          62.verticalSpace,
+          62.verticalSpacing,
           ProfileDetail(
             name: 'Name',
             value: controller.ref.watch(nameProvider),

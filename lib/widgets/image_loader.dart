@@ -34,14 +34,14 @@ class ImageLoader extends StatelessWidget {
               baseColor: AppColor.red60,
               highlightColor: AppColor.white,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Image.asset(AppImages.iconLogo),
               ),
             );
           case LoadState.completed:
             return ClipRRect(
               borderRadius: boxShape == BoxShape.circle
-                  ? BorderRadius.circular(100.r)
+                  ? BorderRadius.circular(100)
                   : BorderRadius.zero,
               child: ExtendedRawImage(
                 image: state.extendedImageInfo?.image,

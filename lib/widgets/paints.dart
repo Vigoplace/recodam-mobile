@@ -4,26 +4,26 @@ class CirclePath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
-    double length = 28.h + 4.h;
+    double length = 28 + 4;
 
     path.lineTo(0, size.height);
     path.lineTo(size.width, size.height);
     path.lineTo(size.width, 0);
-    path.lineTo(size.width * 0.64, 0);
+    path.lineTo(size.width / 2 + length * 1.6, 0);
     path.cubicTo(
-      size.width * 0.55,
+      size.width / 2 + length * 0.57,
       0,
-      size.width * 0.6,
+      size.width / 2 + length * 1.15,
       length,
       size.width * 0.5,
       length,
     );
     path.cubicTo(
-      size.width * 0.42,
+      size.width / 2 - length * 0.9,
       length,
-      size.width * 0.43,
+      size.width / 2 - length * 0.8,
       0,
-      size.width * 0.36,
+      size.width / 2 - length * 1.57,
       0,
     );
     path.close();
@@ -31,5 +31,5 @@ class CirclePath extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => true;
 }

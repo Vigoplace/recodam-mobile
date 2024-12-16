@@ -19,7 +19,7 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
       //     PopupMenuButton(
       //       color: AppColor.white,
       //       shape: RoundedRectangleBorder(
-      //         borderRadius: BorderRadius.circular(8.r),
+      //         borderRadius: BorderRadius.circular(8),
       //       ),
       //       offset: const Offset(0, 60),
       //       itemBuilder: (context) =>
@@ -63,7 +63,7 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
             controller.refreshController.requestRefresh();
           }
         },
-        width: 150.w,
+        width: 150,
         icon: SvgPicture.asset(AppSvg.record),
       ),
       body: NestedScrollView(
@@ -76,13 +76,13 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
               paddingLeft: 16,
             ),
             centerTitle: false,
-            leadingWidth: 80.w,
+            leadingWidth: 80,
             title: Text(
               widget.book.name,
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
-                fontSize: 18.sp,
+                fontSize: 18.spMin,
               ),
             ),
             actions: [
@@ -94,7 +94,7 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
               PopupMenuButton(
                 color: AppColor.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 offset: const Offset(0, 60),
                 itemBuilder: (context) =>
@@ -117,7 +117,7 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
                   paddingLeft: 16,
                 ),
               ),
-              16.horizontalSpace,
+              16.horizontalSpacing,
             ],
           ),
         ],
@@ -128,7 +128,7 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
               padding: [16, 20].pad,
               child: Column(
                 children: [
-                  25.verticalSpace,
+                  25.verticalSpacing,
                   CustomTextInput(
                     hintText: 'Search',
                     fillColor: AppColor.grey,

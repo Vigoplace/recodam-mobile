@@ -132,7 +132,7 @@ class _BooksState extends ConsumerState<Records> {
                   : ListView.separated(
                       padding: [0, 30, 0, 0].pad,
                       itemCount: list.length,
-                      separatorBuilder: (context, index) => 15.verticalSpace,
+                      separatorBuilder: (context, index) => 15.verticalSpacing,
                       itemBuilder: (context, index) {
                         var book = list[index];
                         return RecordCard(

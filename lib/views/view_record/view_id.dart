@@ -35,17 +35,17 @@ class _ViewRecordByIdState extends ConsumerState<ViewRecordById> {
           children: <Widget>[
             Center(
               child: Container(
-                height: 242.h,
+                height: 242,
                 width: double.maxFinite,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.r),
+                  borderRadius: BorderRadius.circular(8),
                   color: AppColor.grey,
                 ),
                 child: Stack(
                   children: [
                     Positioned.fill(
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.r),
+                          borderRadius: BorderRadius.circular(8),
                           child: ImageLoader(
                             image: data.file,
                             boxFit: BoxFit.cover,
@@ -73,27 +73,27 @@ class _ViewRecordByIdState extends ConsumerState<ViewRecordById> {
                 ),
               ),
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               titleText: "Amount",
               hintStyle: TextStyle(
                 fontFamily: 'Roboto',
                 color: AppColor.grey40,
                 fontWeight: FontWeight.w400,
-                fontSize: 16.sp,
+                fontSize: 16.spMin,
               ),
               hintText: '${data.symbol} ${data.amount}',
               fillColor: AppColor.grey1,
               readOnly: true,
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               titleText: "Senders name",
               fillColor: AppColor.grey1,
               hintText: data.senderName,
               readOnly: true,
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               titleText: "Transaction details/Purpose",
               fillColor: AppColor.grey1,
@@ -119,23 +119,23 @@ class _ViewRecordByIdState extends ConsumerState<ViewRecordById> {
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          32.verticalSpace,
+                          32.verticalSpacing,
                           Text(
                             'Bank details',
                             style: TextStyle(
                               color: AppColor.grey100,
                               fontWeight: FontWeight.w700,
-                              fontSize: 14.sp,
+                              fontSize: 14.spMin,
                             ),
                           ),
-                          8.verticalSpace,
+                          8.verticalSpacing,
                           Container(
                             decoration: BoxDecoration(
                                 border: Border.all(
                                   color: AppColor.dark20,
                                 ),
                                 color: AppColor.grey1,
-                                borderRadius: BorderRadius.circular(100.r)),
+                                borderRadius: BorderRadius.circular(100)),
                             alignment: Alignment.centerLeft,
                             padding: [15, 18].pad,
                             child: Text(
@@ -143,7 +143,7 @@ class _ViewRecordByIdState extends ConsumerState<ViewRecordById> {
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w400,
-                                fontSize: 16.sp,
+                                fontSize: 16.spMin,
                               ),
                             ),
                           )
@@ -151,7 +151,7 @@ class _ViewRecordByIdState extends ConsumerState<ViewRecordById> {
                       );
               },
             ),
-            50.verticalSpace,
+            50.verticalSpacing,
           ],
         ),
         error: (error, trace) => ErrorScreen(

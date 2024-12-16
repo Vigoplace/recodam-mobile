@@ -18,10 +18,10 @@ class ResetPasswordView
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
-                fontSize: 20.sp,
+                fontSize: 20.spMin,
               ),
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.otp,
               titleText: 'OTP*',
@@ -41,7 +41,7 @@ class ResetPasswordView
                 FilteringTextInputFormatter.digitsOnly,
               ],
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.pin,
               titleText: 'New pin*',
@@ -61,7 +61,7 @@ class ResetPasswordView
                 FilteringTextInputFormatter.digitsOnly,
               ],
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.confirmPin,
               titleText: 'Confirm pin*',
@@ -84,7 +84,7 @@ class ResetPasswordView
                 FilteringTextInputFormatter.digitsOnly,
               ],
             ),
-            23.verticalSpace,
+            23.verticalSpacing,
             Align(
               alignment: Alignment.centerRight,
               child: ValueListenableBuilder(
@@ -116,14 +116,14 @@ class ResetPasswordView
                               style: TextStyle(
                                 color: value ? AppColor.red60 : AppColor.grey30,
                                 fontWeight: FontWeight.w600,
-                                fontSize: 14.sp,
+                                fontSize: 14.spMin,
                               ),
                             );
                           }),
                     );
                   }),
             ),
-            230.verticalSpace,
+            230.verticalSpacing,
             ValueListenableBuilder(
               valueListenable: controller.isLoading,
               builder: (context, state, _) {
@@ -138,7 +138,7 @@ class ResetPasswordView
                 );
               },
             ),
-            24.verticalSpace,
+            24.verticalSpacing,
           ],
         ),
       ),

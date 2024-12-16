@@ -10,9 +10,9 @@ class ShowFlushBar {
     final flushBar = Flushbar(
       backgroundColor: Colors.red.withOpacity(0.8),
       borderColor: Colors.red,
-      borderRadius: BorderRadius.circular(8.r),
-      margin: EdgeInsets.symmetric(horizontal: 8.w),
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+      borderRadius: BorderRadius.circular(8),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       messageText: Text(
         error ?? 'Something went wrong',
         textAlign: TextAlign.center,
@@ -22,7 +22,7 @@ class ShowFlushBar {
           fontSize: 18,
         ),
       ),
-      positionOffset: kBottomNavigationBarHeight.h,
+      positionOffset: kBottomNavigationBarHeight,
       duration: duration ?? const Duration(seconds: 3),
     );
     flushBar.show(routes.routerDelegate.navigatorKey.currentContext!);
@@ -41,9 +41,9 @@ class ShowFlushBar {
     final flushBar = Flushbar(
       backgroundColor: Colors.green.withOpacity(0.8),
       borderColor: Colors.green,
-      borderRadius: BorderRadius.circular(8.r),
-      margin: EdgeInsets.symmetric(horizontal: 8.w),
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+      borderRadius: BorderRadius.circular(8),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       messageText: Text(
         message ?? 'Successful',
         textAlign: TextAlign.center,
@@ -53,7 +53,7 @@ class ShowFlushBar {
           fontSize: 18,
         ),
       ),
-      positionOffset: kBottomNavigationBarHeight.h,
+      positionOffset: kBottomNavigationBarHeight,
       duration: duration ?? const Duration(seconds: 3),
     );
     flushBar.show(routes.routerDelegate.navigatorKey.currentContext!);
@@ -70,28 +70,28 @@ class ShowFlushBar {
       builder: (context) {
         return Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.r),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Padding(
             padding: [10].pad,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                20.verticalSpace,
+                20.verticalSpacing,
                 Text(
                   message,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontSize: 15.sp,
+                    fontSize: 15.spMin,
                   ),
                 ),
-                10.verticalSpace,
+                10.verticalSpacing,
                 AppButton(
                   text: 'Close',
                   onTap: () => Navigator.of(context).pop(),
                 ),
-                20.verticalSpace,
+                20.verticalSpacing,
               ],
             ),
           ),

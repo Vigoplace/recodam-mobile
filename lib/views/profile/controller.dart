@@ -19,10 +19,10 @@ class ProfileController extends ConsumerState<ProfileScreen> {
     showModalBottomSheet(
       showDragHandle: true,
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.r),
-          topRight: Radius.circular(30.r),
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
       ),
       backgroundColor: AppColor.white,
@@ -40,51 +40,51 @@ class ProfileController extends ConsumerState<ProfileScreen> {
                 color: AppColor.light100,
               ),
             ),
-            18.verticalSpace,
+            18.verticalSpacing,
             ListTile(
               contentPadding: EdgeInsets.zero,
               onTap: () => selectImage(source: ImageSource.camera),
               title: Row(
                 children: [
                   CircleAvatar(
-                    radius: 20.r,
+                    radius: 20,
                     backgroundColor: AppColor.red60,
                     child: SvgPicture.asset(AppSvg.camera),
                   ),
-                  16.horizontalSpace,
+                  16.horizontalSpacing,
                   Text(
                     "Camera",
                     style: TextStyle(
-                      fontSize: 14.sp,
+                      fontSize: 14.spMin,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                 ],
               ),
             ),
-            20.verticalSpace,
+            20.verticalSpacing,
             ListTile(
               contentPadding: EdgeInsets.zero,
               onTap: () => selectImage(source: ImageSource.gallery),
               title: Row(
                 children: [
                   CircleAvatar(
-                    radius: 20.r,
+                    radius: 20,
                     backgroundColor: AppColor.red60,
                     child: SvgPicture.asset(AppSvg.gallery),
                   ),
-                  16.horizontalSpace,
+                  16.horizontalSpacing,
                   Text(
                     "Gallery",
                     style: TextStyle(
-                      fontSize: 14.sp,
+                      fontSize: 14.spMin,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                 ],
               ),
             ),
-            50.verticalSpace,
+            50.verticalSpacing,
           ],
         ),
       ),
@@ -109,7 +109,7 @@ class ProfileController extends ConsumerState<ProfileScreen> {
       builder: (context) => Dialog(
         insetPadding: [20, 0, 20, 0].pad,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(8),
         ),
         surfaceTintColor: AppColor.white,
         child: Padding(
@@ -121,20 +121,20 @@ class ProfileController extends ConsumerState<ProfileScreen> {
               Text(
                 "Upload picture",
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 16.spMin,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              25.verticalSpace,
+              25.verticalSpacing,
               Text(
                 "This will be your new profile picture. Other people can see it.",
                 style: TextStyle(
-                  fontSize: 14.sp,
+                  fontSize: 14.spMin,
                   fontWeight: FontWeight.w400,
                   color: AppColor.light100,
                 ),
               ),
-              40.verticalSpace,
+              40.verticalSpacing,
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -143,19 +143,19 @@ class ProfileController extends ConsumerState<ProfileScreen> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                         fontWeight: FontWeight.w700,
                         color: AppColor.grey20,
                       ),
                     ),
                   ),
-                  40.horizontalSpace,
+                  40.horizontalSpacing,
                   GestureDetector(
                     onTap: () => context.popTo(true),
                     child: Text(
                       "Upload",
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                         fontWeight: FontWeight.w700,
                         color: AppColor.red60,
                       ),
@@ -198,7 +198,7 @@ class ProfileController extends ConsumerState<ProfileScreen> {
         insetPadding: [20, 0, 20, 0].pad,
         surfaceTintColor: AppColor.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Padding(
           padding: [16, 21].pad,
@@ -209,18 +209,18 @@ class ProfileController extends ConsumerState<ProfileScreen> {
               Text(
                 "Enter new name",
                 style: TextStyle(
-                  fontSize: 14.sp,
+                  fontSize: 14.spMin,
                   fontWeight: FontWeight.w700,
                   color: AppColor.light100,
                 ),
               ),
-              10.verticalSpace,
+              10.verticalSpacing,
               CustomTextInput(
                 controller: nameController,
                 hintText: 'Alicia Williams',
                 maxLength: 16,
               ),
-              41.verticalSpace,
+              41.verticalSpacing,
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -229,19 +229,19 @@ class ProfileController extends ConsumerState<ProfileScreen> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                         fontWeight: FontWeight.w700,
                         color: AppColor.grey20,
                       ),
                     ),
                   ),
-                  40.horizontalSpace,
+                  40.horizontalSpacing,
                   GestureDetector(
                     onTap: () => context.pop(true),
                     child: Text(
                       "Save",
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                         fontWeight: FontWeight.w700,
                         color: AppColor.light100,
                       ),
@@ -287,7 +287,7 @@ class ProfileController extends ConsumerState<ProfileScreen> {
       builder: (context) => Dialog(
         insetPadding: [20, 0, 20, 0].pad,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(8),
         ),
         surfaceTintColor: AppColor.white,
         child: Padding(
@@ -299,20 +299,20 @@ class ProfileController extends ConsumerState<ProfileScreen> {
               Text(
                 "Log out",
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 16.spMin,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              25.verticalSpace,
+              25.verticalSpacing,
               Text(
                 "Are you sure you want to log out of your account",
                 style: TextStyle(
-                  fontSize: 14.sp,
+                  fontSize: 14.spMin,
                   fontWeight: FontWeight.w400,
                   color: AppColor.light100,
                 ),
               ),
-              40.verticalSpace,
+              40.verticalSpacing,
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -321,13 +321,13 @@ class ProfileController extends ConsumerState<ProfileScreen> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                         fontWeight: FontWeight.w700,
                         color: AppColor.grey20,
                       ),
                     ),
                   ),
-                  40.horizontalSpace,
+                  40.horizontalSpacing,
                   GestureDetector(
                     onTap: () async {
                       context.pop(true);
@@ -335,7 +335,7 @@ class ProfileController extends ConsumerState<ProfileScreen> {
                     child: Text(
                       "Logout",
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                         fontWeight: FontWeight.w700,
                         color: AppColor.red60,
                       ),

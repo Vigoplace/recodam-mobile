@@ -103,10 +103,10 @@ class RecordController extends ConsumerState<RecordScreen> {
       showDragHandle: true,
       isScrollControlled: true,
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.r),
-          topRight: Radius.circular(30.r),
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
       ),
       backgroundColor: AppColor.grey,
@@ -119,7 +119,7 @@ class RecordController extends ConsumerState<RecordScreen> {
             child: Column(
               // mainAxisSize: MainAxisSize.min,
               children: [
-                15.verticalSpace,
+                15.verticalSpacing,
                 CustomTextInput(
                   controller: controller,
                   titleText: 'Search with phone number',
@@ -127,7 +127,7 @@ class RecordController extends ConsumerState<RecordScreen> {
                   textInputAction: TextInputAction.done,
                   onChanged: (p0) => refresh(() => number = p0),
                 ),
-                40.verticalSpace,
+                40.verticalSpacing,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -136,13 +136,13 @@ class RecordController extends ConsumerState<RecordScreen> {
                       child: Text(
                         "Cancel",
                         style: TextStyle(
-                          fontSize: 16.sp,
+                          fontSize: 16.spMin,
                           fontWeight: FontWeight.w700,
                           color: AppColor.grey20,
                         ),
                       ),
                     ),
-                    40.horizontalSpace,
+                    40.horizontalSpacing,
                     GestureDetector(
                       onTap: controller.text.isEmpty
                           ? null
@@ -150,7 +150,7 @@ class RecordController extends ConsumerState<RecordScreen> {
                       child: Text(
                         "Okay",
                         style: TextStyle(
-                          fontSize: 16.sp,
+                          fontSize: 16.spMin,
                           fontWeight: FontWeight.w700,
                           color: controller.text.isEmpty
                               ? AppColor.grey20
@@ -160,7 +160,7 @@ class RecordController extends ConsumerState<RecordScreen> {
                     ),
                   ],
                 ).animate().moveX(),
-                50.verticalSpace,
+                50.verticalSpacing,
               ],
             ),
           ),
@@ -168,6 +168,7 @@ class RecordController extends ConsumerState<RecordScreen> {
       }),
     ).then((choice) async {
       if (choice != null) {
+        if (!mounted) return;
         var bookChoice = await context.pushNamed<PostBookInfo?>(
           AddToBookScreen.name,
           extra: AddToBookInfo(
@@ -196,10 +197,10 @@ class RecordController extends ConsumerState<RecordScreen> {
       showDragHandle: true,
       isScrollControlled: true,
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.r),
-          topRight: Radius.circular(30.r),
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
       ),
       backgroundColor: AppColor.white,
@@ -217,7 +218,7 @@ class RecordController extends ConsumerState<RecordScreen> {
                 hintText: 'Search',
               ),
             ),
-            20.verticalSpace,
+            20.verticalSpacing,
             Align(
               alignment: Alignment.centerLeft,
               child: TextButton(
@@ -230,7 +231,7 @@ class RecordController extends ConsumerState<RecordScreen> {
                   style: TextStyle(
                     color: AppColor.red100,
                     fontWeight: FontWeight.w700,
-                    fontSize: 16.sp,
+                    fontSize: 16.spMin,
                   ),
                 ),
               ),
@@ -248,7 +249,7 @@ class RecordController extends ConsumerState<RecordScreen> {
                 decoration: ShapeDecoration(
                   color: AppColor.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 child: Row(
@@ -256,20 +257,20 @@ class RecordController extends ConsumerState<RecordScreen> {
                     SvgPicture.asset(
                       AppSvg.dashboard,
                     ).animate().scale(),
-                    20.horizontalSpace,
+                    20.horizontalSpacing,
                     Text(
                       'My dasboard',
                       style: TextStyle(
                         color: AppColor.grey100,
                         fontWeight: FontWeight.w700,
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            15.verticalSpace,
+            15.verticalSpacing,
             Expanded(
               child: Books(
                 pagination: pagination,

@@ -19,13 +19,13 @@ class AllRecordsView
                 paddingLeft: 16,
               ),
               centerTitle: true,
-              leadingWidth: 80.w,
+              leadingWidth: 80,
               title: Text(
                 'All records',
                 style: TextStyle(
                   color: AppColor.grey100,
                   fontWeight: FontWeight.w700,
-                  fontSize: 18.sp,
+                  fontSize: 18.spMin,
                 ),
               ),
             ),
@@ -33,7 +33,7 @@ class AllRecordsView
         },
         body: Column(
           children: [
-            50.verticalSpace,
+            50.verticalSpacing,
             Padding(
               padding: [15].pad,
               child: CustomTextInput(

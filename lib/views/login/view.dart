@@ -17,10 +17,10 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
-                fontSize: 20.sp,
+                fontSize: 20.spMin,
               ),
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.phone,
               titleText: 'Phone number*',
@@ -40,7 +40,7 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                 FilteringTextInputFormatter.digitsOnly,
               ],
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             ValueListenableBuilder(
               valueListenable: controller.showPin,
               builder: (context, state, _) {
@@ -70,7 +70,7 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                 );
               },
             ),
-            23.verticalSpace,
+            23.verticalSpacing,
             Align(
               alignment: Alignment.centerRight,
               child: InkWell(
@@ -81,7 +81,7 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                   style: TextStyle(
                     color: AppColor.grey30,
                     fontWeight: FontWeight.w600,
-                    fontSize: 14.sp,
+                    fontSize: 14.spMin,
                   ),
                 ),
               ),
@@ -108,7 +108,7 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                 );
               },
             ),
-            24.verticalSpace,
+            24.verticalSpacing,
             Center(
               child: RichText(
                 text: TextSpan(
@@ -118,7 +118,7 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                       style: TextStyle(
                         color: AppColor.grey100,
                         fontWeight: FontWeight.w400,
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                       ),
                     ),
                     TextSpan(
@@ -126,7 +126,7 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                       style: TextStyle(
                         color: AppColor.red60,
                         fontWeight: FontWeight.w700,
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () =>
@@ -136,7 +136,7 @@ class LoginView extends StatelessView<LoginScreen, LoginController> {
                 ),
               ),
             ),
-            28.verticalSpace,
+            28.verticalSpacing,
           ],
         ),
       ),

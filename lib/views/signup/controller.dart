@@ -60,9 +60,10 @@ class SignupController extends ConsumerState<SignupScreen> {
           ShowFlushBar.showSuccess(
             message: data.message,
             perform: () async {
-              LocalStorage.instance
-                  .saveUserInfo(data.data)
-                  .whenComplete(() => context.goNamed(HomeScreen.name));
+              LocalStorage.instance.saveUserInfo(data.data).whenComplete(() {
+                if (!mounted) return;
+                context.goNamed(HomeScreen.name);
+              });
             },
           );
         }
@@ -80,10 +81,10 @@ class SignupController extends ConsumerState<SignupScreen> {
     var choice = await showModalBottomSheet<CountryModel?>(
       context: context,
       showDragHandle: true,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.r),
-          topRight: Radius.circular(30.r),
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
       ),
       backgroundColor: AppColor.white,
@@ -118,7 +119,7 @@ class SignupController extends ConsumerState<SignupScreen> {
                                 },
                               ),
                             ),
-                            10.horizontalSpace,
+                            10.horizontalSpacing,
                             SvgButton(
                               icon: AppSvg.remove,
                               onTap: () => context.pop(),

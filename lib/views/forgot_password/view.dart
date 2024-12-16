@@ -18,10 +18,10 @@ class ForgotPasswordView
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
-                fontSize: 20.sp,
+                fontSize: 20.spMin,
               ),
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.email,
               titleText: 'Email*',
@@ -37,7 +37,7 @@ class ForgotPasswordView
                 return null;
               },
             ),
-            450.verticalSpace,
+            450.verticalSpacing,
             ValueListenableBuilder(
               valueListenable: controller.isLoading,
               builder: (context, state, _) {
@@ -52,7 +52,7 @@ class ForgotPasswordView
                 );
               },
             ),
-            28.verticalSpace,
+            28.verticalSpacing,
           ],
         ),
       ),

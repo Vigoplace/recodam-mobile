@@ -11,6 +11,7 @@ class RecodamFirebaseService {
         debugPrint('GABBYGREAT TERMINATED');
         var payload = NotificationPayload.fromJson(event.data);
         if (payload.type == NotificationType.recordConfirmation) {
+          if (!context.mounted) return;
           context.push(UnConfirmedRecordsScreen.name);
         }
       }

@@ -25,22 +25,22 @@ class OnboardingView
                   padding: [21, 0].pad,
                   child: Column(
                     children: [
-                      31.verticalSpace,
+                      31.verticalSpacing,
                       Text(
                         'Recodam',
                         style: TextStyle(
                           color: AppColor.white,
                           fontWeight: FontWeight.w700,
-                          fontSize: 32.sp,
+                          fontSize: 32.spMin,
                         ),
                       ),
-                      10.verticalSpace,
+                      10.verticalSpacing,
                       Container(
-                        height: 2.h,
-                        width: 150.w,
+                        height: 2,
+                        width: 150,
                         color: AppColor.red70,
                       ),
-                      32.verticalSpace,
+                      32.verticalSpacing,
                       Center(
                         child: Text(
                           "Keep track of your spending and keep your records straight.",
@@ -48,7 +48,7 @@ class OnboardingView
                           style: TextStyle(
                             color: AppColor.white,
                             fontWeight: FontWeight.w700,
-                            fontSize: 20.sp,
+                            fontSize: 20.spMin,
                           ),
                         ),
                       ),
@@ -57,7 +57,7 @@ class OnboardingView
                         text: 'CREATE ACCOUNT',
                         onTap: () => context.pushNamed(SignupScreen.name),
                       ),
-                      28.verticalSpace,
+                      28.verticalSpacing,
                       RichText(
                         text: TextSpan(
                           children: [
@@ -66,7 +66,7 @@ class OnboardingView
                               style: TextStyle(
                                 color: AppColor.white,
                                 fontWeight: FontWeight.w700,
-                                fontSize: 17.sp,
+                                fontSize: 17.spMin,
                               ),
                             ),
                             TextSpan(
@@ -74,7 +74,7 @@ class OnboardingView
                               style: TextStyle(
                                 color: AppColor.red30,
                                 fontWeight: FontWeight.w400,
-                                fontSize: 16.sp,
+                                fontSize: 16.spMin,
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap =
@@ -83,7 +83,7 @@ class OnboardingView
                           ],
                         ),
                       ),
-                      70.verticalSpace,
+                      70.verticalSpacing,
                     ],
                   ),
                 ),

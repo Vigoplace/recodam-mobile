@@ -138,7 +138,7 @@ class _BooksState extends ConsumerState<Books> {
                       padding: [0, widget.topMargin ?? 30, 0, 0].pad,
                       itemCount: list.length,
                       separatorBuilder: (context, index) =>
-                          (widget.space ?? 15).verticalSpace,
+                          (widget.space ?? 15).verticalSpacing,
                       itemBuilder: (context, index) {
                         var book = list[index];
                         return widget.mini

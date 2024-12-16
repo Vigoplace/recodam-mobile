@@ -35,8 +35,10 @@ class ForgotPasswordController extends ConsumerState<ForgotPasswordScreen> {
           ShowFlushBar.showSuccess(
             message: value,
             perform: () async {
-              LocalStorage.instance.setEmail(email.text).whenComplete(
-                  () => context.replaceNamed(ResetPasswordScreen.name));
+              LocalStorage.instance.setEmail(email.text).whenComplete(() {
+                if (!mounted) return;
+                context.replaceNamed(ResetPasswordScreen.name);
+              });
             },
           );
         }

@@ -35,7 +35,7 @@ class RecordCard extends ConsumerWidget {
         margin: [16, 0, 16, 16].pad,
         decoration: BoxDecoration(
           color: AppColor.white,
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,25 +53,25 @@ class RecordCard extends ConsumerWidget {
                         style: TextStyle(
                           color: AppColor.grey100,
                           fontWeight: FontWeight.w700,
-                          fontSize: 14.sp,
+                          fontSize: 14.spMin,
                         ),
                       );
                     },
                   ),
                 ),
-                10.horizontalSpace,
+                10.horizontalSpacing,
                 Text(
                   '${record.symbol}${record.amount}',
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     color: AppColor.grey100,
                     fontWeight: FontWeight.w700,
-                    fontSize: 14.sp,
+                    fontSize: 14.spMin,
                   ),
                 ),
               ],
             ),
-            4.verticalSpace,
+            4.verticalSpacing,
             if (record.receiver != null)
               Row(
                 children: [
@@ -80,10 +80,10 @@ class RecordCard extends ConsumerWidget {
                     style: TextStyle(
                       color: AppColor.grey100,
                       fontWeight: FontWeight.w700,
-                      fontSize: 14.sp,
+                      fontSize: 14.spMin,
                     ),
                   ),
-                  5.horizontalSpace,
+                  5.horizontalSpacing,
                   Expanded(
                     child: TextScroll(
                       record.receiver!.name,
@@ -91,20 +91,20 @@ class RecordCard extends ConsumerWidget {
                       style: TextStyle(
                         color: AppColor.grey100,
                         fontWeight: FontWeight.w700,
-                        fontSize: 14.sp,
+                        fontSize: 14.spMin,
                       ),
                     ),
                   ),
                 ],
               ),
-            23.verticalSpace,
+            23.verticalSpacing,
             TextScroll(
               record.details,
               velocity: AppConstant.velocity,
               style: TextStyle(
                 color: AppColor.grey40,
                 fontWeight: FontWeight.w400,
-                fontSize: 14.sp,
+                fontSize: 14.spMin,
               ),
             ),
           ],

@@ -31,7 +31,7 @@ class CreateListView
                 return null;
               },
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.amount,
               titleText: 'Amount*',
@@ -41,7 +41,7 @@ class CreateListView
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    10.horizontalSpace,
+                    10.horizontalSpacing,
                     ValueListenableBuilder(
                       valueListenable: controller.currency,
                       builder: (context, value, _) {
@@ -55,7 +55,7 @@ class CreateListView
                         );
                       },
                     ),
-                    3.horizontalSpace,
+                    3.horizontalSpacing,
                     const SvgButton(
                       icon: AppSvg.chevronDown,
                     ),
@@ -80,7 +80,7 @@ class CreateListView
                 return null;
               },
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.bankName,
               titleText: 'Bank name',
@@ -94,7 +94,7 @@ class CreateListView
                   ? AutovalidateMode.onUserInteraction
                   : AutovalidateMode.disabled,
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.accountNumber,
               titleText: 'Account number (recipient)',
@@ -115,7 +115,7 @@ class CreateListView
                 FilteringTextInputFormatter.digitsOnly,
               ],
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.accountName,
               titleText: 'Account name (recipient)',
@@ -124,7 +124,7 @@ class CreateListView
                   ? AutovalidateMode.onUserInteraction
                   : AutovalidateMode.disabled,
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.details,
               titleText: 'Detail / Purpose*',
@@ -140,7 +140,7 @@ class CreateListView
                 return null;
               },
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               controller: controller.date,
               titleText: 'Transaction date*',
@@ -160,13 +160,13 @@ class CreateListView
                 return null;
               },
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             Text(
               'Evidence of payment (pdf or Jpeg file)*',
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
-                fontSize: 14.sp,
+                fontSize: 14.spMin,
               ),
             ),
             Text(
@@ -174,18 +174,18 @@ class CreateListView
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
-                fontSize: 10.sp,
+                fontSize: 10.spMin,
               ),
             ),
-            10.verticalSpace,
+            10.verticalSpacing,
             ValueListenableBuilder(
               valueListenable: controller.file,
               builder: (context, value, _) {
                 return Container(
-                  height: 300.h,
+                  height: 300,
                   decoration: BoxDecoration(
                     color: AppColor.grey1,
-                    borderRadius: BorderRadius.circular(8.r),
+                    borderRadius: BorderRadius.circular(8),
                     border: value == null
                         ? null
                         : Border.all(
@@ -202,7 +202,7 @@ class CreateListView
                                 onTap: controller.pickImage,
                               )
                             : ClipRRect(
-                                borderRadius: BorderRadius.circular(8.r),
+                                borderRadius: BorderRadius.circular(8),
                                 child: switch (value.path.endsWith('pdf')) {
                                   true => ViewPdf(
                                       path: value.path,
@@ -229,16 +229,16 @@ class CreateListView
                 );
               },
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             Text(
               'Type of record*',
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
-                fontSize: 14.sp,
+                fontSize: 14.spMin,
               ),
             ),
-            16.verticalSpace,
+            16.verticalSpacing,
             GroupedSelection<RecordType>(
               initialIndex:
                   widget.create.bookId?.recordType ?? RecordType.debit,
@@ -260,14 +260,14 @@ class CreateListView
               ],
               onTap: <RecordType>(position) => controller.recordType = position,
             ),
-            65.verticalSpace,
+            65.verticalSpacing,
             Center(
               child: AppButton(
                 text: 'Save',
                 onTap: controller.createRecord,
               ),
             ),
-            40.verticalSpace,
+            40.verticalSpacing,
           ],
         ),
       ),

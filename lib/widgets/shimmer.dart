@@ -7,31 +7,31 @@ class HomeBookShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 220.w,
-      margin: EdgeInsets.only(left: 16.w),
+      width: 220,
+      margin: const EdgeInsets.only(left: 16),
       decoration: BoxDecoration(
         color: AppColor.white,
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: BorderRadius.circular(8),
       ),
       padding: [16, 16].pad,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          23.verticalSpace,
-          ShimmerText(
-            width: 120.w,
+          23.verticalSpacing,
+          const ShimmerText(
+            width: 120,
           ),
-          23.verticalSpace,
-          ShimmerText(
-            width: 110.w,
+          23.verticalSpacing,
+          const ShimmerText(
+            width: 110,
           ),
-          23.verticalSpace,
+          23.verticalSpacing,
           const ShimmerText(),
           const Spacer(),
-          ShimmerText(
-            width: 50.w,
-            height: 50.h,
-            radius: 10.r,
+          const ShimmerText(
+            width: 50,
+            height: 50,
+            radius: 10,
           ),
         ],
       ),
@@ -57,8 +57,8 @@ class ShimmerText extends StatelessWidget {
       period: const Duration(seconds: 5),
       highlightColor: AppColor.grey,
       child: Container(
-        height: height ?? 12.h,
-        width: width ?? 100.w,
+        height: height ?? 12,
+        width: width ?? 100,
         decoration: ShapeDecoration(
           color: AppColor.red30,
           shape: RoundedRectangleBorder(
@@ -76,34 +76,34 @@ class HomeRecordShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150.h,
-      margin: EdgeInsets.only(bottom: 16.w, left: 16.w, right: 16.w),
+      height: 150,
+      margin: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
       decoration: BoxDecoration(
         color: AppColor.white,
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: BorderRadius.circular(8),
       ),
       padding: [16, 16].pad,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ShimmerText(
-                width: 120.w,
+                width: 120,
               ),
               ShimmerText(
-                width: 80.w,
+                width: 80,
               ),
             ],
           ),
-          20.verticalSpace,
-          ShimmerText(
-            width: 150.w,
+          20.verticalSpacing,
+          const ShimmerText(
+            width: 150,
           ),
           const Spacer(),
-          ShimmerText(
-            width: 200.w,
+          const ShimmerText(
+            width: 200,
           ),
         ],
       ),

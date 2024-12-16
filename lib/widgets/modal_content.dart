@@ -26,13 +26,13 @@ class _SearchModalContentState extends State<SearchModalContent> {
             isScrollable: true,
             labelStyle: TextStyle(
               fontWeight: FontWeight.w700,
-              fontSize: 16.sp,
+              fontSize: 16.spMin,
             ),
             indicatorSize: TabBarIndicatorSize.label,
             indicatorColor: AppColor.red60,
             unselectedLabelStyle: TextStyle(
               fontWeight: FontWeight.w400,
-              fontSize: 16.sp,
+              fontSize: 16.spMin,
             ),
             labelColor: AppColor.grey100,
             unselectedLabelColor: AppColor.light90,

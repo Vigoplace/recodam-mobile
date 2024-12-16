@@ -78,10 +78,10 @@ class CustomTextInput extends StatelessWidget {
                 style: TextStyle(
                   color: AppColor.grey100,
                   fontWeight: FontWeight.w700,
-                  fontSize: 14.sp,
+                  fontSize: 14.spMin,
                 ),
               ),
-              8.verticalSpace,
+              8.verticalSpacing,
             ],
           ),
         TextFormField(
@@ -111,13 +111,13 @@ class CustomTextInput extends StatelessWidget {
           style: TextStyle(
             color: AppColor.grey100,
             fontWeight: FontWeight.w400,
-            fontSize: 16.sp,
+            fontSize: 16.spMin,
           ),
           cursorColor: AppColor.grey100,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
-              vertical: 16.h,
-              horizontal: 15.w,
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 15,
             ),
             fillColor: fillColor ?? AppColor.white,
             filled: true,
@@ -128,22 +128,22 @@ class CustomTextInput extends StatelessWidget {
                 TextStyle(
                   color: AppColor.grey40,
                   fontWeight: FontWeight.w400,
-                  fontSize: 16.sp,
+                  fontSize: 16.spMin,
                 ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(100.r),
+              borderRadius: BorderRadius.circular(100),
               borderSide: BorderSide(
                 color: AppColor.dark20,
               ),
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(100.r),
+              borderRadius: BorderRadius.circular(100),
               borderSide: BorderSide(
                 color: AppColor.grey40,
               ),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(100.r),
+              borderRadius: BorderRadius.circular(100),
               borderSide: BorderSide(
                 color: AppColor.grey40,
               ),

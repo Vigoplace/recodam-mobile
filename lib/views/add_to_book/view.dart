@@ -26,19 +26,19 @@ class AddToBookView
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      10.verticalSpace,
+                      10.verticalSpacing,
                       Text(
                         'Owner\'s Infromation',
                         style: TextStyle(
                           color: AppColor.grey40,
                         ),
                       ),
-                      12.verticalSpace,
+                      12.verticalSpacing,
                       Container(
                         padding: [16, 16].pad,
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.r),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           color: AppColor.grey,
                         ),
@@ -51,15 +51,15 @@ class AddToBookView
                                 Text(
                                   data.name,
                                   style: TextStyle(
-                                    fontSize: 16.sp,
+                                    fontSize: 16.spMin,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                12.verticalSpace,
+                                12.verticalSpacing,
                                 Text(
                                   data.phone,
                                   style: TextStyle(
-                                    fontSize: 12.sp,
+                                    fontSize: 12.spMin,
                                     fontWeight: FontWeight.w400,
                                     color: AppColor.grey40,
                                   ),
@@ -72,7 +72,7 @@ class AddToBookView
                           ],
                         ),
                       ),
-                      20.verticalSpace,
+                      20.verticalSpacing,
                     ],
                   ),
                   CustomTextInput(
@@ -89,7 +89,7 @@ class AddToBookView
             Expanded(
               child: Column(
                 children: [
-                  20.verticalSpace,
+                  20.verticalSpacing,
                   InkWell(
                     overlayColor: WidgetStateColor.transparent,
                     onTap: () => controller.showConfirmation(null),
@@ -99,7 +99,7 @@ class AddToBookView
                       decoration: ShapeDecoration(
                         color: AppColor.white,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                       child: Row(
@@ -107,13 +107,13 @@ class AddToBookView
                           SvgPicture.asset(
                             AppSvg.dashboard,
                           ).animate().scale(),
-                          20.horizontalSpace,
+                          20.horizontalSpacing,
                           Text(
                             'To dashboard',
                             style: TextStyle(
                               color: AppColor.grey100,
                               fontWeight: FontWeight.w700,
-                              fontSize: 16.sp,
+                              fontSize: 16.spMin,
                             ),
                           ),
                         ],

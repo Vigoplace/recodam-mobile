@@ -46,15 +46,15 @@ class _BookCardState extends State<BookCard> {
         padding: [0, 0, 0, 1.5].pad,
         decoration: BoxDecoration(
           color: AppColor.red60,
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(8),
         ),
-        width: 220.w,
+        width: 220,
         margin: [0, 0, 16, 0].pad,
         child: Container(
           padding: [16, 23].pad,
           decoration: BoxDecoration(
             color: AppColor.white,
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,26 +64,26 @@ class _BookCardState extends State<BookCard> {
                 style: TextStyle(
                   color: AppColor.grey100,
                   fontWeight: FontWeight.w700,
-                  fontSize: 14.sp,
+                  fontSize: 14.spMin,
                 ),
               ),
-              10.verticalSpace,
+              10.verticalSpacing,
               Text(
                 widget.book.description,
                 maxLines: 2,
                 overflow: TextOverflow.fade,
                 style: TextStyle(
                   color: AppColor.grey100,
-                  fontSize: 12.sp,
+                  fontSize: 12.spMin,
                 ),
               ),
-              21.verticalSpace,
+              21.verticalSpacing,
               Row(
                 children: [
                   SvgPicture.asset(
                     AppSvg.clock,
                   ),
-                  16.horizontalSpace,
+                  16.horizontalSpacing,
                   ValueListenableBuilder(
                       valueListenable: time,
                       builder: (context, state, _) {
@@ -92,7 +92,7 @@ class _BookCardState extends State<BookCard> {
                           style: TextStyle(
                             color: AppColor.grey100,
                             fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
+                            fontSize: 14.spMin,
                           ),
                         );
                       }),
@@ -100,20 +100,20 @@ class _BookCardState extends State<BookCard> {
               ),
               if (widget.book.type == RecordType.debit &&
                   widget.book.openingBalance != null) ...[
-                16.verticalSpace,
+                16.verticalSpacing,
                 Row(
                   children: [
                     SvgPicture.asset(
                       AppSvg.rect,
                     ),
-                    16.horizontalSpace,
+                    16.horizontalSpacing,
                     Text(
                       '${widget.book.symbol}${widget.book.openingBalance}',
                       style: TextStyle(
                         fontFamily: 'Roboto',
                         color: AppColor.grey100,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14.sp,
+                        fontSize: 14.spMin,
                       ),
                     )
                   ],
@@ -125,13 +125,13 @@ class _BookCardState extends State<BookCard> {
                   SvgPicture.asset(
                     AppSvg.card,
                   ).animate().scale(),
-                  6.horizontalSpace,
+                  6.horizontalSpacing,
                   Text(
                     '${widget.book.totalRecords}',
                     style: TextStyle(
                       color: AppColor.grey100,
                       fontWeight: FontWeight.w400,
-                      fontSize: 12.sp,
+                      fontSize: 12.spMin,
                     ),
                   ),
                   const Spacer(),
@@ -143,7 +143,7 @@ class _BookCardState extends State<BookCard> {
                           ? AppColor.red60
                           : AppColor.grey100,
                       fontWeight: FontWeight.w400,
-                      fontSize: 12.sp,
+                      fontSize: 12.spMin,
                     ),
                   ),
                 ],
@@ -191,11 +191,11 @@ class _HorizBookCardState extends State<HorizBookCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200.h,
+      height: 200,
       margin: [16, 0, 16, 0].pad,
       decoration: BoxDecoration(
         color: AppColor.white,
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: GestureDetector(
         onTap: () {
@@ -213,7 +213,7 @@ class _HorizBookCardState extends State<HorizBookCard> {
           color: AppColor.white,
           surfaceTintColor: AppColor.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.r),
+            borderRadius: BorderRadius.circular(10),
           ),
           margin: EdgeInsets.zero,
           child: Padding(
@@ -226,10 +226,10 @@ class _HorizBookCardState extends State<HorizBookCard> {
                   style: TextStyle(
                     color: AppColor.grey100,
                     fontWeight: FontWeight.w700,
-                    fontSize: 14.sp,
+                    fontSize: 14.spMin,
                   ),
                 ),
-                21.verticalSpace,
+                21.verticalSpacing,
                 if (widget.book.type == RecordType.debit &&
                     widget.book.openingBalance != null) ...[
                   Row(
@@ -237,26 +237,26 @@ class _HorizBookCardState extends State<HorizBookCard> {
                       SvgPicture.asset(
                         AppSvg.rect,
                       ),
-                      16.horizontalSpace,
+                      16.horizontalSpacing,
                       Text(
                         '${widget.book.symbol}${widget.book.openingBalance}',
                         style: TextStyle(
                           fontFamily: 'Roboto',
                           color: AppColor.grey100,
                           fontWeight: FontWeight.w400,
-                          fontSize: 14.sp,
+                          fontSize: 14.spMin,
                         ),
                       )
                     ],
                   ),
-                  16.verticalSpace,
+                  16.verticalSpacing,
                 ],
                 Row(
                   children: [
                     SvgPicture.asset(
                       AppSvg.clock,
                     ),
-                    16.horizontalSpace,
+                    16.horizontalSpacing,
                     ValueListenableBuilder(
                       valueListenable: time,
                       builder: (context, state, _) {
@@ -265,7 +265,7 @@ class _HorizBookCardState extends State<HorizBookCard> {
                           style: TextStyle(
                             color: AppColor.grey100,
                             fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
+                            fontSize: 14.spMin,
                           ),
                         );
                       },
@@ -281,13 +281,13 @@ class _HorizBookCardState extends State<HorizBookCard> {
                         SvgPicture.asset(
                           AppSvg.card,
                         ).animate().scale(),
-                        6.horizontalSpace,
+                        6.horizontalSpacing,
                         Text(
                           '${widget.book.totalRecords}',
                           style: TextStyle(
                             color: AppColor.grey100,
                             fontWeight: FontWeight.w400,
-                            fontSize: 12.sp,
+                            fontSize: 12.spMin,
                           ),
                         )
                       ],
@@ -300,7 +300,7 @@ class _HorizBookCardState extends State<HorizBookCard> {
                             ? AppColor.red60
                             : AppColor.grey100,
                         fontWeight: FontWeight.w400,
-                        fontSize: 12.sp,
+                        fontSize: 12.spMin,
                       ),
                     ),
                   ],
@@ -347,7 +347,7 @@ class BookCardMini extends StatelessWidget {
         decoration: ShapeDecoration(
           color: AppColor.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(8),
           ),
         ),
         child: Row(
@@ -355,13 +355,13 @@ class BookCardMini extends StatelessWidget {
             SvgPicture.asset(
               AppSvg.card,
             ).animate().scale(),
-            16.horizontalSpace,
+            16.horizontalSpacing,
             Text(
               book.name,
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
-                fontSize: 16.sp,
+                fontSize: 16.spMin,
               ),
             ),
             const Spacer(),
@@ -370,7 +370,7 @@ class BookCardMini extends StatelessWidget {
               style: TextStyle(
                 color: AppColor.grey40,
                 fontWeight: FontWeight.w400,
-                fontSize: 14.sp,
+                fontSize: 14.spMin,
               ),
             )
           ],

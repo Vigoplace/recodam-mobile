@@ -20,11 +20,11 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
         paddingLeft: 16,
       ),
       centerTitle: centerTitle,
-      leadingWidth: 80.w,
+      leadingWidth: 80,
       elevation: 0,
       actions: [
         ...action,
-        16.horizontalSpace,
+        16.horizontalSpacing,
       ],
       backgroundColor: AppColor.white,
       title: title != null
@@ -33,7 +33,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
-                fontSize: 18.sp,
+                fontSize: 18.spMin,
               ),
             )
           : null,

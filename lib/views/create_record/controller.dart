@@ -117,10 +117,10 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
     var choice = await showModalBottomSheet<CurrencyModel?>(
       context: context,
       showDragHandle: true,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.r),
-          topRight: Radius.circular(30.r),
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
       ),
       backgroundColor: AppColor.white,
@@ -145,7 +145,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
                           ),
                         ),
                       ),
-                      20.verticalSpace,
+                      20.verticalSpacing,
                       Expanded(
                         child: data.isNotEmpty
                             ? ListView.builder(
@@ -159,7 +159,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
                                       Uint8List.fromList(
                                         base64.decode(country.image),
                                       ),
-                                      width: 20.w,
+                                      width: 20,
                                       fit: BoxFit.scaleDown,
                                     ),
                                   ).animate().scale();
@@ -201,10 +201,10 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
     var choice = await showModalBottomSheet<BankModel?>(
       context: context,
       showDragHandle: true,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.r),
-          topRight: Radius.circular(30.r),
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
       ),
       backgroundColor: AppColor.white,
@@ -239,7 +239,7 @@ class CreateRecordController extends ConsumerState<CreateRecordScreen> {
                                 },
                               ),
                             ),
-                            10.horizontalSpace,
+                            10.horizontalSpacing,
                             SvgButton(
                               icon: AppSvg.remove,
                               onTap: () => context.pop(),

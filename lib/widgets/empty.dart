@@ -22,22 +22,22 @@ class EmptyWidget extends StatelessWidget {
           if (text != null)
             Column(
               children: [
-                24.verticalSpace,
+                24.verticalSpacing,
                 Text(
                   text!,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontSize: 16.sp,
+                    fontSize: 16.spMin,
                     color: AppColor.grey50,
                   ),
                 ),
                 if (subText != null) ...[
-                  12.verticalSpace,
+                  12.verticalSpacing,
                   Text(
                     subText!,
                     style: TextStyle(
                       fontWeight: FontWeight.w300,
-                      fontSize: 12.sp,
+                      fontSize: 12.spMin,
                       color: AppColor.grey50,
                     ),
                   ),

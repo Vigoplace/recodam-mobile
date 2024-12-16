@@ -38,7 +38,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
             }
             return const Text('Something went wrong');
           }),
-          10.verticalSpace,
+          10.verticalSpacing,
           if (widget.error is DioException &&
               (widget.error as DioException).response?.statusCode == 404)
             const SizedBox.shrink()
@@ -47,7 +47,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
               text: 'Retry',
               onTap: widget.reload,
             ),
-          40.verticalSpace,
+          40.verticalSpacing,
         ],
       ),
     ).animate().scale();

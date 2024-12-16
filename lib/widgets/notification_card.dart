@@ -43,7 +43,7 @@ class _NotificationCardState extends State<NotificationCard> {
         context.pushTo(ViewRecordById(recordId: widget.notification.recordId));
       },
       child: SizedBox(
-        height: 80.h,
+        height: 80,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -58,7 +58,7 @@ class _NotificationCardState extends State<NotificationCard> {
                     boxShape: BoxShape.circle,
                     boxFit: BoxFit.cover,
                   ),
-            10.horizontalSpace,
+            10.horizontalSpacing,
             Expanded(
               child: Text(
                 widget.notification.message,
@@ -66,32 +66,32 @@ class _NotificationCardState extends State<NotificationCard> {
                 softWrap: false,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 16.spMin,
                   fontWeight: FontWeight.w400,
                   color: AppColor.grey100,
                 ),
               ),
             ),
-            30.horizontalSpace,
+            30.horizontalSpacing,
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
                   widget.notification.createdAt.timeCalculator(),
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 12.spMin,
                     fontWeight: FontWeight.w700,
                     color: AppColor.red100,
                   ),
                 ),
-                8.verticalSpace,
+                8.verticalSpacing,
                 ValueListenableBuilder(
                   valueListenable: isRead,
                   builder: (context, read, _) {
                     return read
                         ? const SizedBox.shrink()
                         : CircleAvatar(
-                            radius: 4.r,
+                            radius: 4,
                             backgroundColor: AppColor.red60,
                           );
                   },

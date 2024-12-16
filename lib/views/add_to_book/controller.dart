@@ -37,10 +37,10 @@ class AddToBookController extends ConsumerState<AddToBookScreen> {
       showDragHandle: true,
       isScrollControlled: true,
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.r),
-          topRight: Radius.circular(30.r),
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
       ),
       backgroundColor: AppColor.white,
@@ -55,20 +55,20 @@ class AddToBookController extends ConsumerState<AddToBookScreen> {
                 child: Text(
                   "Post to",
                   style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: 16.spMin,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
             ),
             if (book != null) ...[
-              22.verticalSpace,
+              22.verticalSpacing,
               BookCardMini(
                 book: book,
                 onTap: (p0) {},
               )
             ] else ...[
-              10.verticalSpace,
+              10.verticalSpacing,
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
@@ -92,19 +92,19 @@ class AddToBookController extends ConsumerState<AddToBookScreen> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                         fontWeight: FontWeight.w700,
                         color: AppColor.grey20,
                       ),
                     ),
                   ),
-                  40.horizontalSpace,
+                  40.horizontalSpacing,
                   GestureDetector(
                     onTap: () => context.pop(true),
                     child: Text(
                       "Okay",
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                         fontWeight: FontWeight.w700,
                         color: AppColor.light100,
                       ),
@@ -113,13 +113,14 @@ class AddToBookController extends ConsumerState<AddToBookScreen> {
                 ],
               ).animate().moveX(),
             ),
-            50.verticalSpace,
+            50.verticalSpacing,
           ],
         );
       },
     ).then(
       (choice) {
         if (choice == true) {
+          if (!mounted) return;
           context.pop(
             PostBookInfo(
               book: book,

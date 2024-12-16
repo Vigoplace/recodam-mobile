@@ -30,7 +30,7 @@ class CreateBookView
                 return null;
               },
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             CustomTextInput(
               titleText: 'Description',
               controller: controller.description,
@@ -45,7 +45,7 @@ class CreateBookView
                 return null;
               },
             ),
-            32.verticalSpace,
+            32.verticalSpacing,
             ValueListenableBuilder(
               valueListenable: controller.recordType,
               builder: (context, recordType, _) {
@@ -72,7 +72,7 @@ class CreateBookView
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              10.horizontalSpace,
+                              10.horizontalSpacing,
                               ValueListenableBuilder(
                                 valueListenable: controller.currency,
                                 builder: (context, value, _) {
@@ -86,7 +86,7 @@ class CreateBookView
                                   );
                                 },
                               ),
-                              3.horizontalSpace,
+                              3.horizontalSpacing,
                               const SvgButton(
                                 icon: AppSvg.chevronDown,
                               ),
@@ -104,7 +104,7 @@ class CreateBookView
                           return null;
                         },
                       ),
-                      32.verticalSpace,
+                      32.verticalSpacing,
                     ],
                   ),
                 );
@@ -115,10 +115,10 @@ class CreateBookView
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
-                fontSize: 14.sp,
+                fontSize: 14.spMin,
               ),
             ),
-            16.verticalSpace,
+            16.verticalSpacing,
             GroupedSelection<RecordType>(
               initialIndex: controller.recordType.value,
               content: const [
@@ -133,16 +133,16 @@ class CreateBookView
               ],
               onTap: (position) => controller.recordType.value = position,
             ),
-            52.verticalSpace,
+            52.verticalSpacing,
             Text(
               'Manage access',
               style: TextStyle(
                 color: AppColor.grey100,
                 fontWeight: FontWeight.w700,
-                fontSize: 14.sp,
+                fontSize: 14.spMin,
               ),
             ),
-            16.verticalSpace,
+            16.verticalSpacing,
             ValueListenableBuilder(
                 valueListenable: controller.access,
                 builder: (context, access, _) {
@@ -160,7 +160,7 @@ class CreateBookView
                           style: TextStyle(
                             color: AppColor.grey100,
                             fontWeight: FontWeight.w700,
-                            fontSize: 16.sp,
+                            fontSize: 16.spMin,
                           ),
                         ),
                         subtitle: Text(
@@ -168,7 +168,7 @@ class CreateBookView
                           style: TextStyle(
                             color: AppColor.grey100,
                             fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
+                            fontSize: 14.spMin,
                           ),
                         ),
                       ),
@@ -184,7 +184,7 @@ class CreateBookView
                           style: TextStyle(
                             color: AppColor.grey100,
                             fontWeight: FontWeight.w700,
-                            fontSize: 16.sp,
+                            fontSize: 16.spMin,
                           ),
                         ),
                         subtitle: Text(
@@ -192,14 +192,14 @@ class CreateBookView
                           style: TextStyle(
                             color: AppColor.grey100,
                             fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
+                            fontSize: 14.spMin,
                           ),
                         ),
                       ),
                     ],
                   );
                 }),
-            60.verticalSpace,
+            60.verticalSpacing,
             Center(
               child: ValueListenableBuilder(
                 valueListenable: controller.isLoading,
@@ -214,7 +214,7 @@ class CreateBookView
                 },
               ),
             ),
-            40.verticalSpace,
+            40.verticalSpacing,
           ],
         ),
       ),

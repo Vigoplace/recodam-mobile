@@ -18,21 +18,10 @@ abstract class NetworkService {
         },
         onError: (DioException e, handler) async {
           if (e.response?.statusCode == 401) {
-            try {
-              // Refresh token
-              var response = await _dio.request(
-                e.requestOptions.path,
-                data: e.requestOptions.data,
-                queryParameters: e.requestOptions.queryParameters,
-                options: Options(
-                  method: e.requestOptions.method,
-                  headers: e.requestOptions.headers,
-                ),
-              );
-              return handler.resolve(response);
-            } catch (_) {
-              // Logout
-            }
+            // Logout
+            routes.routerDelegate.navigatorKey.currentContext!.goNamed(
+              LoginScreen.name,
+            );
           }
           return handler.next(e);
         },

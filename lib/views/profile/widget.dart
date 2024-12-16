@@ -23,22 +23,22 @@ class ProfileDetail extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 5.h),
+                padding: const EdgeInsets.only(top: 5),
                 child: prefixIcon,
               ),
-              16.horizontalSpace,
+              16.horizontalSpacing,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     name,
                     style: TextStyle(
-                      fontSize: 14.sp,
+                      fontSize: 14.spMin,
                       fontWeight: FontWeight.w400,
                       color: AppColor.grey40,
                     ),
                   ),
-                  8.verticalSpace,
+                  8.verticalSpacing,
                   Text(
                     value,
                     style: TextStyle(

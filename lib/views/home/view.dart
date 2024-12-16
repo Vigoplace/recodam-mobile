@@ -23,7 +23,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                   style: TextStyle(
                     color: AppColor.grey100,
                     fontWeight: FontWeight.w700,
-                    fontSize: 16.sp,
+                    fontSize: 16.spMin,
                   ),
                 ),
                 actions: [
@@ -48,12 +48,12 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                     ),
                     onTap: () => context.pushNamed(ProfileScreen.name),
                   ),
-                  10.horizontalSpace,
+                  10.horizontalSpacing,
                 ],
               ),
               SliverList.list(
                 children: [
-                  29.verticalSpace,
+                  29.verticalSpacing,
                   Padding(
                     padding: const [16, 0].pad,
                     child: Row(
@@ -64,7 +64,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                           style: TextStyle(
                             color: AppColor.grey70,
                             fontWeight: FontWeight.w700,
-                            fontSize: 14.sp,
+                            fontSize: 14.spMin,
                           ),
                         ),
                         InkWell(
@@ -75,16 +75,16 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                             style: TextStyle(
                               color: AppColor.red60,
                               fontWeight: FontWeight.w700,
-                              fontSize: 14.sp,
+                              fontSize: 14.spMin,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  18.verticalSpace,
+                  18.verticalSpacing,
                   SizedBox(
-                    height: 300.h,
+                    height: 300,
                     child: SmartRefresher(
                       controller: controller.refreshController,
                       scrollDirection: Axis.horizontal,
@@ -103,7 +103,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                                 : ListView.builder(
                                     itemCount: data.length,
                                     shrinkWrap: true,
-                                    padding: EdgeInsets.only(left: 16.w),
+                                    padding: const EdgeInsets.only(left: 16),
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
                                       var book = data[index];
@@ -129,7 +129,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                       ),
                     ),
                   ),
-                  34.verticalSpace,
+                  34.verticalSpacing,
                   Padding(
                     padding: const [16, 0].pad,
                     child: Row(
@@ -140,7 +140,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                           style: TextStyle(
                             color: AppColor.grey70,
                             fontWeight: FontWeight.w700,
-                            fontSize: 14.sp,
+                            fontSize: 14.spMin,
                           ),
                         ),
                         InkWell(
@@ -151,14 +151,14 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                             style: TextStyle(
                               color: AppColor.red60,
                               fontWeight: FontWeight.w700,
-                              fontSize: 14.sp,
+                              fontSize: 14.spMin,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  18.verticalSpace,
+                  18.verticalSpacing,
                   Consumer(
                     builder: (context, ref, _) {
                       var record = ref.watch(homeRecordProvider);
@@ -166,7 +166,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                         data: (data) => data.isEmpty
                             ? Column(
                                 children: [
-                                  30.verticalSpace,
+                                  30.verticalSpacing,
                                   const EmptyWidget(
                                     text: 'Nothing to see here',
                                   ),
@@ -196,7 +196,7 @@ class HomeView extends StatelessView<HomeScreen, HomeController> {
                       );
                     },
                   ),
-                  150.verticalSpace,
+                  150.verticalSpacing,
                 ],
               ),
             ],

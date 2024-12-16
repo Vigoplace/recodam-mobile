@@ -77,7 +77,7 @@ class _BooksState extends ConsumerState<Notifications> {
               : ListView.separated(
                   padding: [20, 30, 20, 0].pad,
                   itemCount: data.length,
-                  separatorBuilder: (context, index) => 15.verticalSpace,
+                  separatorBuilder: (context, index) => 15.verticalSpacing,
                   itemBuilder: (context, index) {
                     var notification = data[index];
                     return NotificationCard(
