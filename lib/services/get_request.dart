@@ -89,7 +89,8 @@ class GetRequest extends NetworkService {
       queryPatameters: {
         'page': pagination?.page,
         'size': pagination?.size,
-        'search': pagination?.search,
+        if (pagination?.search != null && pagination?.search.isNotEmpty == true)
+          'search': pagination?.search,
       },
     );
     var bookInfo = RecordInfo.fromJson(books.data['data']);

@@ -86,7 +86,7 @@ class RecordCard extends ConsumerWidget {
                   5.horizontalSpacing,
                   Expanded(
                     child: TextScroll(
-                      record.receiver!.name,
+                      record.receiver?.name ?? '',
                       velocity: AppConstant.velocity,
                       style: TextStyle(
                         color: AppColor.grey100,

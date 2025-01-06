@@ -100,9 +100,12 @@ class _BooksState extends ConsumerState<Records> {
               onLoading: () async {
                 if (list.length != pagination.total) {
                   try {
-                    var a = await GetRequest.instance.getRecords(
-                      pagination: pagination,
-                    );
+                    var a = await switch (widget.recordSearchType) {
+                      RecordSearchType.all =>
+                        GetRequest.instance.getRecords(pagination: pagination),
+                      _ => GetRequest.instance
+                          .getHomeRecords(pagination: pagination),
+                    };
                     recordList.value = [...recordList.value, ...a];
                     refreshController.loadComplete();
                   } catch (_) {
@@ -117,8 +120,12 @@ class _BooksState extends ConsumerState<Records> {
                 recordList.value.clear();
                 pagination.page = 1;
                 try {
-                  var a = await GetRequest.instance
-                      .getRecords(pagination: pagination);
+                  var a = await switch (widget.recordSearchType) {
+                    RecordSearchType.all =>
+                      GetRequest.instance.getRecords(pagination: pagination),
+                    _ => GetRequest.instance
+                        .getHomeRecords(pagination: pagination),
+                  };
                   recordList.value = [...a];
                   refreshController.refreshCompleted(resetFooterState: true);
                 } catch (_) {

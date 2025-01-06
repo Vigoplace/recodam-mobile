@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:recordam/utils/utils.dart';
 
 abstract class NetworkService {
@@ -11,9 +14,16 @@ abstract class NetworkService {
           if (token != null) {
             options.headers[HttpHeaders.authorizationHeader] = 'Bearer $token';
           }
+          if (kDebugMode) {
+            log('Request Url: ${options.uri}');
+            if (options.data != null) {
+              log('Request data: ${options.data}');
+            }
+          }
           return handler.next(options);
         },
         onResponse: (response, handler) {
+          log('${response.data}');
           return handler.next(response);
         },
         onError: (DioException e, handler) async {
@@ -48,7 +58,6 @@ abstract class NetworkService {
       data: data,
       cancelToken: cancelToken,
     );
-    debugPrint(a.data.toString());
     return a;
   }
 
@@ -70,7 +79,6 @@ abstract class NetworkService {
       options: options,
       cancelToken: cancelToken,
     );
-    debugPrint(a.data.toString());
     return a;
   }
 
@@ -91,7 +99,6 @@ abstract class NetworkService {
       data: data,
       options: options,
     );
-    debugPrint(a.data.toString());
     return a;
   }
 }

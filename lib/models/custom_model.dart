@@ -401,8 +401,8 @@ class ViewRecordInfo {
 
 class RecordOwner {
   int id;
-  String name;
-  String email;
+  String? name;
+  String? email;
   bool myRecord;
 
   RecordOwner({
