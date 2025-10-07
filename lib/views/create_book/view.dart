@@ -146,57 +146,55 @@ class CreateBookView
             ValueListenableBuilder(
                 valueListenable: controller.access,
                 builder: (context, access, _) {
-                  return Column(
-                    children: [
-                      RadioListTile<ManageAcess>(
-                        value: ManageAcess.public,
-                        activeColor: AppColor.red60,
-                        groupValue: access,
-                        onChanged: (value) {
-                          controller.access.value = value!;
-                        },
-                        title: Text(
-                          'Public',
-                          style: TextStyle(
-                            color: AppColor.grey100,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16.spMin,
+                  return RadioGroup<ManageAcess>(
+                    groupValue: access,
+                    onChanged: (value) {
+                      controller.access.value = value!;
+                    },
+                    child: Column(
+                      children: [
+                        RadioListTile<ManageAcess>(
+                          value: ManageAcess.public,
+                          activeColor: AppColor.red60,
+                          title: Text(
+                            'Public',
+                            style: TextStyle(
+                              color: AppColor.grey100,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16.spMin,
+                            ),
+                          ),
+                          subtitle: Text(
+                            'Anyone can post into this book',
+                            style: TextStyle(
+                              color: AppColor.grey100,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.spMin,
+                            ),
                           ),
                         ),
-                        subtitle: Text(
-                          'Anyone can post into this book',
-                          style: TextStyle(
-                            color: AppColor.grey100,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.spMin,
+                        RadioListTile<ManageAcess>(
+                          value: ManageAcess.private,
+                          activeColor: AppColor.red60,
+                          title: Text(
+                            'Private',
+                            style: TextStyle(
+                              color: AppColor.grey100,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16.spMin,
+                            ),
+                          ),
+                          subtitle: Text(
+                            'Only the owner can post into this book',
+                            style: TextStyle(
+                              color: AppColor.grey100,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.spMin,
+                            ),
                           ),
                         ),
-                      ),
-                      RadioListTile<ManageAcess>(
-                        value: ManageAcess.private,
-                        groupValue: access,
-                        activeColor: AppColor.red60,
-                        onChanged: (value) {
-                          controller.access.value = value!;
-                        },
-                        title: Text(
-                          'Private',
-                          style: TextStyle(
-                            color: AppColor.grey100,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16.spMin,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'Only the owner can post into this book',
-                          style: TextStyle(
-                            color: AppColor.grey100,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.spMin,
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   );
                 }),
             60.verticalSpacing,

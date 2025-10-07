@@ -53,7 +53,7 @@ class ShimmerText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: AppColor.red30.withOpacity(0.2),
+      baseColor: AppColor.red30.withValues(alpha: 0.2),
       period: const Duration(seconds: 5),
       highlightColor: AppColor.grey,
       child: Container(

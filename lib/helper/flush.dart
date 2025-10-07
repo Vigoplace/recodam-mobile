@@ -8,7 +8,7 @@ class ShowFlushBar {
     void Function()? perform,
   }) async {
     final flushBar = Flushbar(
-      backgroundColor: Colors.red.withOpacity(0.8),
+      backgroundColor: Colors.red.withValues(alpha: 0.8),
       borderColor: Colors.red,
       borderRadius: BorderRadius.circular(8),
       margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -39,7 +39,7 @@ class ShowFlushBar {
     void Function()? perform,
   }) async {
     final flushBar = Flushbar(
-      backgroundColor: Colors.green.withOpacity(0.8),
+      backgroundColor: Colors.green.withValues(alpha: 0.8),
       borderColor: Colors.green,
       borderRadius: BorderRadius.circular(8),
       margin: const EdgeInsets.symmetric(horizontal: 8),

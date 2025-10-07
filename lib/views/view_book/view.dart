@@ -88,7 +88,8 @@ class ViewBookView extends StatelessView<ViewBookScreen, ViewBookController> {
             actions: [
               RoundIconButton(
                 icon: AppSvg.share,
-                onTap: () => Share.share('Recodam'),
+                onTap: () =>
+                    SharePlus.instance.share(ShareParams(text: 'Recordam')),
                 paddingLeft: 16,
               ),
               PopupMenuButton(
